@@ -39,4 +39,4 @@ export interface ContactForm {
   email: string;
   curriculum: string;
   message: string;
-} 
+}

@@ -1,47 +1,4 @@
-import { Subject, PastPaper, Testimonial, FAQ } from '@/types';
-
-export interface Subject {
-  id: string;
-  name: string;
-  description: string;
-  icon: string;
-  category: string;
-  paperCount: number;
-  topics: string[];
-}
-
-export interface PastPaper {
-  id: string;
-  title: string;
-  curriculum: string;
-  year: string;
-  session: string;
-  paperType: string;
-  subjectId: string;
-  downloadUrl: string;
-  hasMarkingScheme: boolean;
-}
-
-export interface Testimonial {
-  id: string;
-  name: string;
-  subject: string;
-  grade: string;
-  text: string;
-}
-
-export interface FAQ {
-  id: string;
-  question: string;
-  answer: string;
-}
-
-export interface ContactForm {
-  name: string;
-  email: string;
-  curriculum: string;
-  message: string;
-}
+import { Subject, PastPaper, Testimonial, FAQ, ContactForm } from '@/types';
 
 export const subjects: Subject[] = [
   {
