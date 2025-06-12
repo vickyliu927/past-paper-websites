@@ -19,7 +19,11 @@ export const metadata: Metadata = {
   description: "Comprehensive notes and resources tailored for Cambridge International A-Level students to achieve academic excellence. Expert study materials for Biology, Chemistry, Physics, Mathematics, and more.",
   keywords: "A-Level notes, CIE study materials, Cambridge International, tutoring, past papers, study guides",
   authors: [{ name: "TutorChoose" }],
-  viewport: "width=device-width, initial-scale=1",
+};
+
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
 };
 
 export default function RootLayout({
