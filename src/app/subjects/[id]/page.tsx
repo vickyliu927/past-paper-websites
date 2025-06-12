@@ -4,7 +4,7 @@ import { useState, useMemo } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import { subjects, pastPapers } from '@/data/mockData';
-import { Subject, PastPaper } from '@/types';
+import { PastPaper } from '@/types';
 
 export default function SubjectPage() {
   const params = useParams();
@@ -16,8 +16,8 @@ export default function SubjectPage() {
   const [selectedCurriculum, setSelectedCurriculum] = useState<string>('all');
   const [selectedType, setSelectedType] = useState<string>('all');
 
-  // Mock additional past papers for the specific subject
-  const subjectPapers: PastPaper[] = [
+  // Memoize the subject papers to prevent recreation on every render
+  const subjectPapers: PastPaper[] = useMemo(() => [
     ...pastPapers.filter(paper => paper.subjectId === subjectId),
     // Add more mock papers for demonstration
     {
@@ -75,7 +75,7 @@ export default function SubjectPage() {
       downloadUrl: `/papers/${subjectId}-ap-2021.pdf`,
       hasMarkingScheme: true,
     },
-  ];
+  ], [subjectId, subject?.name]);
 
   const filteredPapers = useMemo(() => {
     return subjectPapers.filter(paper => {
@@ -95,7 +95,7 @@ export default function SubjectPage() {
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-2xl font-bold text-gray-900">Subject Not Found</h1>
-          <p className="mt-2 text-gray-600">The subject you're looking for doesn't exist.</p>
+          <p className="mt-2 text-gray-600">The subject you&apos;re looking for doesn&apos;t exist.</p>
           <Link href="/subjects" className="mt-4 inline-block bg-gray-900 text-white px-4 py-2 rounded-md hover:bg-gray-800">
             Back to Subjects
           </Link>

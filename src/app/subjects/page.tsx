@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { subjects } from '@/data/mockData';
-import { Subject } from '@/types';
 
 const categories = ['All Subjects', 'Sciences', 'Mathematics', 'Languages', 'Humanities'];
 
@@ -19,7 +18,7 @@ export default function SubjectsPage() {
       {/* Header */}
       <div className="bg-gray-50">
         <div className="mx-auto max-w-7xl px-6 py-24 sm:py-32 lg:px-8">
-          <div className="mx-auto max-w-2xl text-center">
+          <div className="mx-auto max-w-4xl text-center">
             <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl">
               Browse Past Papers by Subject
             </h1>
@@ -31,19 +30,19 @@ export default function SubjectsPage() {
         </div>
       </div>
 
-      {/* Content */}
+      {/* Main Content */}
       <div className="mx-auto max-w-7xl px-6 py-16 lg:px-8">
         {/* Category Filter */}
-        <div className="flex justify-center mb-12">
-          <div className="flex space-x-2 rounded-lg bg-gray-100 p-1">
+        <div className="mb-12">
+          <div className="flex flex-wrap justify-center gap-2">
             {categories.map((category) => (
               <button
                 key={category}
                 onClick={() => setSelectedCategory(category)}
-                className={`rounded-md px-6 py-2 text-sm font-medium transition-colors ${
+                className={`rounded-full px-6 py-2 text-sm font-semibold transition-colors ${
                   selectedCategory === category
-                    ? 'bg-gray-900 text-white shadow-sm'
-                    : 'text-gray-600 hover:text-gray-900 hover:bg-white'
+                    ? 'bg-gray-900 text-white'
+                    : 'bg-white text-gray-600 hover:text-gray-900 hover:bg-gray-50 border border-gray-200'
                 }`}
               >
                 {category}
@@ -53,7 +52,7 @@ export default function SubjectsPage() {
         </div>
 
         {/* Subjects Grid */}
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
           {filteredSubjects.map((subject) => (
             <div
               key={subject.id}
@@ -118,11 +117,12 @@ export default function SubjectsPage() {
           ))}
         </div>
 
+        {/* No results message */}
         {filteredSubjects.length === 0 && (
           <div className="text-center py-12">
-            <h3 className="text-lg font-medium text-gray-900">No subjects found</h3>
-            <p className="mt-2 text-sm text-gray-600">
-              Try selecting a different category.
+            <h3 className="text-lg font-medium text-gray-900 mb-2">No subjects found</h3>
+            <p className="text-sm text-gray-600">
+              No subjects match the selected category. Try selecting a different category.
             </p>
           </div>
         )}

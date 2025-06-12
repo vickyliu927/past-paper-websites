@@ -22,7 +22,7 @@ export default function HomePage() {
           <div className="flex flex-col md:flex-row items-center">
             <div className="md:w-1/2 animate-fade-in-left pl-8 md:pl-12 lg:pl-16">
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 leading-none text-black">
-                World's Largest{' '}
+                World&apos;s Largest{' '}
                 <span className="text-black">Past Paper Collection</span>
               </h1>
               <p className="text-lg md:text-xl text-black mb-6 max-w-lg">
@@ -275,7 +275,7 @@ export default function HomePage() {
             <div className="mx-auto mt-16 max-w-md text-center">
               <h3 className="text-lg font-medium text-gray-900 mb-2">No subjects found</h3>
               <p className="text-sm text-gray-600">
-                No subjects match the selected category. Try selecting a different category or "All Subjects".
+                No subjects match the selected category. Try selecting a different category or &ldquo;All Subjects&rdquo;.
               </p>
             </div>
           )}
@@ -314,7 +314,7 @@ export default function HomePage() {
                   </div>
                 </div>
                 <blockquote className="text-gray-700 italic">
-                  "{testimonial.text}"
+                  &ldquo;{testimonial.text}&rdquo;
                 </blockquote>
               </div>
             ))}
