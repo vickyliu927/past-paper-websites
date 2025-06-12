@@ -1,4 +1,4 @@
-import { Subject, PastPaper, Testimonial, FAQ, ContactForm } from '@/types';
+import { Subject, PastPaper, Testimonial, FAQ } from '@/types';
 
 export const subjects: Subject[] = [
   {
