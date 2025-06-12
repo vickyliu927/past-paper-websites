@@ -21,7 +21,7 @@ export default function HomePage() {
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row items-center">
             <div className="md:w-1/2 animate-fade-in-left pl-8 md:pl-12 lg:pl-16">
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 leading-none text-black">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl mb-4 leading-none text-black">
                 World&apos;s Largest{' '}
                 <span className="text-black">Past Paper Collection</span>
               </h1>
@@ -73,7 +73,7 @@ export default function HomePage() {
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="mx-auto max-w-2xl lg:text-center">
             <h2 className="text-base font-semibold leading-7 text-gray-600">Popular Curricula</h2>
-            <p className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+            <p className="mt-2 text-3xl tracking-tight text-gray-900 sm:text-4xl">
               All major international curricula
             </p>
             <p className="mt-4 text-lg leading-8 text-gray-600">
@@ -118,7 +118,7 @@ export default function HomePage() {
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="mx-auto max-w-2xl lg:text-center">
             <h2 className="text-base font-semibold leading-7 text-gray-600">Why Choose Our Platform?</h2>
-            <p className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+            <p className="mt-2 text-3xl tracking-tight text-gray-900 sm:text-4xl">
               Everything you need for exam success
             </p>
           </div>
@@ -177,7 +177,7 @@ export default function HomePage() {
       <div id="subjects" className="pt-12 pb-12 md:pt-16 md:pb-16 bg-gray-50">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="mx-auto max-w-2xl text-center">
-            <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+            <h2 className="text-3xl tracking-tight text-gray-900 sm:text-4xl">
               Browse Past Papers by Subject
             </h2>
             <p className="mt-4 text-lg leading-8 text-gray-600">
@@ -286,7 +286,7 @@ export default function HomePage() {
       <div className="pt-12 pb-12 md:pt-16 md:pb-16">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="mx-auto max-w-2xl text-center">
-            <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+            <h2 className="text-3xl tracking-tight text-gray-900 sm:text-4xl">
               Student Success Stories
             </h2>
             <p className="mt-4 text-lg leading-8 text-gray-600">
@@ -326,7 +326,7 @@ export default function HomePage() {
       <div className="pt-12 pb-12 md:pt-16 md:pb-16 bg-gray-50">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="mx-auto max-w-2xl text-center">
-            <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+            <h2 className="text-3xl tracking-tight text-gray-900 sm:text-4xl">
               Get in Touch
             </h2>
             <p className="mt-4 text-lg leading-8 text-gray-600">
@@ -415,7 +415,7 @@ export default function HomePage() {
       <div className="pt-12 pb-12 md:pt-16 md:pb-16">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="mx-auto max-w-2xl text-center">
-            <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+            <h2 className="text-3xl tracking-tight text-gray-900 sm:text-4xl">
               Frequently Asked Questions
             </h2>
             <p className="mt-4 text-lg leading-8 text-gray-600">

@@ -94,7 +94,7 @@ export default function SubjectPage() {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-gray-900">Subject Not Found</h1>
+          <h1 className="text-2xl text-gray-900">Subject Not Found</h1>
           <p className="mt-2 text-gray-600">The subject you&apos;re looking for doesn&apos;t exist.</p>
           <Link href="/subjects" className="mt-4 inline-block bg-gray-900 text-white px-4 py-2 rounded-md hover:bg-gray-800">
             Back to Subjects
@@ -118,7 +118,7 @@ export default function SubjectPage() {
           <div className="mx-auto max-w-2xl text-center">
             <div className="flex items-center justify-center gap-3 mb-6">
               <span className="subject-icon text-4xl">{subject.icon}</span>
-              <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl">
+              <h1 className="text-4xl tracking-tight text-gray-900 sm:text-5xl">
                 {subject.name} Past Papers
               </h1>
             </div>
@@ -143,7 +143,7 @@ export default function SubjectPage() {
           <div className="lg:col-span-3">
             {/* Filters */}
             <div className="mb-8">
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">Past Papers Database</h2>
+              <h2 className="text-2xl text-gray-900 mb-6">Past Papers Database</h2>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div>
                   <label htmlFor="year" className="block text-sm font-medium text-gray-700 mb-2">
