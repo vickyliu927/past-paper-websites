@@ -1,4 +1,6 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 :root {
   --background: #ffffff;
@@ -37,7 +39,7 @@ body {
 
 /* Heading styles with Playfair Display */
 h1, h2, h3, h4 {
-  font-family: var(--font-playfair), 'Playfair Display', serif;
+  font-family: 'Playfair Display', serif;
   font-weight: 500;
 }
 
