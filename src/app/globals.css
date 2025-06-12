@@ -25,8 +25,12 @@ body {
   line-height: 1.5;
 }
 
-/* Heading styles with Playfair Display */
-h1, h2, h3, h4 {
+/* Main heading styles with Playfair Display - only for large section headings */
+h1,
+.text-3xl.tracking-tight,
+.text-4xl.tracking-tight,
+.text-5xl.tracking-tight,
+.text-6xl {
   font-family: 'Playfair Display', serif;
   font-weight: 400 !important;
 }

@@ -72,7 +72,7 @@ export default function HomePage() {
       <div className="pt-12 pb-12 md:pt-16 md:pb-16 bg-gray-50">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="mx-auto max-w-2xl lg:text-center">
-            <h2 className="text-base font-semibold leading-7 text-gray-600">Popular Curricula</h2>
+                            <h2 className="text-base font-semibold leading-7 text-gray-600">Popular Curricula</h2>
             <p className="mt-2 text-3xl tracking-tight text-gray-900 sm:text-4xl">
               All major international curricula
             </p>
