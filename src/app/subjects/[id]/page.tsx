@@ -12,9 +12,9 @@ export default function SubjectPage() {
   
   const subject = subjects.find(s => s.id === subjectId);
   
-  const [selectedYear, setSelectedYear] = useState<string>('all');
-  const [selectedCurriculum, setSelectedCurriculum] = useState<string>('all');
-  const [selectedType, setSelectedType] = useState<string>('all');
+  const [selectedYearSession, setSelectedYearSession] = useState<string>('all');
+  const [selectedExamBoard, setSelectedExamBoard] = useState<string>('all');
+  const [selectedPaper, setSelectedPaper] = useState<string>('all');
 
   // Memoize the subject papers to prevent recreation on every render
   const subjectPapers: PastPaper[] = useMemo(() => [
@@ -79,16 +79,22 @@ export default function SubjectPage() {
 
   const filteredPapers = useMemo(() => {
     return subjectPapers.filter(paper => {
-      if (selectedYear !== 'all' && paper.year !== selectedYear) return false;
-      if (selectedCurriculum !== 'all' && paper.curriculum !== selectedCurriculum) return false;
-      if (selectedType !== 'all' && paper.paperType !== selectedType) return false;
+      const yearSession = `${paper.year} ${paper.session}`.trim();
+      if (selectedYearSession !== 'all' && yearSession !== selectedYearSession) return false;
+      if (selectedExamBoard !== 'all' && paper.curriculum !== selectedExamBoard) return false;
+      if (selectedPaper !== 'all' && paper.title.indexOf(selectedPaper) === -1) return false;
       return true;
     });
-  }, [subjectPapers, selectedYear, selectedCurriculum, selectedType]);
+  }, [subjectPapers, selectedYearSession, selectedExamBoard, selectedPaper]);
 
-  const availableYears = [...new Set(subjectPapers.map(paper => paper.year))].sort((a, b) => parseInt(b) - parseInt(a));
-  const availableCurricula = [...new Set(subjectPapers.map(paper => paper.curriculum))].sort();
-  const availableTypes = [...new Set(subjectPapers.map(paper => paper.paperType))];
+  const availableYearSessions = [...new Set(subjectPapers.map(paper => `${paper.year} ${paper.session}`.trim()))]
+    .filter(Boolean)
+    .sort((a, b) => b.localeCompare(a));
+  const availableExamBoards = [...new Set(subjectPapers.map(paper => paper.curriculum))].sort();
+  const availablePapers = [...new Set(subjectPapers.map(paper => {
+    const match = paper.title.match(/Paper \d+/);
+    return match ? match[0] : null;
+  }))].filter(Boolean);
 
   if (!subject) {
     return (
@@ -114,7 +120,7 @@ export default function SubjectPage() {
     <div className="bg-white">
       {/* Hero Section */}
       <div className="bg-gradient-to-br from-white to-blue-50">
-        <div className="mx-auto max-w-7xl px-6 pt-12 pb-20 md:pt-16 md:pb-24 lg:px-8">
+        <div className="mx-auto max-w-7xl px-6 pt-4 pb-4 md:pt-6 md:pb-6 lg:px-8">
           <div className="mx-auto max-w-2xl text-center">
             <div className="flex items-center justify-center gap-3 mb-6">
               <span className="subject-icon text-4xl">{subject.icon}</span>
@@ -146,50 +152,50 @@ export default function SubjectPage() {
               <h2 className="text-2xl text-gray-900 mb-6">Past Papers Database</h2>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div>
-                  <label htmlFor="year" className="block text-sm font-medium text-gray-700 mb-2">
-                    Year
+                  <label htmlFor="yearSession" className="block text-sm font-medium text-gray-700 mb-2">
+                    Year & Session
                   </label>
                   <select
-                    id="year"
-                    value={selectedYear}
-                    onChange={(e) => setSelectedYear(e.target.value)}
+                    id="yearSession"
+                    value={selectedYearSession}
+                    onChange={(e) => setSelectedYearSession(e.target.value)}
                     className="block w-full rounded-md border-gray-300 shadow-sm focus:border-gray-900 focus:ring-gray-900 sm:text-sm"
                   >
-                    <option value="all">All Years</option>
-                    {availableYears.map(year => (
-                      <option key={year} value={year}>{year}</option>
+                    <option value="all">All Years & Sessions</option>
+                    {availableYearSessions.map(ys => (
+                      <option key={ys} value={ys}>{ys}</option>
                     ))}
                   </select>
                 </div>
                 <div>
-                  <label htmlFor="curriculum" className="block text-sm font-medium text-gray-700 mb-2">
-                    Curriculum
+                  <label htmlFor="examBoard" className="block text-sm font-medium text-gray-700 mb-2">
+                    Exam Board
                   </label>
                   <select
-                    id="curriculum"
-                    value={selectedCurriculum}
-                    onChange={(e) => setSelectedCurriculum(e.target.value)}
+                    id="examBoard"
+                    value={selectedExamBoard}
+                    onChange={(e) => setSelectedExamBoard(e.target.value)}
                     className="block w-full rounded-md border-gray-300 shadow-sm focus:border-gray-900 focus:ring-gray-900 sm:text-sm"
                   >
-                    <option value="all">All Curricula</option>
-                    {availableCurricula.map(curriculum => (
-                      <option key={curriculum} value={curriculum}>{curriculum}</option>
+                    <option value="all">All Exam Boards</option>
+                    {availableExamBoards.map(board => (
+                      <option key={board} value={board}>{board}</option>
                     ))}
                   </select>
                 </div>
                 <div>
-                  <label htmlFor="type" className="block text-sm font-medium text-gray-700 mb-2">
-                    Type
+                  <label htmlFor="paper" className="block text-sm font-medium text-gray-700 mb-2">
+                    Paper
                   </label>
                   <select
-                    id="type"
-                    value={selectedType}
-                    onChange={(e) => setSelectedType(e.target.value)}
+                    id="paper"
+                    value={selectedPaper}
+                    onChange={(e) => setSelectedPaper(e.target.value)}
                     className="block w-full rounded-md border-gray-300 shadow-sm focus:border-gray-900 focus:ring-gray-900 sm:text-sm"
                   >
-                    <option value="all">All Types</option>
-                    {availableTypes.map(type => (
-                      <option key={type} value={type}>{type}</option>
+                    <option value="all">All Papers</option>
+                    {availablePapers.map(paper => (
+                      <option key={paper as string} value={paper as string}>{paper}</option>
                     ))}
                   </select>
                 </div>
@@ -225,23 +231,30 @@ export default function SubjectPage() {
                         <span className="inline-flex items-center rounded-full bg-green-100 px-2.5 py-0.5 text-xs font-medium text-green-800">
                           {paper.paperType}
                         </span>
-                        {paper.hasMarkingScheme && (
-                          <span className="inline-flex items-center rounded-full bg-purple-100 px-2.5 py-0.5 text-xs font-medium text-purple-800">
-                            Marking Scheme Available
-                          </span>
-                        )}
                       </div>
                     </div>
-                    <div className="mt-4 sm:mt-0 sm:ml-4">
-                      <button
-                        onClick={() => handleDownload(paper)}
-                        className="inline-flex items-center rounded-md bg-gray-900 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-gray-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-900"
+                    <div className="mt-4 flex flex-row gap-2 justify-end">
+                      <Link
+                        href={paper.downloadUrl}
+                        className="inline-flex items-center gap-2 rounded-md bg-gray-900 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-gray-800 transition-colors cursor-pointer focus:outline-none focus:ring-2 focus:ring-gray-400"
+                        download
                       >
-                        <svg className="mr-2 h-4 w-4" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1} stroke="currentColor" className="w-6 h-6">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5m0 0l5-5m-5 5V4" />
                         </svg>
                         Download
-                      </button>
+                      </Link>
+                      {paper.hasMarkingScheme && (
+                        <Link
+                          href={`/papers/${paper.id}-ms.pdf`}
+                          className="inline-flex items-center gap-2 rounded-md bg-gray-900 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-gray-800 transition-colors cursor-pointer focus:outline-none focus:ring-2 focus:ring-gray-400"
+                        >
+                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1} stroke="currentColor" className="w-6 h-6">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5m0 0l5-5m-5 5V4" />
+                          </svg>
+                          Marking Scheme
+                        </Link>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -283,11 +296,11 @@ export default function SubjectPage() {
                 </div>
                 <div className="flex justify-between text-sm">
                   <span className="text-gray-600">Years Available:</span>
-                  <span className="font-medium">{availableYears.length}</span>
+                  <span className="font-medium">{availableYearSessions.length}</span>
                 </div>
                 <div className="flex justify-between text-sm">
                   <span className="text-gray-600">Curricula:</span>
-                  <span className="font-medium">{availableCurricula.length}</span>
+                  <span className="font-medium">{availableExamBoards.length}</span>
                 </div>
               </div>
             </div>

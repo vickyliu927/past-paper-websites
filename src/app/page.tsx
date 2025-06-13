@@ -68,48 +68,84 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Curricula Section */}
-      <div className="pt-12 pb-12 md:pt-16 md:pb-16 bg-gray-50">
+      {/* Subjects Section */}
+      <div id="subjects" className="pt-12 pb-12 md:pt-16 md:pb-16 bg-gray-50">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <div className="mx-auto max-w-2xl lg:text-center">
-                            <h2 className="text-base font-semibold leading-7 text-gray-600">Popular Curricula</h2>
-            <p className="mt-2 text-3xl tracking-tight text-gray-900 sm:text-4xl">
-              All major international curricula
-            </p>
+          <div className="mx-auto max-w-2xl text-center">
+            <h2 className="text-3xl tracking-tight text-gray-900 sm:text-4xl">
+              Browse Past Papers by Subject
+            </h2>
             <p className="mt-4 text-lg leading-8 text-gray-600">
-              We support students from all educational systems with comprehensive past paper collections.
+              Explore our comprehensive collection of past papers organized by subject across all supported curricula. Each subject contains papers from multiple exam boards.
             </p>
           </div>
-          <div className="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-8 sm:mt-20 lg:mx-0 lg:max-w-none lg:grid-cols-4">
-            <div className="flex flex-col items-center text-center p-6 bg-white rounded-2xl shadow-sm">
-              <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-4">
-                <span className="text-2xl font-bold text-blue-600">CIE</span>
-              </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">Cambridge A-Levels & IGCSE</h3>
-              <p className="text-sm text-gray-600">Complete collection of CIE past papers for A-Levels and IGCSE across all subjects.</p>
-            </div>
-            <div className="flex flex-col items-center text-center p-6 bg-white rounded-2xl shadow-sm">
-              <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-4">
-                <span className="text-2xl font-bold text-green-600">IB</span>
-              </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">International Baccalaureate</h3>
-              <p className="text-sm text-gray-600">IB Diploma Programme past papers including HL and SL levels for all subjects.</p>
-            </div>
-            <div className="flex flex-col items-center text-center p-6 bg-white rounded-2xl shadow-sm">
-              <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mb-4">
-                <span className="text-2xl font-bold text-purple-600">AP</span>
-              </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">Advanced Placement</h3>
-              <p className="text-sm text-gray-600">College Board AP exam past papers across all available subjects and years.</p>
-            </div>
-            <div className="flex flex-col items-center text-center p-6 bg-white rounded-2xl shadow-sm">
-              <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mb-4">
-                <span className="text-2xl font-bold text-orange-600">ED</span>
-              </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">Edexcel & AQA</h3>
-              <p className="text-sm text-gray-600">UK exam board past papers including Edexcel, AQA, and OCR qualifications.</p>
+
+          {/* Subject Categories */}
+          <div className="mt-10 flex justify-center">
+            <div className="flex flex-wrap gap-2 justify-center">
+              {categories.map((category) => (
+                <button
+                  key={category}
+                  onClick={() => setSelectedCategory(category)}
+                  className={`rounded-full px-6 py-2 text-sm font-semibold transition-colors ${
+                    selectedCategory === category
+                      ? 'bg-gray-900 text-white'
+                      : 'bg-white text-gray-600 hover:text-gray-900 hover:bg-gray-50 border border-gray-200'
+                  }`}
+                >
+                  {category}
+                </button>
+              ))}
             </div>
           </div>
+
+          {/* Subjects Grid */}
+          <div className="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-8 sm:mt-20 lg:mx-0 lg:max-w-none lg:grid-cols-3">
+            {filteredSubjects.map((subject) => (
+              <div
+                key={subject.id}
+                className="group relative flex flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition-all hover:shadow-lg"
+              >
+                {/* Subject Header */}
+                <div className="bg-gradient-to-br from-gray-50 to-gray-100 p-6">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <span className="subject-icon">{subject.icon}</span>
+                      <h3 className="text-xl font-semibold text-gray-900">
+                        {subject.name}
+                      </h3>
+                    </div>
+                    <span className="inline-flex items-center rounded-full bg-gray-900 px-2.5 py-0.5 text-xs font-medium text-white">
+                      {subject.paperCount} papers
+                    </span>
+                  </div>
+                  <p className="mt-3 text-sm text-gray-600">
+                    {subject.description}
+                  </p>
+                </div>
+
+                {/* Subject Content */}
+                {/* No subject content div here; button comes immediately after gradient box */}
+                <Link
+                  href={`/subjects/${subject.id}`}
+                  className="block w-full rounded-b-2xl bg-gray-900 px-4 py-3 text-center text-sm font-semibold text-white shadow-sm transition-colors hover:bg-gray-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-900"
+                  style={{ margin: 0 }}
+                >
+                  View Past Papers
+                </Link>
+              </div>
+            ))}
+          </div>
+
+          {/* No results message */}
+          {filteredSubjects.length === 0 && (
+            <div className="mx-auto mt-16 max-w-md text-center">
+              <h3 className="text-lg font-medium text-gray-900 mb-2">No subjects found</h3>
+              <p className="text-sm text-gray-600">
+                No subjects match the selected category. Try selecting a different category or &ldquo;All Subjects&rdquo;.
+              </p>
+            </div>
+          )}
         </div>
       </div>
 
@@ -173,115 +209,6 @@ export default function HomePage() {
         </div>
       </div>
 
-      {/* Subjects Section */}
-      <div id="subjects" className="pt-12 pb-12 md:pt-16 md:pb-16 bg-gray-50">
-        <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <div className="mx-auto max-w-2xl text-center">
-            <h2 className="text-3xl tracking-tight text-gray-900 sm:text-4xl">
-              Browse Past Papers by Subject
-            </h2>
-            <p className="mt-4 text-lg leading-8 text-gray-600">
-              Explore our comprehensive collection of past papers organized by subject across all supported curricula. Each subject contains papers from multiple exam boards.
-            </p>
-          </div>
-
-          {/* Subject Categories */}
-          <div className="mt-10 flex justify-center">
-            <div className="flex flex-wrap gap-2 justify-center">
-              {categories.map((category) => (
-                <button
-                  key={category}
-                  onClick={() => setSelectedCategory(category)}
-                  className={`rounded-full px-6 py-2 text-sm font-semibold transition-colors ${
-                    selectedCategory === category
-                      ? 'bg-gray-900 text-white'
-                      : 'bg-white text-gray-600 hover:text-gray-900 hover:bg-gray-50 border border-gray-200'
-                  }`}
-                >
-                  {category}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Subjects Grid */}
-          <div className="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-8 sm:mt-20 lg:mx-0 lg:max-w-none lg:grid-cols-3">
-            {filteredSubjects.map((subject) => (
-              <div
-                key={subject.id}
-                className="group relative flex flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition-all hover:shadow-lg"
-              >
-                {/* Subject Header */}
-                <div className="bg-gradient-to-br from-gray-50 to-gray-100 p-6">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      <span className="subject-icon">{subject.icon}</span>
-                      <h3 className="text-xl font-semibold text-gray-900">
-                        {subject.name}
-                      </h3>
-                    </div>
-                    <span className="inline-flex items-center rounded-full bg-gray-900 px-2.5 py-0.5 text-xs font-medium text-white">
-                      {subject.paperCount} papers
-                    </span>
-                  </div>
-                  <p className="mt-3 text-sm text-gray-600">
-                    {subject.description}
-                  </p>
-                </div>
-
-                {/* Subject Content */}
-                <div className="flex-1 p-6">
-                  <div>
-                    <h4 className="text-sm font-semibold text-gray-900 mb-3">Available Curricula:</h4>
-                    <div className="grid grid-cols-1 gap-2">
-                      {subject.topics.map((topic, index) => (
-                        <div
-                          key={index}
-                          className="flex items-center text-sm text-gray-600"
-                        >
-                          <svg
-                            className="mr-2 h-4 w-4 text-green-500"
-                            fill="currentColor"
-                            viewBox="0 0 20 20"
-                          >
-                            <path
-                              fillRule="evenodd"
-                              d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                              clipRule="evenodd"
-                            />
-                          </svg>
-                          {topic}
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-
-                {/* Subject Footer */}
-                <div className="p-6 pt-0">
-                  <Link
-                    href={`/subjects/${subject.id}`}
-                    className="block w-full rounded-md bg-gray-900 px-4 py-2.5 text-center text-sm font-semibold text-white shadow-sm transition-colors hover:bg-gray-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-900"
-                  >
-                    View Past Papers
-                  </Link>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* No results message */}
-          {filteredSubjects.length === 0 && (
-            <div className="mx-auto mt-16 max-w-md text-center">
-              <h3 className="text-lg font-medium text-gray-900 mb-2">No subjects found</h3>
-              <p className="text-sm text-gray-600">
-                No subjects match the selected category. Try selecting a different category or &ldquo;All Subjects&rdquo;.
-              </p>
-            </div>
-          )}
-        </div>
-      </div>
-
       {/* Testimonials Section */}
       <div className="pt-12 pb-12 md:pt-16 md:pb-16">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
@@ -322,7 +249,26 @@ export default function HomePage() {
         </div>
       </div>
 
-      {/* Contact Form Section */}
+      {/* FAQs Section */}
+      <div className="pt-12 pb-12 md:pt-16 md:pb-16 bg-white">
+        <div className="mx-auto max-w-7xl px-6 lg:px-8">
+          <div className="mx-auto max-w-2xl text-center">
+            <h2 className="text-3xl tracking-tight text-gray-900 sm:text-4xl">
+              Frequently Asked Questions
+            </h2>
+            <p className="mt-4 text-lg leading-8 text-gray-600">
+              Answers to common questions about our past paper platform and resources.
+            </p>
+          </div>
+          <div className="mx-auto mt-16 max-w-2xl divide-y divide-gray-200">
+            {faqs.map((faq) => (
+              <FAQItem key={faq.id} faq={faq} />
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Get in Touch Section */}
       <div className="pt-12 pb-12 md:pt-16 md:pb-16 bg-gray-50">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="mx-auto max-w-2xl text-center">
@@ -411,26 +357,8 @@ export default function HomePage() {
         </div>
       </div>
 
-      {/* FAQs Section */}
-      <div className="pt-12 pb-12 md:pt-16 md:pb-16">
-        <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <div className="mx-auto max-w-2xl text-center">
-            <h2 className="text-3xl tracking-tight text-gray-900 sm:text-4xl">
-              Frequently Asked Questions
-            </h2>
-            <p className="mt-4 text-lg leading-8 text-gray-600">
-              Find answers to common questions about our multi-curriculum past paper collection and services.
-            </p>
-          </div>
-          <div className="mx-auto mt-16 max-w-3xl">
-            <div className="space-y-6">
-              {faqs.map((faq) => (
-                <FAQItem key={faq.id} faq={faq} />
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
+      {/* Footer */}
+      {/* ... existing footer content ... */}
     </div>
   );
 }
