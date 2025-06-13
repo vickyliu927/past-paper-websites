@@ -110,12 +110,6 @@ export default function SubjectPage() {
     );
   }
 
-  const handleDownload = (paper: PastPaper) => {
-    // In a real app, this would trigger the actual download
-    console.log(`Downloading ${paper.title}`);
-    alert(`Download started for ${paper.title}`);
-  };
-
   return (
     <div className="bg-white">
       {/* Hero Section */}
