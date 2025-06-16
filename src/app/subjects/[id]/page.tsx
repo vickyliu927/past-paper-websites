@@ -312,13 +312,13 @@ export default function SubjectPage() {
 
             {/* Need a Tutor Block */}
             <div className="bg-white rounded-xl p-6 shadow border border-gray-100">
-              <h3 className="text-xl font-bold text-gray-900 mb-2">Need help from an expert?</h3>
+              <h3 className="text-xl font-bold text-gray-900 mb-2">{"Need help from an expert?"}</h3>
               <div className="flex items-center mb-2">
                 <span className="text-orange-500 text-xl mr-1">★</span>
                 <span className="text-gray-900 font-medium">4.9/5</span>
                 <span className="text-gray-600 ml-1 text-sm">based on <u>581 reviews</u></span>
               </div>
-              <p className="text-gray-600 text-sm mb-4">The world's top online tutoring provider trusted by students, parents, and schools globally.</p>
+              <p className="text-gray-600 text-sm mb-4">The world&apos;s top online tutoring provider trusted by students, parents, and schools globally.</p>
               <div className="space-y-4 mb-4">
                 <div className="flex items-center gap-3">
                   <div className="flex-shrink-0 w-12 h-12">
