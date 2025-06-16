@@ -176,7 +176,8 @@ export const pastPapers: PastPaper[] = [
     paperType: 'Theory',
     subjectId: 'biology',
     downloadUrl: '/papers/cie-biology-2023-mj-p1.pdf',
-    hasMarkingScheme: true
+    hasMarkingScheme: true,
+    code: '9701_s23_qp_11'
   },
   {
     id: '2',
@@ -187,7 +188,8 @@ export const pastPapers: PastPaper[] = [
     paperType: 'Theory',
     subjectId: 'biology',
     downloadUrl: '/papers/ib-biology-hl-2023-may-p1.pdf',
-    hasMarkingScheme: true
+    hasMarkingScheme: true,
+    code: 'ib_2023_may_p1'
   },
   {
     id: '3',
@@ -198,7 +200,8 @@ export const pastPapers: PastPaper[] = [
     paperType: 'Complete Exam',
     subjectId: 'biology',
     downloadUrl: '/papers/ap-biology-2023-may.pdf',
-    hasMarkingScheme: true
+    hasMarkingScheme: true,
+    code: 'ap_2023_may'
   }
   // Add more mock papers as needed
 ]; 

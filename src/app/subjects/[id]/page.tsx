@@ -15,6 +15,7 @@ export default function SubjectPage() {
   const [selectedYearSession, setSelectedYearSession] = useState<string>('all');
   const [selectedExamBoard, setSelectedExamBoard] = useState<string>('all');
   const [selectedPaper, setSelectedPaper] = useState<string>('all');
+  const [searchCode, setSearchCode] = useState('');
 
   // Memoize the subject papers to prevent recreation on every render
   const subjectPapers: PastPaper[] = useMemo(() => [
@@ -83,9 +84,10 @@ export default function SubjectPage() {
       if (selectedYearSession !== 'all' && yearSession !== selectedYearSession) return false;
       if (selectedExamBoard !== 'all' && paper.curriculum !== selectedExamBoard) return false;
       if (selectedPaper !== 'all' && paper.title.indexOf(selectedPaper) === -1) return false;
+      if (searchCode && !(paper.code && paper.code.toLowerCase().includes(searchCode.toLowerCase()))) return false;
       return true;
     });
-  }, [subjectPapers, selectedYearSession, selectedExamBoard, selectedPaper]);
+  }, [subjectPapers, selectedYearSession, selectedExamBoard, selectedPaper, searchCode]);
 
   const availableYearSessions = [...new Set(subjectPapers.map(paper => `${paper.year} ${paper.session}`.trim()))]
     .filter(Boolean)
@@ -196,6 +198,19 @@ export default function SubjectPage() {
               </div>
             </div>
 
+            {/* Search by Paper Code */}
+            <div className="mb-4 flex items-center gap-2">
+              <label htmlFor="searchCode" className="text-sm font-medium text-gray-700">Search by Paper Code:</label>
+              <input
+                id="searchCode"
+                type="text"
+                value={searchCode}
+                onChange={e => setSearchCode(e.target.value)}
+                placeholder="e.g. 9701_s23_qp_11"
+                className="block w-64 rounded-md border-gray-300 shadow-sm focus:border-blue-700 focus:ring-blue-700 sm:text-sm px-3 py-2"
+              />
+            </div>
+
             {/* Results Count */}
             <div className="mb-6">
               <p className="text-sm text-gray-600">
@@ -215,38 +230,41 @@ export default function SubjectPage() {
                       <h3 className="text-lg font-semibold text-gray-900 mb-2">
                         {paper.title}
                       </h3>
-                      <div className="flex flex-wrap gap-2 mb-2">
-                        <span className="inline-flex items-center rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-medium text-blue-800">
-                          {paper.curriculum}
+                      <div className="flex flex-row gap-2 mb-2">
+                        <span className="inline-flex items-center rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-medium text-blue-800 whitespace-nowrap">
+                          {paper.curriculum.replace(/\n/g, ' ')}
                         </span>
-                        <span className="inline-flex items-center rounded-full bg-gray-100 px-2.5 py-0.5 text-xs font-medium text-gray-800">
-                          {paper.year} {paper.session}
+                        <span className="inline-flex items-center rounded-full bg-gray-100 px-2.5 py-0.5 text-xs font-medium text-gray-800 whitespace-nowrap">
+                          {`${paper.year} ${paper.session}`.replace(/\n/g, ' ')}
                         </span>
-                        <span className="inline-flex items-center rounded-full bg-green-100 px-2.5 py-0.5 text-xs font-medium text-green-800">
-                          {paper.paperType}
+                        <span className="inline-flex items-center rounded-full bg-green-100 px-2.5 py-0.5 text-xs font-medium text-green-800 whitespace-nowrap">
+                          {(() => {
+                            const match = paper.title.match(/Paper \d+/);
+                            return match ? match[0] : paper.paperType.replace(/\n/g, ' ');
+                          })()}
                         </span>
                       </div>
                     </div>
-                    <div className="mt-4 flex flex-row gap-2 justify-end">
+                    <div className="mt-4 w-full sm:mt-0 sm:flex sm:justify-end sm:gap-x-4">
                       <Link
                         href={paper.downloadUrl}
-                        className="inline-flex items-center gap-2 rounded-md bg-gray-900 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-gray-800 transition-colors cursor-pointer focus:outline-none focus:ring-2 focus:ring-gray-400"
+                        className="flex items-center justify-center w-auto whitespace-nowrap rounded-md border border-blue-700 text-blue-700 bg-transparent px-3 py-1 text-sm font-medium transition-colors hover:bg-blue-50 hover:border-blue-800 hover:text-blue-800 mb-2 sm:mb-0"
                         download
                       >
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1} stroke="currentColor" className="w-6 h-6">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4 mr-2">
                           <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5m0 0l5-5m-5 5V4" />
                         </svg>
-                        Download
+                        Question Paper
                       </Link>
                       {paper.hasMarkingScheme && (
                         <Link
                           href={`/papers/${paper.id}-ms.pdf`}
-                          className="inline-flex items-center gap-2 rounded-md bg-gray-900 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-gray-800 transition-colors cursor-pointer focus:outline-none focus:ring-2 focus:ring-gray-400"
+                          className="flex items-center justify-center w-auto whitespace-nowrap rounded-md border border-blue-700 text-blue-700 bg-transparent px-3 py-1 text-sm font-medium transition-colors hover:bg-blue-50 hover:border-blue-800 hover:text-blue-800"
                         >
-                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1} stroke="currentColor" className="w-6 h-6">
+                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4 mr-2">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5m0 0l5-5m-5 5V4" />
                           </svg>
-                          Marking Scheme
+                          Mark Scheme
                         </Link>
                       )}
                     </div>
@@ -266,22 +284,9 @@ export default function SubjectPage() {
           </div>
 
           {/* Sidebar */}
-          <div className="mt-12 lg:mt-0">
+          <div className="mt-12 lg:mt-0 space-y-6">
+            {/* Quick Stats */}
             <div className="bg-gray-50 rounded-lg p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">Available Curricula</h3>
-              <div className="space-y-3">
-                {subject.topics.map((topic, index) => (
-                  <div key={index} className="flex items-center text-sm">
-                    <svg className="mr-2 h-4 w-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                    </svg>
-                    {topic}
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="mt-6 bg-gray-50 rounded-lg p-6">
               <h3 className="text-lg font-semibold text-gray-900 mb-4">Quick Stats</h3>
               <div className="space-y-3">
                 <div className="flex justify-between text-sm">
@@ -299,13 +304,74 @@ export default function SubjectPage() {
               </div>
             </div>
 
-            <div className="mt-6">
-              <Link
-                href="/subjects"
-                className="block w-full rounded-md bg-white border border-gray-300 px-3 py-2 text-center text-sm font-semibold text-gray-900 shadow-sm hover:bg-gray-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-900"
-              >
-                ← Back to All Subjects
-              </Link>
+            {/* Subject Study Notes & Practice Questions Buttons */}
+            <div className="flex flex-col gap-3">
+              <button className="w-full rounded-md bg-[#001a96] text-white font-semibold py-2 shadow-sm hover:bg-blue-900 transition-colors">Subject Study Notes</button>
+              <button className="w-full rounded-md bg-[#fb510f] text-white font-semibold py-2 shadow-sm hover:bg-orange-600 transition-colors">Subject Practice Questions</button>
+            </div>
+
+            {/* Need a Tutor Block */}
+            <div className="bg-white rounded-xl p-6 shadow border border-gray-100">
+              <h3 className="text-xl font-bold text-gray-900 mb-2">Need help from an expert?</h3>
+              <div className="flex items-center mb-2">
+                <span className="text-orange-500 text-xl mr-1">★</span>
+                <span className="text-gray-900 font-medium">4.9/5</span>
+                <span className="text-gray-600 ml-1 text-sm">based on <u>581 reviews</u></span>
+              </div>
+              <p className="text-gray-600 text-sm mb-4">The world's top online tutoring provider trusted by students, parents, and schools globally.</p>
+              <div className="space-y-4 mb-4">
+                <div className="flex items-center gap-3">
+                  <div className="flex-shrink-0 w-12 h-12">
+                    <img
+                      src="/images/tutors/ollie.jpg"
+                      alt="Ollie"
+                      className="w-12 h-12 rounded-full object-cover border border-gray-200"
+                    />
+                  </div>
+                  <div>
+                    <div className="font-bold text-gray-900">Ollie</div>
+                    <div className="text-gray-700 text-sm">Cambridge University - BA Natural Sciences</div>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="flex-shrink-0 w-12 h-12">
+                    <img
+                      src="/images/tutors/suraya.jpg"
+                      alt="Suraya"
+                      className="w-12 h-12 rounded-full object-cover border border-gray-200"
+                    />
+                  </div>
+                  <div>
+                    <div className="font-bold text-gray-900">Suraya</div>
+                    <div className="text-gray-700 text-sm">Oxford University - PhD Neuroscience and Mental Health</div>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="flex-shrink-0 w-12 h-12">
+                    <img
+                      src="/images/tutors/jake.jpg"
+                      alt="Jake"
+                      className="w-12 h-12 rounded-full object-cover border border-gray-200"
+                    />
+                  </div>
+                  <div>
+                    <div className="font-bold text-gray-900">Jake</div>
+                    <div className="text-gray-700 text-sm">Oxford University - MSc Neuroscience</div>
+                  </div>
+                </div>
+              </div>
+              <button className="w-full rounded-full bg-blue-900 text-white font-semibold py-3 mt-2 shadow-sm hover:bg-blue-800 transition-colors">Hire a Tutor</button>
+            </div>
+
+            {/* More Resources Block */}
+            <div className="bg-gray-50 rounded-lg p-6">
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">More Resources</h3>
+              <ul className="space-y-3 text-blue-700 font-medium">
+                <li>Subject Tutor Page</li>
+                <li>General Study Notes</li>
+                <li>General Practice Questions</li>
+                <li>Q&amp;A Forum</li>
+              </ul>
             </div>
           </div>
         </div>

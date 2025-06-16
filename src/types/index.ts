@@ -18,6 +18,7 @@ export interface PastPaper {
   subjectId: string;
   downloadUrl: string;
   hasMarkingScheme: boolean;
+  code?: string;
 }
 
 export interface Testimonial {
