@@ -87,9 +87,6 @@ export default function SubjectPage() {
     .filter(Boolean)
     .sort((a, b) => b.localeCompare(a));
 
-  // Remove isDefaultView since we only have one filter now
-  const isDefaultView = selectedYearSession === 'all';
-
   // Group papers by year and session for all views
   const groupedPapers = useMemo(() => {
     const grouped = filteredPapers.reduce((acc, paper) => {
@@ -147,12 +144,9 @@ export default function SubjectPage() {
       <div className="bg-gradient-to-br from-white to-blue-50">
         <div className="mx-auto max-w-7xl px-6 pt-4 pb-4 md:pt-6 md:pb-6 lg:px-8">
           <div className="mx-auto max-w-2xl text-center">
-            <div className="flex items-center justify-center gap-3 mb-6">
-              <span className="subject-icon text-4xl">{subject.icon}</span>
-              <h1 className="text-4xl tracking-tight text-gray-900 sm:text-5xl">
-                {subject.name} Past Papers
-              </h1>
-            </div>
+            <h1 className="text-4xl tracking-tight text-gray-900 sm:text-5xl">
+              {subject.name} Past Papers
+            </h1>
             <p className="mt-6 text-lg leading-8 text-gray-600">
               {subject.description} Access comprehensive past papers, mark schemes, and examiner reports from multiple curricula.
             </p>

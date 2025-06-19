@@ -5,29 +5,9 @@ import { subjects, testimonials, faqs } from '@/data/mockData';
 import { Microscope, FlaskConical, Atom, Calculator, LineChart } from 'lucide-react';
 import { useState, useMemo } from 'react';
 
-const backgroundColors = [
-  'bg-blue-100',
-  'bg-green-100',
-  'bg-yellow-100',
-  'bg-pink-100',
-  'bg-purple-100',
-  'bg-indigo-100',
-  'bg-orange-100',
-  'bg-teal-100',
-  'bg-rose-100',
-  'bg-cyan-100'
-];
-
 export default function HomePage() {
   const [selectedCategory, setSelectedCategory] = useState('All Subjects');
   const [searchCode, setSearchCode] = useState('');
-
-  const subjectColors = useMemo(() => {
-    return subjects.reduce((acc, subject) => {
-      acc[subject.id] = backgroundColors[Math.floor(Math.random() * backgroundColors.length)];
-      return acc;
-    }, {} as Record<string, string>);
-  }, []);
 
   const filteredSubjects = useMemo(() => {
     return subjects

@@ -53,12 +53,20 @@ export default function Header() {
             </Link>
           ))}
         </div>
-        <div className="hidden lg:flex lg:flex-1 lg:justify-end">
+        <div className="hidden lg:flex lg:flex-1 lg:justify-end lg:gap-x-4">
+          <Link
+            href="#"
+            className="rounded-md px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
+            style={{ backgroundColor: '#fb510f' }}
+          >
+            Revision Platform
+          </Link>
           <Link
             href="#contact"
-            className="rounded-md bg-gray-900 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-gray-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-900"
+            className="rounded-md px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
+            style={{ backgroundColor: '#001a96' }}
           >
-            Contact Us
+            Hire a Tutor
           </Link>
         </div>
       </nav>
@@ -104,13 +112,22 @@ export default function Header() {
                     </Link>
                   ))}
                 </div>
-                <div className="py-6">
+                <div className="py-6 space-y-3">
                   <Link
-                    href="#contact"
-                    className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                    href="#"
+                    className="w-full block text-center rounded-md px-3 py-2.5 text-base font-semibold text-white shadow-sm hover:opacity-90"
+                    style={{ backgroundColor: '#fb510f' }}
                     onClick={() => setMobileMenuOpen(false)}
                   >
-                    Contact Us
+                    Revision Platform
+                  </Link>
+                  <Link
+                    href="#contact"
+                    className="w-full block text-center rounded-md px-3 py-2.5 text-base font-semibold text-white shadow-sm hover:opacity-90"
+                    style={{ backgroundColor: '#001a96' }}
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    Hire a Tutor
                   </Link>
                 </div>
               </div>
