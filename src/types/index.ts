@@ -2,10 +2,12 @@ export interface Subject {
   id: string;
   name: string;
   description: string;
+  icon: string; // Lucide icon name
   category: string;
   topics: string[];
   paperCount: number;
-  icon: string;
+  code: string;
+  yearsAvailable: string[];
 }
 
 export interface PastPaper {
@@ -40,4 +42,4 @@ export interface ContactForm {
   email: string;
   curriculum: string;
   message: string;
-}
+} 

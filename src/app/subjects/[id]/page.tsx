@@ -13,9 +13,6 @@ export default function SubjectPage() {
   const subject = subjects.find(s => s.id === subjectId);
   
   const [selectedYearSession, setSelectedYearSession] = useState<string>('all');
-  const [selectedExamBoard, setSelectedExamBoard] = useState<string>('all');
-  const [selectedPaper, setSelectedPaper] = useState<string>('all');
-  const [searchCode, setSearchCode] = useState('');
 
   // Memoize the subject papers to prevent recreation on every render
   const subjectPapers: PastPaper[] = useMemo(() => [
@@ -82,21 +79,53 @@ export default function SubjectPage() {
     return subjectPapers.filter(paper => {
       const yearSession = `${paper.year} ${paper.session}`.trim();
       if (selectedYearSession !== 'all' && yearSession !== selectedYearSession) return false;
-      if (selectedExamBoard !== 'all' && paper.curriculum !== selectedExamBoard) return false;
-      if (selectedPaper !== 'all' && paper.title.indexOf(selectedPaper) === -1) return false;
-      if (searchCode && !(paper.code && paper.code.toLowerCase().includes(searchCode.toLowerCase()))) return false;
       return true;
     });
-  }, [subjectPapers, selectedYearSession, selectedExamBoard, selectedPaper, searchCode]);
+  }, [subjectPapers, selectedYearSession]);
 
   const availableYearSessions = [...new Set(subjectPapers.map(paper => `${paper.year} ${paper.session}`.trim()))]
     .filter(Boolean)
     .sort((a, b) => b.localeCompare(a));
-  const availableExamBoards = [...new Set(subjectPapers.map(paper => paper.curriculum))].sort();
-  const availablePapers = [...new Set(subjectPapers.map(paper => {
-    const match = paper.title.match(/Paper \d+/);
-    return match ? match[0] : null;
-  }))].filter(Boolean);
+
+  // Remove isDefaultView since we only have one filter now
+  const isDefaultView = selectedYearSession === 'all';
+
+  // Group papers by year and session for all views
+  const groupedPapers = useMemo(() => {
+    const grouped = filteredPapers.reduce((acc, paper) => {
+      const year = paper.year;
+      const session = paper.session;
+      
+      if (!acc[year]) {
+        acc[year] = {};
+      }
+      if (!acc[year][session]) {
+        acc[year][session] = [];
+      }
+      acc[year][session].push(paper);
+      return acc;
+    }, {} as Record<string, Record<string, PastPaper[]>>);
+
+    // Sort papers within each session by paper number
+    Object.values(grouped).forEach(yearGroup => {
+      Object.values(yearGroup).forEach(sessionPapers => {
+        sessionPapers.sort((a, b) => {
+          const aMatch = a.title.match(/Paper (\d+)/);
+          const bMatch = b.title.match(/Paper (\d+)/);
+          const aNum = aMatch ? parseInt(aMatch[1]) : 0;
+          const bNum = bMatch ? parseInt(bMatch[1]) : 0;
+          return aNum - bNum;
+        });
+      });
+    });
+
+    return grouped;
+  }, [filteredPapers]);
+
+  // Get sorted years for chronological view
+  const sortedYears = useMemo(() => {
+    return Object.keys(groupedPapers).sort((a, b) => parseInt(b) - parseInt(a));
+  }, [groupedPapers]);
 
   if (!subject) {
     return (
@@ -146,141 +175,85 @@ export default function SubjectPage() {
             {/* Filters */}
             <div className="mb-8">
               <h2 className="text-2xl text-gray-900 mb-6">Past Papers Database</h2>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div>
-                  <label htmlFor="yearSession" className="block text-sm font-medium text-gray-700 mb-2">
-                    Year & Session
-                  </label>
-                  <select
-                    id="yearSession"
-                    value={selectedYearSession}
-                    onChange={(e) => setSelectedYearSession(e.target.value)}
-                    className="block w-full rounded-md border-gray-300 shadow-sm focus:border-gray-900 focus:ring-gray-900 sm:text-sm"
-                  >
-                    <option value="all">All Years & Sessions</option>
-                    {availableYearSessions.map(ys => (
-                      <option key={ys} value={ys}>{ys}</option>
-                    ))}
-                  </select>
-                </div>
-                <div>
-                  <label htmlFor="examBoard" className="block text-sm font-medium text-gray-700 mb-2">
-                    Exam Board
-                  </label>
-                  <select
-                    id="examBoard"
-                    value={selectedExamBoard}
-                    onChange={(e) => setSelectedExamBoard(e.target.value)}
-                    className="block w-full rounded-md border-gray-300 shadow-sm focus:border-gray-900 focus:ring-gray-900 sm:text-sm"
-                  >
-                    <option value="all">All Exam Boards</option>
-                    {availableExamBoards.map(board => (
-                      <option key={board} value={board}>{board}</option>
-                    ))}
-                  </select>
-                </div>
-                <div>
-                  <label htmlFor="paper" className="block text-sm font-medium text-gray-700 mb-2">
-                    Paper
-                  </label>
-                  <select
-                    id="paper"
-                    value={selectedPaper}
-                    onChange={(e) => setSelectedPaper(e.target.value)}
-                    className="block w-full rounded-md border-gray-300 shadow-sm focus:border-gray-900 focus:ring-gray-900 sm:text-sm"
-                  >
-                    <option value="all">All Papers</option>
-                    {availablePapers.map(paper => (
-                      <option key={paper as string} value={paper as string}>{paper}</option>
-                    ))}
-                  </select>
-                </div>
+              <div>
+                <label htmlFor="yearSession" className="block text-sm font-medium text-gray-700 mb-2">
+                  Year & Session
+                </label>
+                <select
+                  id="yearSession"
+                  value={selectedYearSession}
+                  onChange={(e) => setSelectedYearSession(e.target.value)}
+                  className="block w-full rounded-md border-2 border-gray-300 shadow-sm focus:border-gray-900 focus:ring-gray-900 sm:text-sm px-3 py-2"
+                >
+                  <option value="all">All Years & Sessions</option>
+                  {availableYearSessions.map((yearSession) => (
+                    <option key={yearSession} value={yearSession}>
+                      {yearSession}
+                    </option>
+                  ))}
+                </select>
               </div>
             </div>
 
-            {/* Search by Paper Code */}
-            <div className="mb-4 flex items-center gap-2">
-              <label htmlFor="searchCode" className="text-sm font-medium text-gray-700">Search by Paper Code:</label>
-              <input
-                id="searchCode"
-                type="text"
-                value={searchCode}
-                onChange={e => setSearchCode(e.target.value)}
-                placeholder="e.g. 9701_s23_qp_11"
-                className="block w-64 rounded-md border-gray-300 shadow-sm focus:border-blue-700 focus:ring-blue-700 sm:text-sm px-3 py-2"
-              />
-            </div>
-
-            {/* Results Count */}
-            <div className="mb-6">
-              <p className="text-sm text-gray-600">
-                Showing {filteredPapers.length} of {subjectPapers.length} papers
-              </p>
-            </div>
-
-            {/* Papers Grid */}
-            <div className="space-y-4">
-              {filteredPapers.map((paper) => (
-                <div
-                  key={paper.id}
-                  className="border border-gray-200 rounded-lg p-6 hover:shadow-md transition-shadow"
-                >
-                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
-                    <div className="flex-1">
-                      <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                        {paper.title}
-                      </h3>
-                      <div className="flex flex-row gap-2 mb-2">
-                        <span className="inline-flex items-center rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-medium text-blue-800 whitespace-nowrap">
-                          {paper.curriculum.replace(/\n/g, ' ')}
-                        </span>
-                        <span className="inline-flex items-center rounded-full bg-gray-100 px-2.5 py-0.5 text-xs font-medium text-gray-800 whitespace-nowrap">
-                          {`${paper.year} ${paper.session}`.replace(/\n/g, ' ')}
-                        </span>
-                        <span className="inline-flex items-center rounded-full bg-green-100 px-2.5 py-0.5 text-xs font-medium text-green-800 whitespace-nowrap">
-                          {(() => {
-                            const match = paper.title.match(/Paper \d+/);
-                            return match ? match[0] : paper.paperType.replace(/\n/g, ' ');
-                          })()}
-                        </span>
+            {/* Papers Display */}
+            <div className="space-y-8">
+              {sortedYears.map((year) => (
+                <div key={year} className="space-y-6">
+                  <h2 className="text-2xl font-semibold text-gray-900">{year}</h2>
+                  {Object.entries(groupedPapers[year])
+                    .sort(([a], [b]) => b.localeCompare(a))
+                    .map(([session, papers]) => (
+                      <div key={session} className="space-y-4 ml-4">
+                        <h3 className="text-xl font-medium text-gray-800 inline-block border-b-2 border-gray-200 pb-1">{session}</h3>
+                        <div className="space-y-3 ml-8">
+                          {papers.map((paper) => (
+                            <div key={paper.id} className="flex items-center justify-between py-2">
+                              <div className="flex-1">
+                                <span className="text-gray-900">• <span className="ml-2">{paper.title}</span></span>
+                              </div>
+                              <div className="flex items-center gap-8 justify-end">
+                                <div className="w-[120px]">
+                                  <Link
+                                    href={paper.downloadUrl}
+                                    className="text-blue-600 hover:text-blue-800 font-medium"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                  >
+                                    Question Paper
+                                  </Link>
+                                </div>
+                                <div className="w-[120px]">
+                                  {paper.hasMarkingScheme && (
+                                    <Link
+                                      href={`${paper.downloadUrl.replace('.pdf', '-ms.pdf')}`}
+                                      className="text-blue-600 hover:text-blue-800 font-medium"
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                    >
+                                      Mark Scheme
+                                    </Link>
+                                  )}
+                                </div>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
                       </div>
-                    </div>
-                    <div className="mt-4 w-full sm:mt-0 sm:flex sm:justify-end sm:gap-x-4">
-                      <Link
-                        href={paper.downloadUrl}
-                        className="flex items-center justify-center w-auto whitespace-nowrap rounded-md border border-blue-700 text-blue-700 bg-transparent px-3 py-1 text-sm font-medium transition-colors hover:bg-blue-50 hover:border-blue-800 hover:text-blue-800 mb-2 sm:mb-0"
-                        download
-                      >
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4 mr-2">
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5m0 0l5-5m-5 5V4" />
-                        </svg>
-                        Question Paper
-                      </Link>
-                      {paper.hasMarkingScheme && (
-                        <Link
-                          href={`/papers/${paper.id}-ms.pdf`}
-                          className="flex items-center justify-center w-auto whitespace-nowrap rounded-md border border-blue-700 text-blue-700 bg-transparent px-3 py-1 text-sm font-medium transition-colors hover:bg-blue-50 hover:border-blue-800 hover:text-blue-800"
-                        >
-                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4 mr-2">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5m0 0l5-5m-5 5V4" />
-                          </svg>
-                          Mark Scheme
-                        </Link>
-                      )}
-                    </div>
-                  </div>
+                    ))}
                 </div>
               ))}
+              {sortedYears.length === 0 ? (
+                <div className="text-center py-12">
+                  <p className="text-gray-500">No papers found matching your criteria.</p>
+                </div>
+              ) : (
+                <div className="mt-8 pt-4 border-t border-gray-100">
+                  <p className="text-sm text-gray-600">
+                    Showing {filteredPapers.length} of {subjectPapers.length} papers
+                  </p>
+                </div>
+              )}
             </div>
-
-            {filteredPapers.length === 0 && (
-              <div className="text-center py-12">
-                <h3 className="text-lg font-medium text-gray-900">No papers found</h3>
-                <p className="mt-2 text-sm text-gray-600">
-                  No papers match your current filters. Try adjusting your search criteria.
-                </p>
-              </div>
-            )}
           </div>
 
           {/* Sidebar */}
@@ -296,10 +269,6 @@ export default function SubjectPage() {
                 <div className="flex justify-between text-sm">
                   <span className="text-gray-600">Years Available:</span>
                   <span className="font-medium">{availableYearSessions.length}</span>
-                </div>
-                <div className="flex justify-between text-sm">
-                  <span className="text-gray-600">Curricula:</span>
-                  <span className="font-medium">{availableExamBoards.length}</span>
                 </div>
               </div>
             </div>
@@ -331,7 +300,7 @@ export default function SubjectPage() {
                   <div>
                     <div className="font-bold text-gray-900">Ollie</div>
                     <div className="text-gray-700 text-sm">Cambridge University - BA Natural Sciences</div>
-                  </div>
+                    </div>
                 </div>
                 <div className="flex items-center gap-3">
                   <div className="flex-shrink-0 w-12 h-12">
@@ -340,7 +309,7 @@ export default function SubjectPage() {
                       alt="Suraya"
                       className="w-12 h-12 rounded-full object-cover border border-gray-200"
                     />
-                  </div>
+              </div>
                   <div>
                     <div className="font-bold text-gray-900">Suraya</div>
                     <div className="text-gray-700 text-sm">Oxford University - PhD Neuroscience and Mental Health</div>
@@ -361,17 +330,6 @@ export default function SubjectPage() {
                 </div>
               </div>
               <button className="w-full rounded-full bg-blue-900 text-white font-semibold py-3 mt-2 shadow-sm hover:bg-blue-800 transition-colors">Hire a Tutor</button>
-            </div>
-
-            {/* More Resources Block */}
-            <div className="bg-gray-50 rounded-lg p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">More Resources</h3>
-              <ul className="space-y-3 text-blue-700 font-medium">
-                <li>Subject Tutor Page</li>
-                <li>General Study Notes</li>
-                <li>General Practice Questions</li>
-                <li>Q&amp;A Forum</li>
-              </ul>
             </div>
           </div>
         </div>

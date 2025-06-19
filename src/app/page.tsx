@@ -2,15 +2,45 @@
 
 import Link from 'next/link';
 import { subjects, testimonials, faqs } from '@/data/mockData';
-import { useState } from 'react';
+import { Microscope, FlaskConical, Atom, Calculator, LineChart } from 'lucide-react';
+import { useState, useMemo } from 'react';
+
+const backgroundColors = [
+  'bg-blue-100',
+  'bg-green-100',
+  'bg-yellow-100',
+  'bg-pink-100',
+  'bg-purple-100',
+  'bg-indigo-100',
+  'bg-orange-100',
+  'bg-teal-100',
+  'bg-rose-100',
+  'bg-cyan-100'
+];
 
 export default function HomePage() {
   const [selectedCategory, setSelectedCategory] = useState('All Subjects');
+  const [searchCode, setSearchCode] = useState('');
 
-  // Filter subjects based on selected category
-  const filteredSubjects = subjects.filter(subject => 
-    selectedCategory === 'All Subjects' || subject.category === selectedCategory
-  );
+  const subjectColors = useMemo(() => {
+    return subjects.reduce((acc, subject) => {
+      acc[subject.id] = backgroundColors[Math.floor(Math.random() * backgroundColors.length)];
+      return acc;
+    }, {} as Record<string, string>);
+  }, []);
+
+  const filteredSubjects = useMemo(() => {
+    return subjects
+      .filter((subject) => {
+        if (selectedCategory === 'All Subjects') return true;
+        return subject.category === selectedCategory;
+      })
+      .filter((subject) => {
+        if (!searchCode) return true;
+        return subject.code.toLowerCase().includes(searchCode.toLowerCase());
+      })
+      .sort((a, b) => a.name.localeCompare(b.name)); // Sort alphabetically by name
+  }, [selectedCategory, searchCode]);
 
   const categories = ['All Subjects', 'Sciences', 'Mathematics', 'Languages', 'Humanities'];
 
@@ -80,60 +110,129 @@ export default function HomePage() {
             </p>
           </div>
 
-          {/* Subject Categories */}
-          <div className="mt-10 flex justify-center">
-            <div className="flex flex-wrap gap-2 justify-center">
-              {categories.map((category) => (
-                <button
-                  key={category}
-                  onClick={() => setSelectedCategory(category)}
-                  className={`rounded-full px-6 py-2 text-sm font-semibold transition-colors ${
-                    selectedCategory === category
-                      ? 'bg-gray-900 text-white'
-                      : 'bg-white text-gray-600 hover:text-gray-900 hover:bg-gray-50 border border-gray-200'
-                  }`}
-                >
-                  {category}
-                </button>
-              ))}
+          {/* Subject Categories and Search */}
+          <div className="mt-10">
+            {/* Categories */}
+            <div className="flex justify-center mb-6">
+              <div className="flex flex-wrap gap-2 justify-center">
+                {categories.map((category) => (
+                  <button
+                    key={category}
+                    onClick={() => setSelectedCategory(category)}
+                    className={`rounded-full px-6 py-2 text-sm font-semibold transition-colors ${
+                      selectedCategory === category
+                        ? 'bg-gray-900 text-white'
+                        : 'bg-white text-gray-600 hover:text-gray-900 hover:bg-gray-50 border border-gray-200'
+                    }`}
+                  >
+                    {category}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Search by Subject Code */}
+            <div className="flex justify-center mb-8">
+              <div className="relative w-full max-w-sm">
+                <input
+                  type="text"
+                  value={searchCode}
+                  onChange={(e) => setSearchCode(e.target.value)}
+                  placeholder="Search by subject code (e.g. 9701)"
+                  className="w-full rounded-md border-2 border-gray-300 py-2 px-4 text-sm focus:border-gray-900 focus:ring-gray-900"
+                />
+              </div>
             </div>
           </div>
 
           {/* Subjects Grid */}
-          <div className="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-8 sm:mt-20 lg:mx-0 lg:max-w-none lg:grid-cols-3">
+          <div className="mx-auto mt-8 grid max-w-2xl grid-cols-1 gap-6 sm:mt-12 lg:mx-0 lg:max-w-none lg:grid-cols-4">
             {filteredSubjects.map((subject) => (
-              <div
+              <Link
                 key={subject.id}
-                className="group relative flex flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition-all hover:shadow-lg"
+                href={`/subjects/${subject.id}`}
+                className="block overflow-hidden rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow bg-white"
               >
-                {/* Subject Header */}
-                <div className="bg-gradient-to-br from-gray-50 to-gray-100 p-6">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      <span className="subject-icon">{subject.icon}</span>
-                      <h3 className="text-xl font-semibold text-gray-900">
+                <div className="flex flex-col gap-2">
+                  {/* Icon */}
+                  <div className="flex items-center justify-center w-12 h-12 rounded-lg mb-4">
+                    {subject.id === 'biology' && (
+                      <div className="bg-emerald-100 p-2 rounded-lg">
+                        <Microscope className="w-8 h-8 text-emerald-500" />
+                      </div>
+                    )}
+                    {subject.id === 'chemistry' && (
+                      <div className="bg-blue-100 p-2 rounded-lg">
+                        <FlaskConical className="w-8 h-8 text-blue-500" />
+                      </div>
+                    )}
+                    {subject.id === 'physics' && (
+                      <div className="bg-purple-100 p-2 rounded-lg">
+                        <Atom className="w-8 h-8 text-purple-500" />
+                      </div>
+                    )}
+                    {subject.id === 'mathematics' && (
+                      <div className="bg-red-100 p-2 rounded-lg">
+                        <Calculator className="w-8 h-8 text-red-500" />
+                      </div>
+                    )}
+                    {subject.id === 'economics' && (
+                      <div className="bg-yellow-100 p-2 rounded-lg">
+                        <LineChart className="w-8 h-8 text-yellow-500" />
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Subject Info */}
+                  <div className="flex justify-between items-start">
+                    <div>
+                      <h3 className="text-lg font-semibold text-gray-900 mb-2">
                         {subject.name}
                       </h3>
+                      <p className="text-sm text-gray-500 mb-4">A-Level & GCSE</p>
+                      {subject.id === 'biology' && (
+                        <div className="flex flex-wrap gap-2 mt-4">
+                          <a
+                            href="https://www.aqa.org.uk/subjects/science/as-and-a-level/biology-7401-7402"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center rounded-full bg-gray-50 px-2.5 py-0.5 text-xs font-medium text-gray-700 border border-gray-200 hover:bg-gray-100 transition-colors"
+                          >
+                            AQA
+                          </a>
+                          <a
+                            href="https://www.ocr.org.uk/qualifications/as-and-a-level/biology-a-h020-h420/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center rounded-full bg-gray-50 px-2.5 py-0.5 text-xs font-medium text-gray-700 border border-gray-200 hover:bg-gray-100 transition-colors"
+                          >
+                            OCR
+                          </a>
+                          <a
+                            href="https://qualifications.pearson.com/en/qualifications/edexcel-a-levels/biology-a-2015.html"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center rounded-full bg-gray-50 px-2.5 py-0.5 text-xs font-medium text-gray-700 border border-gray-200 hover:bg-gray-100 transition-colors"
+                          >
+                            Edexcel
+                          </a>
+                          <a
+                            href="https://www.cambridgeinternational.org/programmes-and-qualifications/cambridge-international-as-and-a-level-biology-9700/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center rounded-full bg-gray-50 px-2.5 py-0.5 text-xs font-medium text-gray-700 border border-gray-200 hover:bg-gray-100 transition-colors"
+                          >
+                            CAIE
+                          </a>
+                        </div>
+                      )}
                     </div>
-                    <span className="inline-flex items-center rounded-full bg-gray-900 px-2.5 py-0.5 text-xs font-medium text-white">
-                      {subject.paperCount} papers
+                    <span className="inline-flex items-center rounded-full bg-gray-50 px-2.5 py-0.5 text-xs font-medium text-gray-800 border border-gray-200">
+                      {subject.code}
                     </span>
                   </div>
-                  <p className="mt-3 text-sm text-gray-600">
-                    {subject.description}
-                  </p>
                 </div>
-
-                {/* Subject Content */}
-                {/* No subject content div here; button comes immediately after gradient box */}
-                <Link
-                  href={`/subjects/${subject.id}`}
-                  className="block w-full rounded-b-2xl bg-gray-900 px-4 py-3 text-center text-sm font-semibold text-white shadow-sm transition-colors hover:bg-gray-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-900"
-                  style={{ margin: 0 }}
-                >
-                  View Past Papers
-                </Link>
-              </div>
+              </Link>
             ))}
           </div>
 
@@ -192,12 +291,12 @@ export default function HomePage() {
                 <dd className="mt-2 text-base leading-7 text-gray-600">
                   Question papers, marking schemes, examiner reports, grade boundaries, and specimen papers all in one place.
                 </dd>
-              </div>
+                </div>
               <div className="relative pl-16">
                 <dt className="text-base font-semibold leading-7 text-gray-900">
                   <div className="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded-lg bg-gray-900">
                     <span className="text-white">✓</span>
-                  </div>
+                </div>
                   Regular updates across all boards
                 </dt>
                 <dd className="mt-2 text-base leading-7 text-gray-600">
@@ -273,17 +372,21 @@ export default function HomePage() {
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="mx-auto max-w-2xl text-center">
             <h2 className="text-3xl tracking-tight text-gray-900 sm:text-4xl">
-              Get in Touch
+              Hire a tutor
             </h2>
             <p className="mt-4 text-lg leading-8 text-gray-600">
-              Need help finding specific past papers from any curriculum or have questions about our collection? Contact us for assistance.
+              Please fill out the form and an academic consultant from{' '}
+              <a href="https://tutorchase.com" target="_blank" rel="noopener noreferrer" className="text-gray-900 underline">
+                TutorChase
+              </a>{' '}
+              will find a tutor for you
             </p>
           </div>
           <div className="mx-auto mt-16 max-w-xl">
             <form className="space-y-6">
               <div>
                 <label htmlFor="name" className="block text-sm font-medium leading-6 text-gray-900">
-                  Full Name
+                  Full name<span className="text-red-500">*</span>
                 </label>
                 <div className="mt-2">
                   <input
@@ -295,52 +398,75 @@ export default function HomePage() {
                   />
                 </div>
               </div>
+              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+                <div>
+                  <label htmlFor="country" className="block text-sm font-medium leading-6 text-gray-900">
+                    Country<span className="text-red-500">*</span>
+                  </label>
+                  <div className="mt-2">
+                    <input
+                      type="text"
+                      name="country"
+                      id="country"
+                      className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-gray-900 sm:text-sm sm:leading-6"
+                      placeholder="Enter your country"
+                    />
+                  </div>
+                </div>
+                <div>
+                  <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
+                    Your email<span className="text-red-500">*</span>
+                  </label>
+                  <div className="mt-2">
+                    <input
+                      type="email"
+                      name="email"
+                      id="email"
+                      className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-gray-900 sm:text-sm sm:leading-6"
+                      placeholder="Enter your email address"
+                    />
+                  </div>
+                </div>
+              </div>
               <div>
-                <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
-                  Email Address
+                <label htmlFor="phone" className="block text-sm font-medium leading-6 text-gray-900">
+                  Your phone (with country code)<span className="text-red-500">*</span>
                 </label>
                 <div className="mt-2">
                   <input
-                    type="email"
-                    name="email"
-                    id="email"
+                    type="tel"
+                    name="phone"
+                    id="phone"
                     className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-gray-900 sm:text-sm sm:leading-6"
-                    placeholder="Enter your email address"
+                    placeholder="+1 (555) 123-4567"
                   />
                 </div>
               </div>
               <div>
-                <label htmlFor="curriculum" className="block text-sm font-medium leading-6 text-gray-900">
-                  Curriculum
-                </label>
-                <div className="mt-2">
-                  <select
-                    id="curriculum"
-                    name="curriculum"
-                    className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-gray-900 sm:text-sm sm:leading-6"
-                  >
-                    <option value="">Select a curriculum</option>
-                    <option value="cie-alevels">CIE A-Levels</option>
-                    <option value="cie-igcse">CIE IGCSE</option>
-                    <option value="ib-diploma">IB Diploma Programme</option>
-                    <option value="ap">Advanced Placement (AP)</option>
-                    <option value="edexcel">Edexcel A-Levels</option>
-                    <option value="aqa">AQA A-Levels</option>
-                    <option value="ocr">OCR A-Levels</option>
-                  </select>
-                </div>
-              </div>
-              <div>
-                <label htmlFor="message" className="block text-sm font-medium leading-6 text-gray-900">
-                  Message
+                <label htmlFor="details" className="block text-sm font-medium leading-6 text-gray-900">
+                  Details of tutoring request (e.g., exams, subjects, how long for etc.)<span className="text-red-500">*</span>
                 </label>
                 <div className="mt-2">
                   <textarea
-                    name="message"
-                    id="message"
+                    name="details"
+                    id="details"
                     rows={4}
                     className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-gray-900 sm:text-sm sm:leading-6"
-                    placeholder="How can we help you with past papers?"
+                    placeholder="Please provide details about your tutoring needs, including subjects, exam preparation requirements, duration, and any specific goals..."
+                  />
+                </div>
+              </div>
+              <div>
+                <label htmlFor="budget" className="block text-sm font-medium leading-6 text-gray-900">
+                  Hourly budget (including currency)<span className="text-red-500">*</span>
+                </label>
+                <div className="mt-2">
+                  <input
+                    type="text"
+                    name="budget"
+                    id="budget"
+                    className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-gray-900 sm:text-sm sm:leading-6"
+                    placeholder="e.g. $50/hour, £40/hour, €45/hour"
                   />
                 </div>
               </div>
@@ -349,7 +475,7 @@ export default function HomePage() {
                   type="submit"
                   className="block w-full rounded-md bg-gray-900 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-gray-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-900"
                 >
-                  Send Message
+                  SUBMIT
                 </button>
               </div>
             </form>
@@ -393,3 +519,4 @@ function FAQItem({ faq }: { faq: { id: string; question: string; answer: string 
     </div>
   );
 }
+

@@ -4,107 +4,88 @@ export const subjects: Subject[] = [
   {
     id: 'biology',
     name: 'Biology',
-    description: 'Comprehensive biology past papers covering molecular biology, genetics, ecology, and evolution across multiple curricula.',
-    icon: '📖',
+    description: 'Comprehensive IB Biology past papers covering molecular biology, genetics, ecology, and evolution for both Higher Level (HL) and Standard Level (SL).',
+    icon: 'microscope',
     category: 'Sciences',
-    paperCount: 450,
+    paperCount: 120,
     topics: [
-      'CIE A-Levels & IGCSE',
-      'IB Biology (HL & SL)',
-      'AP Biology',
-      'Edexcel A-Levels',
-      'AQA A-Levels'
-    ]
+      'Cell Biology',
+      'Molecular Biology',
+      'Genetics',
+      'Ecology',
+      'Evolution',
+      'Human Physiology'
+    ],
+    code: '9700',
+    yearsAvailable: ['2024', '2023', '2022', '2021', '2020']
   },
   {
     id: 'chemistry',
     name: 'Chemistry',
-    description: 'Complete chemistry examination resources including organic, inorganic, and physical chemistry from leading exam boards.',
-    icon: '📖',
+    description: 'Complete IB Chemistry examination resources including organic, inorganic, and physical chemistry for both HL and SL levels.',
+    icon: 'flask-conical',
     category: 'Sciences',
-    paperCount: 420,
+    paperCount: 110,
     topics: [
-      'CIE A-Levels & IGCSE',
-      'IB Chemistry (HL & SL)',
-      'AP Chemistry',
-      'Edexcel A-Levels',
-      'OCR A-Levels'
-    ]
+      'Stoichiometry',
+      'Atomic Theory',
+      'Periodicity',
+      'Chemical Bonding',
+      'Energetics',
+      'Organic Chemistry'
+    ],
+    code: '9701',
+    yearsAvailable: ['2024', '2023', '2022', '2021', '2020', '2019']
   },
   {
     id: 'physics',
     name: 'Physics',
-    description: 'Extensive physics past papers covering mechanics, electricity, quantum physics, and thermodynamics across all major curricula.',
-    icon: '📖',
+    description: 'Extensive IB Physics past papers covering mechanics, electricity, quantum physics, and thermodynamics for both HL and SL.',
+    icon: 'atom',
     category: 'Sciences',
-    paperCount: 380,
+    paperCount: 105,
     topics: [
-      'CIE A-Levels & IGCSE',
-      'IB Physics (HL & SL)',
-      'AP Physics 1, 2, C',
-      'Edexcel A-Levels',
-      'AQA A-Levels'
-    ]
+      'Mechanics',
+      'Thermal Physics',
+      'Waves',
+      'Electricity',
+      'Quantum Physics',
+      'Fields'
+    ],
+    code: '9702',
+    yearsAvailable: ['2024', '2023', '2022', '2021', '2020']
   },
   {
     id: 'mathematics',
     name: 'Mathematics',
-    description: 'Comprehensive mathematics resources including pure math, statistics, and mechanics from international curricula.',
-    icon: '📖',
+    description: 'Comprehensive IB Mathematics resources including Analysis & Approaches and Applications & Interpretation at both HL and SL levels.',
+    icon: 'calculator',
     category: 'Mathematics',
-    paperCount: 520,
+    paperCount: 140,
     topics: [
-      'CIE A-Levels & IGCSE',
-      'IB Mathematics (HL & SL)',
-      'AP Calculus & Statistics',
-      'Edexcel A-Levels',
-      'Further Mathematics'
-    ]
+      'Analysis & Approaches HL',
+      'Analysis & Approaches SL',
+      'Applications & Interpretation HL',
+      'Applications & Interpretation SL'
+    ],
+    code: '9709',
+    yearsAvailable: ['2024', '2023', '2022', '2021', '2020', '2019']
   },
   {
     id: 'economics',
     name: 'Economics',
-    description: 'Economics past papers covering microeconomics, macroeconomics, and international economics from top exam boards.',
-    icon: '📖',
+    description: 'IB Economics past papers covering microeconomics, macroeconomics, and international economics for both HL and SL.',
+    icon: 'line-chart',
     category: 'Humanities',
-    paperCount: 290,
+    paperCount: 90,
     topics: [
-      'CIE A-Levels & IGCSE',
-      'IB Economics (HL & SL)',
-      'AP Economics (Macro & Micro)',
-      'Edexcel A-Levels',
-      'AQA A-Levels'
-    ]
-  },
-  {
-    id: 'computer-science',
-    name: 'Computer Science',
-    description: 'Computer science examination materials covering programming, algorithms, data structures, and systems architecture.',
-    icon: '📖',
-    category: 'Sciences',
-    paperCount: 220,
-    topics: [
-      'CIE A-Levels & IGCSE',
-      'IB Computer Science (HL & SL)',
-      'AP Computer Science A & Principles',
-      'Edexcel A-Levels',
-      'OCR A-Levels'
-    ]
-  },
-  {
-    id: 'english-language',
-    name: 'English Language',
-    description: 'English Language past papers covering comprehension, composition, and language analysis from multiple international curricula.',
-    icon: '📖',
-    category: 'Languages',
-    paperCount: 340,
-    topics: [
-      'CIE A-Levels & IGCSE',
-      'IB English A & B (HL & SL)',
-      'AP English Language & Literature',
-      'Edexcel A-Levels',
-      'AQA A-Levels'
-    ]
+      'Microeconomics',
+      'Macroeconomics',
+      'International Economics',
+      'Development Economics'
+    ],
+    code: '9708',
+    yearsAvailable: ['2024', '2023', '2022', '2021']
   }
 ];
 
@@ -118,90 +99,163 @@ export const testimonials: Testimonial[] = [
   },
   {
     id: '2',
-    name: 'Ahmed Hassan',
-    subject: 'CIE Chemistry A-Level',
-    grade: 'A*',
-    text: 'Having access to years of CIE Chemistry papers allowed me to practice extensively. The variety of question types prepared me for anything in the real exam.'
+    name: 'Michael Patel',
+    subject: 'IB Mathematics AA HL',
+    grade: '7/7',
+    text: 'Having access to both Analysis & Approaches papers helped me master the challenging topics. The progression from easier to harder questions was perfect for my preparation.'
   },
   {
     id: '3',
     name: 'Emma Rodriguez',
-    subject: 'AP Calculus BC',
-    grade: '5/5',
-    text: 'The AP Calculus past papers collection was comprehensive and well-organized. It made my exam preparation so much more effective and targeted.'
+    subject: 'IB Chemistry SL',
+    grade: '7/7',
+    text: 'The IB Chemistry papers collection was comprehensive and well-organized. The detailed mark schemes helped me understand exactly what examiners are looking for.'
   }
 ];
 
 export const faqs: FAQ[] = [
   {
     id: '1',
-    question: 'Which curricula do you support?',
-    answer: 'We support all major international curricula including Cambridge International (CIE) A-Levels and IGCSE, International Baccalaureate (IB) Diploma Programme, Advanced Placement (AP), and UK exam boards including Edexcel, AQA, and OCR.'
+    question: 'Which IB subjects do you support?',
+    answer: 'We support all major IB Diploma Programme subjects including Biology, Chemistry, Physics, Mathematics (Analysis & Approaches and Applications & Interpretation), and Economics at both Higher Level (HL) and Standard Level (SL).'
   },
   {
     id: '2',
     question: 'How often are new past papers added?',
-    answer: 'We regularly update our collection with the latest past papers from all supported curricula. New papers are typically added within days of being released by the respective exam boards.'
+    answer: 'We regularly update our collection with the latest IB past papers. New papers are typically added within days of being released by the IB.'
   },
   {
     id: '3',
     question: 'Do you provide marking schemes and grade boundaries?',
-    answer: 'Yes, we provide comprehensive examination resources including question papers, marking schemes, examiner reports, grade boundaries, and specimen papers where available across all curricula.'
+    answer: 'Yes, we provide comprehensive IB examination resources including question papers, marking schemes, subject reports, and grade boundaries where available.'
   },
   {
     id: '4',
-    question: 'Can I filter papers by specific curriculum and year?',
-    answer: 'Absolutely! Our advanced filtering system allows you to search by curriculum, subject, year, session, paper type, and level. This makes it easy to find exactly what you need for your specific examination board.'
-  },
-  {
-    id: '5',
-    question: 'Is the service free to use?',
-    answer: 'Yes, our basic past paper collection is completely free to access. We believe in making quality educational resources available to all students regardless of their financial situation.'
-  },
-  {
-    id: '6',
-    question: 'How can I request papers from a specific curriculum or subject?',
-    answer: 'If you cannot find specific papers you need, please contact us through our contact form. Include details about the curriculum, subject, year, and session you require, and we will do our best to help you locate the resources.'
+    question: 'Can I filter papers by HL/SL and exam session?',
+    answer: 'Absolutely! Our filtering system allows you to search by level (HL/SL), year, and session (May/November). This makes it easy to find exactly what you need for your IB preparation.'
   }
 ];
 
-// Mock past papers data for different curricula
+// Mock past papers data for IB curriculum
 export const pastPapers: PastPaper[] = [
   {
-    id: '1',
-    title: 'Biology Paper 1',
-    curriculum: 'CIE A-Level',
-    year: '2023',
-    session: 'May/June',
-    paperType: 'Theory',
-    subjectId: 'biology',
-    downloadUrl: '/papers/cie-biology-2023-mj-p1.pdf',
-    hasMarkingScheme: true,
-    code: '9701_s23_qp_11'
-  },
-  {
-    id: '2',
+    id: 'bio-hl-23-1',
     title: 'Biology HL Paper 1',
     curriculum: 'IB Diploma',
     year: '2023',
     session: 'May',
-    paperType: 'Theory',
+    paperType: 'Multiple Choice',
     subjectId: 'biology',
     downloadUrl: '/papers/ib-biology-hl-2023-may-p1.pdf',
     hasMarkingScheme: true,
-    code: 'ib_2023_may_p1'
+    code: 'BIO_HL_23_P1'
   },
   {
-    id: '3',
-    title: 'AP Biology',
-    curriculum: 'Advanced Placement',
+    id: 'bio-hl-23-2',
+    title: 'Biology HL Paper 2',
+    curriculum: 'IB Diploma',
     year: '2023',
     session: 'May',
-    paperType: 'Complete Exam',
+    paperType: 'Extended Response',
     subjectId: 'biology',
-    downloadUrl: '/papers/ap-biology-2023-may.pdf',
+    downloadUrl: '/papers/ib-biology-hl-2023-may-p2.pdf',
     hasMarkingScheme: true,
-    code: 'ap_2023_may'
+    code: 'BIO_HL_23_P2'
+  },
+  {
+    id: 'bio-hl-23-3',
+    title: 'Biology HL Paper 3',
+    curriculum: 'IB Diploma',
+    year: '2023',
+    session: 'May',
+    paperType: 'Options',
+    subjectId: 'biology',
+    downloadUrl: '/papers/ib-biology-hl-2023-may-p3.pdf',
+    hasMarkingScheme: true,
+    code: 'BIO_HL_23_P3'
+  },
+  {
+    id: 'bio-sl-23-1',
+    title: 'Biology SL Paper 1',
+    curriculum: 'IB Diploma',
+    year: '2023',
+    session: 'May',
+    paperType: 'Multiple Choice',
+    subjectId: 'biology',
+    downloadUrl: '/papers/ib-biology-sl-2023-may-p1.pdf',
+    hasMarkingScheme: true,
+    code: 'BIO_SL_23_P1'
+  },
+  {
+    id: 'bio-sl-23-2',
+    title: 'Biology SL Paper 2',
+    curriculum: 'IB Diploma',
+    year: '2023',
+    session: 'May',
+    paperType: 'Extended Response',
+    subjectId: 'biology',
+    downloadUrl: '/papers/ib-biology-sl-2023-may-p2.pdf',
+    hasMarkingScheme: true,
+    code: 'BIO_SL_23_P2'
+  },
+  {
+    id: 'math-aa-hl-23-1',
+    title: 'Mathematics AA HL Paper 1',
+    curriculum: 'IB Diploma',
+    year: '2023',
+    session: 'May',
+    paperType: 'No Calculator',
+    subjectId: 'mathematics',
+    downloadUrl: '/papers/ib-math-aa-hl-2023-may-p1.pdf',
+    hasMarkingScheme: true,
+    code: 'MAT_AAHL_23_P1'
+  },
+  {
+    id: 'math-aa-hl-23-2',
+    title: 'Mathematics AA HL Paper 2',
+    curriculum: 'IB Diploma',
+    year: '2023',
+    session: 'May',
+    paperType: 'Calculator',
+    subjectId: 'mathematics',
+    downloadUrl: '/papers/ib-math-aa-hl-2023-may-p2.pdf',
+    hasMarkingScheme: true,
+    code: 'MAT_AAHL_23_P2'
+  },
+  {
+    id: 'math-aa-hl-23-3',
+    title: 'Mathematics AA HL Paper 3',
+    curriculum: 'IB Diploma',
+    year: '2023',
+    session: 'May',
+    paperType: 'Problem Solving',
+    subjectId: 'mathematics',
+    downloadUrl: '/papers/ib-math-aa-hl-2023-may-p3.pdf',
+    hasMarkingScheme: true,
+    code: 'MAT_AAHL_23_P3'
+  },
+  {
+    id: 'chem-hl-23-1',
+    title: 'Chemistry HL Paper 1',
+    curriculum: 'IB Diploma',
+    year: '2023',
+    session: 'November',
+    paperType: 'Multiple Choice',
+    subjectId: 'chemistry',
+    downloadUrl: '/papers/ib-chemistry-hl-2023-nov-p1.pdf',
+    hasMarkingScheme: true,
+    code: 'CHE_HL_23_P1'
+  },
+  {
+    id: 'chem-hl-23-2',
+    title: 'Chemistry HL Paper 2',
+    curriculum: 'IB Diploma',
+    year: '2023',
+    session: 'November',
+    paperType: 'Extended Response',
+    subjectId: 'chemistry',
+    downloadUrl: '/papers/ib-chemistry-hl-2023-nov-p2.pdf',
+    hasMarkingScheme: true,
+    code: 'CHE_HL_23_P2'
   }
-  // Add more mock papers as needed
 ]; 
