@@ -21,18 +21,23 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family: var(--font-lexend);
   line-height: 1.5;
 }
 
-/* Main heading styles with Playfair Display - only for large section headings */
+/* All text uses Lexend */
+* {
+  font-family: var(--font-lexend);
+}
+
+/* Main heading styles */
 h1,
 .text-3xl.tracking-tight,
 .text-4xl.tracking-tight,
 .text-5xl.tracking-tight,
 .text-6xl {
-  font-family: 'Playfair Display', serif;
-  font-weight: 400 !important;
+  font-family: var(--font-lexend);
+  font-weight: 400;
 }
 
 /* Subject icon styles */

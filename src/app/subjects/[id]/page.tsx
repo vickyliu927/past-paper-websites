@@ -142,19 +142,19 @@ export default function SubjectPage() {
     <div className="bg-white">
       {/* Hero Section */}
       <div className="bg-gradient-to-br from-white to-blue-50">
-        <div className="mx-auto max-w-7xl px-6 pt-4 pb-4 md:pt-6 md:pb-6 lg:px-8">
+        <div className="mx-auto max-w-7xl px-6 pt-8 pb-8 md:pt-12 md:pb-12 lg:px-8">
           <div className="mx-auto max-w-2xl text-center">
-            <h1 className="text-4xl tracking-tight text-gray-900 sm:text-5xl">
+            <h1 className="text-4xl text-gray-900 sm:text-5xl">
               {subject.name} Past Papers
             </h1>
-            <p className="mt-6 text-lg leading-8 text-gray-600">
+            <p className="mt-4 text-lg leading-7 text-gray-600">
               {subject.description} Access comprehensive past papers, mark schemes, and examiner reports from multiple curricula.
             </p>
-            <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
-              <span className="inline-flex items-center rounded-full bg-blue-100 px-3 py-1 text-sm font-medium text-blue-800">
+            <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
+              <span className="inline-flex items-center rounded-full bg-blue-100 px-2.5 py-1 text-sm font-medium text-blue-800">
                 Multi-Curriculum Support
               </span>
-              <span className="inline-flex items-center rounded-full bg-gray-100 px-3 py-1 text-sm font-medium text-gray-800">
+              <span className="inline-flex items-center rounded-full bg-gray-100 px-2.5 py-1 text-sm font-medium text-gray-800">
                 {subjectPapers.length} Resources Available
               </span>
             </div>
@@ -162,22 +162,22 @@ export default function SubjectPage() {
         </div>
       </div>
 
-      <div className="mx-auto max-w-7xl px-6 py-16 lg:px-8">
-        <div className="lg:grid lg:grid-cols-4 lg:gap-8">
+      <div className="mx-auto max-w-7xl px-6 py-12 lg:px-8">
+        <div className="lg:grid lg:grid-cols-4 lg:gap-6">
           {/* Main Content */}
           <div className="lg:col-span-3">
             {/* Filters */}
-            <div className="mb-8">
-              <h2 className="text-2xl text-gray-900 mb-6">Past Papers Database</h2>
+            <div className="mb-6">
+              <h2 className="text-2xl text-gray-900 mb-4">Past Papers Database</h2>
               <div>
-                <label htmlFor="yearSession" className="block text-sm font-medium text-gray-700 mb-2">
+                <label htmlFor="yearSession" className="block text-sm font-medium text-gray-700 mb-1.5">
                   Year & Session
                 </label>
                 <select
                   id="yearSession"
                   value={selectedYearSession}
                   onChange={(e) => setSelectedYearSession(e.target.value)}
-                  className="block w-full rounded-md border-2 border-gray-300 shadow-sm focus:border-gray-900 focus:ring-gray-900 sm:text-sm px-3 py-2"
+                  className="block w-full rounded-md border-2 border-gray-300 shadow-sm focus:border-gray-900 focus:ring-gray-900 sm:text-sm px-3 py-1.5"
                 >
                   <option value="all">All Years & Sessions</option>
                   {availableYearSessions.map((yearSession) => (
@@ -190,23 +190,23 @@ export default function SubjectPage() {
             </div>
 
             {/* Papers Display */}
-            <div className="space-y-8">
+            <div className="space-y-6">
               {sortedYears.map((year) => (
-                <div key={year} className="space-y-6">
-                  <h2 className="text-2xl font-semibold text-gray-900">{year}</h2>
+                <div key={year} className="space-y-4">
+                  <h2 className="text-2xl font-semibold text-[#001a96]">{year}</h2>
                   {Object.entries(groupedPapers[year])
                     .sort(([a], [b]) => b.localeCompare(a))
                     .map(([session, papers]) => (
-                      <div key={session} className="space-y-4 ml-4">
+                      <div key={session} className="space-y-3 ml-4">
                         <h3 className="text-xl font-medium text-gray-800 inline-block border-b-2 border-gray-200 pb-1">{session}</h3>
-                        <div className="space-y-3 ml-8">
+                        <div className="space-y-2 ml-6">
                           {papers.map((paper) => (
-                            <div key={paper.id} className="flex items-center justify-between py-2">
+                            <div key={paper.id} className="flex items-center justify-between py-1.5">
                               <div className="flex-1">
-                                <span className="text-gray-900">• <span className="ml-2">{paper.title}</span></span>
+                                <span className="text-gray-900">• <span className="ml-1.5">{paper.title}</span></span>
                               </div>
-                              <div className="flex items-center gap-8 justify-end">
-                                <div className="w-[120px]">
+                              <div className="flex items-center gap-4 justify-end">
+                                <div className="w-[140px]">
                                   <Link
                                     href={paper.downloadUrl}
                                     className="text-blue-600 hover:text-blue-800 font-medium"
