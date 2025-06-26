@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import { Lexend } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
-import Footer from "@/components/Footer";
+import { client } from "../../lib/sanity";
+import { getHeaderQuery } from "../../lib/queries";
 
 const lexend = Lexend({
   subsets: ["latin"],
@@ -22,19 +23,25 @@ export const viewport = {
   initialScale: 1,
 };
 
-export default function RootLayout({
+async function getHeader() {
+  const header = await client.fetch(getHeaderQuery);
+  return header;
+}
+
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const header = await getHeader();
+
   return (
     <html lang="en" className={`${lexend.variable} font-sans antialiased`}>
       <body className="min-h-screen flex flex-col">
-        <Header />
+        <Header data={header} />
         <main className="flex-grow">
           {children}
         </main>
-        <Footer />
       </body>
     </html>
   );
