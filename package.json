@@ -16,7 +16,7 @@
     "@sanity/image-url": "^1.1.0",
     "@sanity/vision": "^3.93.0",
     "clsx": "^2.1.1",
-    "framer-motion": "^12.17.1",
+    "framer-motion": "^12.19.1",
     "lucide-react": "^0.514.0",
     "next": "15.3.3",
     "next-sanity": "^9.12.0",

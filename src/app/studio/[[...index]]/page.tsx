@@ -7,13 +7,32 @@
  * https://github.com/sanity-io/next-sanity
  */
 
-import { NextStudio } from 'next-sanity/studio';
-import config from '../../../../sanity.config';
+'use client';
 
-export const dynamic = 'force-static';
+import dynamic from 'next/dynamic';
+import { useEffect, useState } from 'react';
 
-export { metadata, viewport } from 'next-sanity/studio';
+// Dynamically import NextStudio to avoid SSR issues with framer-motion
+const NextStudio = dynamic(() => import('next-sanity/studio').then(mod => ({ default: mod.NextStudio })), {
+  ssr: false,
+  loading: () => <div>Loading Studio...</div>
+});
 
 export default function StudioPage() {
-  return <NextStudio config={config} />;
+  const [mounted, setMounted] = useState(false);
+  const [studioConfig, setStudioConfig] = useState<any>(null);
+
+  useEffect(() => {
+    setMounted(true);
+    // Dynamically import the config to avoid SSR issues
+    import('../../../../sanity.config').then((configModule) => {
+      setStudioConfig(configModule.default);
+    });
+  }, []);
+
+  if (!mounted || !studioConfig) {
+    return <div>Loading Studio...</div>;
+  }
+
+  return <NextStudio config={studioConfig} />;
 } 
