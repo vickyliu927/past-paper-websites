@@ -9,10 +9,12 @@ import SubjectPageClient from './SubjectPageClient';
 
 interface SubjectPageProps {
   params: Promise<{ id: string }>;
+  searchParams: Promise<{ board?: string }>;
 }
 
-export default async function SubjectPage({ params }: SubjectPageProps) {
+export default async function SubjectPage({ params, searchParams }: SubjectPageProps) {
   const { id: subjectId } = await params;
+  const { board: selectedBoard } = await searchParams;
   
   // Fetch Sanity data
   const [subjectPageData, footerData] = await Promise.all([
@@ -38,11 +40,6 @@ export default async function SubjectPage({ params }: SubjectPageProps) {
       showingText: subjectPageData?.databaseSection?.showingText || `Showing {filtered} of {total} papers`
     },
     sidebar: {
-      quickStats: {
-        title: subjectPageData?.sidebar?.quickStats?.title || 'Quick Stats',
-        totalPapersLabel: subjectPageData?.sidebar?.quickStats?.totalPapersLabel || 'Total Papers:',
-        yearsAvailableLabel: subjectPageData?.sidebar?.quickStats?.yearsAvailableLabel || 'Years Available:'
-      },
       actionButtons: {
         studyNotesButton: {
           text: subjectPageData?.sidebar?.actionButtons?.studyNotesButton?.text || 'Subject Study Notes',
@@ -94,6 +91,7 @@ export default async function SubjectPage({ params }: SubjectPageProps) {
         papers={papers}
         defaults={defaults}
         subjectId={subjectId}
+        selectedBoard={selectedBoard}
       />
       <Footer data={footerData} />
     </div>

@@ -65,81 +65,6 @@ export async function getExamBoards() {
   `);
 }
 
-// Get past papers for a specific subject and exam board
-export async function getPastPapers(subjectSlug: string, examBoardSlug?: string) {
-  const examBoardFilter = examBoardSlug ? `&& examBoard->slug.current == $examBoardSlug` : '';
-  
-  return client.fetch(`
-    *[_type == "pastPaper" && subject->slug.current == $subjectSlug ${examBoardFilter} && isActive == true] | order(year desc, season asc) {
-      _id,
-      title,
-      slug,
-      year,
-      season,
-      paperNumber,
-      level,
-      "subject": subject->title,
-      "examBoard": examBoard->name,
-      "topic": topic->title,
-      "paperFile": paperFile.asset->url,
-      "markSchemeFile": markSchemeFile.asset->url,
-      "questions": questions[]->{
-        _id,
-        questionNumber,
-        title,
-        content,
-        marks,
-        difficulty,
-        "questionImage": questionImage.asset->url
-      }
-    }
-  `, { subjectSlug, examBoardSlug });
-}
-
-// Get questions for a specific topic
-export async function getQuestionsByTopic(topicSlug: string) {
-  return client.fetch(`
-    *[_type == "question" && topic->slug.current == $topicSlug && isActive == true] | order(questionNumber asc) {
-      _id,
-      questionNumber,
-      title,
-      content,
-      marks,
-      difficulty,
-      "questionImage": questionImage.asset->url,
-      "solutionImage": solutionImage.asset->url,
-      answer,
-      solution,
-      tags,
-      "pastPaper": pastPaper->{
-        _id,
-        title,
-        year,
-        season,
-        "subject": subject->title,
-        "examBoard": examBoard->name
-      }
-    }
-  `, { topicSlug });
-}
-
-// Get all topics for a subject
-export async function getTopicsBySubject(subjectSlug: string) {
-  return client.fetch(`
-    *[_type == "topic" && subject->slug.current == $subjectSlug && isActive == true] | order(order asc) {
-      _id,
-      title,
-      slug,
-      description,
-      "examBoards": examBoards[]->{
-        _id,
-        name,
-        slug
-      }
-    }
-  `, { subjectSlug });
-}
-
 export const getHeaderQuery = groq`
   *[_type == "header"][0] {
     logo {
@@ -343,9 +268,39 @@ export const getFooterQuery = groq`
   }
 `;
 
+export const getExamBoardPageQuery = groq`
+  *[_type == "examBoardPage" && isActive == true && subject->slug.current == $subjectSlug][0] {
+    title,
+    description,
+    isActive,
+    subject-> {
+      title,
+      slug
+    },
+    examBoardsSection-> {
+      title,
+      description,
+      isActive
+    },
+    // Get actual exam board documents for dynamic URL generation
+    "examBoards": *[_type == "examBoard" && isActive == true] | order(name asc) {
+      name,
+      slug,
+      description,
+      pills,
+      "logoUrl": logo.asset->url
+    }
+  }
+`;
+
 export const getSubjectPageQuery = groq`
   *[_type == "subjectPage" && subjectId == $subjectId][0] {
     subjectId,
+    examBoard-> {
+      name,
+      slug,
+      description
+    },
     title,
     description,
     badges {
@@ -365,7 +320,83 @@ export const getSubjectPageQuery = groq`
       session,
       curriculum,
       paperType,
+      "questionPaperFileUrl": questionPaperFile.asset->url,
       questionPaperUrl,
+      "markSchemeFileUrl": markSchemeFile.asset->url,
+      markSchemeUrl,
+      questionPaperText,
+      markSchemeText
+    },
+    sidebar {
+      quickStats {
+        title,
+        totalPapersLabel,
+        yearsAvailableLabel
+      },
+      actionButtons {
+        studyNotesButton {
+          text,
+          url
+        },
+        practiceQuestionsButton {
+          text,
+          url
+        }
+      },
+      tutorSection {
+        title,
+        rating,
+        reviewsText,
+        description,
+        tutors[] {
+          name,
+          credentials,
+          avatar
+        },
+        hireTutorButton {
+          text,
+          url
+        }
+      }
+    },
+    seo {
+      metaTitle,
+      metaDescription
+    }
+  }
+`;
+
+// Query to get subject page by both subject and exam board
+export const getSubjectPageByExamBoardQuery = groq`
+  *[_type == "subjectPage" && subjectId == $subjectId && examBoard->slug.current == $examBoardSlug][0] {
+    subjectId,
+    examBoard-> {
+      name,
+      slug,
+      description
+    },
+    title,
+    description,
+    badges {
+      supportBadge,
+      resourcesBadge
+    },
+    databaseSection {
+      title,
+      filterLabel,
+      allFilterOption,
+      noResultsText,
+      showingText
+    },
+    pastPapers[] {
+      title,
+      year,
+      session,
+      curriculum,
+      paperType,
+      "questionPaperFileUrl": questionPaperFile.asset->url,
+      questionPaperUrl,
+      "markSchemeFileUrl": markSchemeFile.asset->url,
       markSchemeUrl,
       questionPaperText,
       markSchemeText

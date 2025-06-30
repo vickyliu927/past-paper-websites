@@ -16,6 +16,14 @@ export default defineType({
       }).error('Subject ID must be lowercase letters, numbers, and dashes only'),
     }),
     defineField({
+      name: 'examBoard',
+      title: 'Exam Board',
+      type: 'reference',
+      to: [{ type: 'examBoard' }],
+      description: 'Select the exam board this subject page is associated with (e.g., AQA, CIE, Edexcel)',
+      validation: (Rule) => Rule.required().error('Exam board is required'),
+    }),
+    defineField({
       name: 'title',
       title: 'Page Title',
       type: 'string',
@@ -139,16 +147,34 @@ export default defineType({
               validation: (Rule) => Rule.max(50),
             }),
             defineField({
+              name: 'questionPaperFile',
+              title: 'Question Paper File',
+              type: 'file',
+              description: 'Upload the question paper PDF directly',
+              options: {
+                accept: '.pdf'
+              }
+            }),
+            defineField({
               name: 'questionPaperUrl',
-              title: 'Question Paper URL',
+              title: 'Question Paper URL (Alternative)',
               type: 'url',
-              description: 'Link to the question paper PDF',
+              description: 'Or provide a link to the question paper PDF if not uploading directly',
+            }),
+            defineField({
+              name: 'markSchemeFile',
+              title: 'Mark Scheme File',
+              type: 'file',
+              description: 'Upload the mark scheme PDF directly (optional)',
+              options: {
+                accept: '.pdf'
+              }
             }),
             defineField({
               name: 'markSchemeUrl',
-              title: 'Mark Scheme URL',
+              title: 'Mark Scheme URL (Alternative)',
               type: 'url',
-              description: 'Link to the mark scheme PDF (optional)',
+              description: 'Or provide a link to the mark scheme PDF if not uploading directly',
             }),
             defineField({
               name: 'questionPaperText',
@@ -379,12 +405,13 @@ export default defineType({
     select: {
       title: 'title',
       subjectId: 'subjectId',
+      examBoardName: 'examBoard.name',
     },
     prepare(selection) {
-      const { title, subjectId } = selection;
+      const { title, subjectId, examBoardName } = selection;
       return {
         title: title || `Subject Page`,
-        subtitle: subjectId ? `ID: ${subjectId}` : 'No subject ID set',
+        subtitle: `${subjectId || 'No ID'} | ${examBoardName || 'No Exam Board'}`,
       };
     },
   },

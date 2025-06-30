@@ -39,12 +39,6 @@ export default {
       of: [{ type: 'reference', to: [{ type: 'examBoard' }] }],
     },
     {
-      name: 'topics',
-      title: 'Topics',
-      type: 'array',
-      of: [{ type: 'reference', to: [{ type: 'topic' }] }],
-    },
-    {
       name: 'order',
       title: 'Order',
       type: 'number',

@@ -1,13 +1,13 @@
 import Hero from '../components/Hero';
 import WhyChoosePlatform from '../components/WhyChoosePlatform';
 import SubjectsSection from '../components/SubjectsSection';
-import ExamBoardsSection from '../components/ExamBoardsSection';
+
 import StudentTestimonials from '../components/StudentTestimonials';
 import FAQ from '../components/FAQ';
 import ContactForm from '../components/ContactForm';
 import Footer from '../components/Footer';
 import { client } from '../../lib/sanity';
-import { getHeroQuery, getSubjectsSectionQuery, getExamBoardsSectionQuery, getWhyChoosePlatformQuery, getStudentTestimonialsQuery, getFaqQuery, getContactFormQuery, getFooterQuery } from '../../lib/queries';
+import { getHeroQuery, getSubjectsSectionQuery, getWhyChoosePlatformQuery, getStudentTestimonialsQuery, getFaqQuery, getContactFormQuery, getFooterQuery } from '../../lib/queries';
 
 interface Subject {
   name: string;
@@ -37,10 +37,7 @@ async function getSubjectsSection() {
   return subjectsSection as SubjectsSection;
 }
 
-async function getExamBoardsSection() {
-  const examBoardsSection = await client.fetch(getExamBoardsSectionQuery);
-  return examBoardsSection;
-}
+
 
 async function getWhyChoosePlatform() {
   const whyChoosePlatform = await client.fetch(getWhyChoosePlatformQuery);
@@ -80,7 +77,6 @@ async function getFooter() {
 
 export default async function HomePage() {
   const hero = await getHero();
-  const examBoardsSection = await getExamBoardsSection();
   const subjectsSection = await getSubjectsSection();
   const whyChoosePlatform = await getWhyChoosePlatform();
   const studentTestimonials = await getStudentTestimonials();
@@ -91,9 +87,6 @@ export default async function HomePage() {
   return (
     <div className="bg-white">
       <Hero data={hero} />
-
-      {/* Exam Boards Section */}
-      {examBoardsSection && <ExamBoardsSection data={examBoardsSection} />}
       
       {/* Subjects Section */}
       <SubjectsSection data={subjectsSection} />

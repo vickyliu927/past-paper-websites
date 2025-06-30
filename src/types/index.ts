@@ -212,7 +212,9 @@ export interface SubjectPagePaper {
   session: string;
   curriculum?: string;
   paperType?: string;
+  questionPaperFileUrl?: string;
   questionPaperUrl?: string;
+  markSchemeFileUrl?: string;
   markSchemeUrl?: string;
   questionPaperText?: string;
   markSchemeText?: string;
@@ -221,6 +223,13 @@ export interface SubjectPagePaper {
 export interface SubjectPageData {
   _id?: string;
   subjectId: string;
+  examBoard?: {
+    name: string;
+    slug: {
+      current: string;
+    };
+    description?: string;
+  };
   title?: string;
   description?: string;
   badges?: {

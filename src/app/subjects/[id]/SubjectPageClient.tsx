@@ -11,13 +11,15 @@ interface SubjectPageClientProps {
   papers: SubjectPagePaper[];
   defaults: any;
   subjectId: string;
+  selectedBoard?: string;
 }
 
 export default function SubjectPageClient({ 
   subjectPageData, 
   papers, 
   defaults, 
-  subjectId 
+  subjectId,
+  selectedBoard 
 }: SubjectPageClientProps) {
   const [selectedYearSession, setSelectedYearSession] = useState<string>('all');
 
@@ -94,6 +96,11 @@ export default function SubjectPageClient({
               <span className="inline-flex items-center rounded-full bg-gray-100 px-2.5 py-1 text-sm font-medium text-gray-800">
                 {defaults.badges.resourcesBadge}
               </span>
+              {selectedBoard && (
+                <span className="inline-flex items-center rounded-full bg-green-100 px-2.5 py-1 text-sm font-medium text-green-800">
+                  {selectedBoard.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase())} Exam Board
+                </span>
+              )}
             </div>
           </div>
         </div>
@@ -147,9 +154,9 @@ export default function SubjectPageClient({
                               </div>
                               <div className="flex flex-row sm:items-center sm:gap-4 justify-start sm:justify-end mt-2 sm:mt-0 ml-4 sm:ml-0 gap-4">
                                 <div className="w-[160px] shrink-0">
-                                  {paper.questionPaperUrl && (
+                                  {(paper.questionPaperFileUrl || paper.questionPaperUrl) && (
                                     <Link
-                                      href={paper.questionPaperUrl}
+                                      href={paper.questionPaperFileUrl || paper.questionPaperUrl || '#'}
                                       className="text-blue-600 hover:text-blue-800 font-medium text-xl whitespace-nowrap"
                                       target="_blank"
                                       rel="noopener noreferrer"
@@ -159,9 +166,9 @@ export default function SubjectPageClient({
                                   )}
                                 </div>
                                 <div className="w-[140px] shrink-0">
-                                  {paper.markSchemeUrl && (
+                                  {(paper.markSchemeFileUrl || paper.markSchemeUrl) && (
                                     <Link
-                                      href={paper.markSchemeUrl}
+                                      href={paper.markSchemeFileUrl || paper.markSchemeUrl || '#'}
                                       className="text-blue-600 hover:text-blue-800 font-medium text-xl whitespace-nowrap"
                                       target="_blank"
                                       rel="noopener noreferrer"
@@ -194,35 +201,82 @@ export default function SubjectPageClient({
 
           {/* Sidebar */}
           <div className="mt-12 lg:mt-0 space-y-6">
-            {/* Quick Stats */}
-            <div className="bg-gray-50 rounded-lg p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">{defaults.sidebar.quickStats.title}</h3>
-              <div className="space-y-3">
-                <div className="flex justify-between text-sm">
-                  <span className="text-gray-600">{defaults.sidebar.quickStats.totalPapersLabel}</span>
-                  <span className="font-medium">{papers.length}</span>
+            {/* Study Notes Ad Block */}
+            <div className="relative overflow-hidden rounded-xl shadow-lg">
+              <div className="bg-[#001a96] p-6 text-white">
+                <div className="absolute top-0 right-0 w-20 h-20 transform translate-x-6 -translate-y-6">
+                  <div className="w-full h-full bg-white/10 rounded-full"></div>
                 </div>
-                <div className="flex justify-between text-sm">
-                  <span className="text-gray-600">{defaults.sidebar.quickStats.yearsAvailableLabel}</span>
-                  <span className="font-medium">{availableYearSessions.length}</span>
+                <div className="absolute bottom-0 left-0 w-16 h-16 transform -translate-x-4 translate-y-4">
+                  <div className="w-full h-full bg-white/10 rounded-full"></div>
+                </div>
+                <div className="relative z-10">
+                  <div className="flex items-center gap-3 mb-3">
+                    <div className="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center">
+                      <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                      </svg>
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-bold">Premium Study Notes</h3>
+                      <p className="text-blue-100 text-sm">Expert-crafted summaries</p>
+                    </div>
+                  </div>
+                  <p className="text-white/90 text-sm mb-4 leading-relaxed text-justify">
+                    Study notes written by top graduates. Save hours of prep time with structured summaries.
+                  </p>
+                  <div className="flex justify-center">
+                    <Link
+                      href={defaults.sidebar.actionButtons.studyNotesButton.url}
+                      className="flex items-center gap-2 bg-white text-[#001a96] px-4 py-2 rounded-lg font-semibold text-sm hover:bg-gray-50 transition-colors"
+                    >
+                      Access Notes
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                      </svg>
+                    </Link>
+                  </div>
                 </div>
               </div>
             </div>
 
-            {/* Subject Study Notes & Practice Questions Buttons */}
-            <div className="flex flex-col gap-3">
-              <Link
-                href={defaults.sidebar.actionButtons.studyNotesButton.url}
-                className="w-full rounded-md bg-[#001a96] text-white font-semibold py-2 shadow-sm hover:bg-blue-900 transition-colors text-center"
-              >
-                {defaults.sidebar.actionButtons.studyNotesButton.text}
-              </Link>
-              <Link
-                href={defaults.sidebar.actionButtons.practiceQuestionsButton.url}
-                className="w-full rounded-md bg-[#fb510f] text-white font-semibold py-2 shadow-sm hover:bg-orange-600 transition-colors text-center"
-              >
-                {defaults.sidebar.actionButtons.practiceQuestionsButton.text}
-              </Link>
+            {/* Practice Questions Ad Block */}
+            <div className="relative overflow-hidden rounded-xl shadow-lg">
+              <div className="bg-[#fb510f] p-6 text-white">
+                <div className="absolute top-0 right-0 w-20 h-20 transform translate-x-6 -translate-y-6">
+                  <div className="w-full h-full bg-white/10 rounded-full"></div>
+                </div>
+                <div className="absolute bottom-0 left-0 w-16 h-16 transform -translate-x-4 translate-y-4">
+                  <div className="w-full h-full bg-white/10 rounded-full"></div>
+                </div>
+                <div className="relative z-10">
+                  <div className="flex items-center gap-3 mb-3">
+                    <div className="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center">
+                      <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-bold">Practice Questions</h3>
+                      <p className="text-orange-100 text-sm">Test your knowledge</p>
+                    </div>
+                  </div>
+                  <p className="text-white/90 text-sm mb-4 leading-relaxed text-justify">
+                    Master exam techniques with targeted practice questions. Get instant feedback and detailed explanations.
+                  </p>
+                  <div className="flex justify-center">
+                    <Link
+                      href={defaults.sidebar.actionButtons.practiceQuestionsButton.url}
+                      className="flex items-center gap-2 bg-white text-[#fb510f] px-4 py-2 rounded-lg font-semibold text-sm hover:bg-gray-50 transition-colors"
+                    >
+                      Start Practice
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                      </svg>
+                    </Link>
+                  </div>
+                </div>
+              </div>
             </div>
 
             {/* Need a Tutor Block */}

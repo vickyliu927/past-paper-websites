@@ -7,14 +7,16 @@ export default defineType({
   fields: [
     defineField({
       name: 'title',
-      title: 'Section Title',
+      title: 'Section Title (Optional)',
       type: 'string',
+      description: 'Leave empty to hide the section title',
       initialValue: 'Choose Your Exam Board'
     }),
     defineField({
       name: 'description',
-      title: 'Section Description',
+      title: 'Section Description (Optional)',
       type: 'text',
+      description: 'Leave empty to hide the section description',
       initialValue: 'Select your exam board to access relevant past papers and resources.'
     }),
     defineField({
