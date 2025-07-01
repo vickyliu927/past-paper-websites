@@ -1,5 +1,5 @@
-import { client } from '../../../../lib/sanity';
-import { getExamBoardPageQuery, getFooterQuery } from '../../../../lib/queries';
+import { client } from '../../../lib/sanity';
+import { getExamBoardPageQuery, getFooterQuery } from '../../../lib/queries';
 import Footer from '@/components/Footer';
 import ExamBoardsSection from '@/components/ExamBoardsSection';
 import { notFound } from 'next/navigation';

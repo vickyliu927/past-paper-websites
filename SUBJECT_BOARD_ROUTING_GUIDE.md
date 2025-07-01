@@ -4,17 +4,17 @@
 
 ### **URL Structure:**
 ```
-/[subject]/boards     → Exam board selection page
+/[subject]            → Exam board selection page
 /[subject]/[board]    → Subject + Board specific past papers
 ```
 
 ### **Example URLs:**
 ```
-/chemistry/boards     → Choose exam board for Chemistry
+/chemistry            → Choose exam board for Chemistry
 /chemistry/aqa        → Chemistry AQA past papers
-/biology/boards       → Choose exam board for Biology  
+/biology              → Choose exam board for Biology  
 /biology/edexcel      → Biology Edexcel past papers
-/physics/boards       → Choose exam board for Physics
+/physics              → Choose exam board for Physics
 /physics/ocr          → Physics OCR past papers
 ```
 
@@ -23,9 +23,9 @@
 ### **Step 1: Homepage (`/`)**
 - User sees subject grid/list
 - Clicks on "Chemistry" subject card
-- **Redirects to:** `/chemistry/boards`
+- **Redirects to:** `/chemistry`
 
-### **Step 2: Exam Board Selection (`/chemistry/boards`)**
+### **Step 2: Exam Board Selection (`/chemistry`)**
 ```
 ┌─────────────────────────────────────────────┐
 │ Header                                      │
@@ -73,7 +73,7 @@
 ## 📂 File Implementation
 
 ### **1. Exam Board Selection Page**
-**File:** `src/app/[subject]/boards/page.tsx`
+**File:** `src/app/[subject]/page.tsx`
 
 ```typescript
 // Dynamic routing captures subject parameter
@@ -151,14 +151,14 @@ const [subjectPageData, footerData] = await Promise.all([
 ### **1. Test Route Generation**
 ```bash
 # Test exam board page
-curl -s http://localhost:3001/chemistry/boards | grep -q "Choose Your Exam Board"
+curl -s http://localhost:3001/chemistry | grep -q "Choose Your Exam Board"
 
 # Test subject-board page  
 curl -s http://localhost:3001/chemistry/aqa | grep -q "Chemistry AQA Past Papers"
 ```
 
 ### **2. Test User Journey**
-1. **Start:** Go to `/chemistry/boards`
+1. **Start:** Go to `/chemistry`
    - ✅ Page loads with exam board options
    - ✅ Each button has URL like `/chemistry/aqa`
 
@@ -168,8 +168,8 @@ curl -s http://localhost:3001/chemistry/aqa | grep -q "Chemistry AQA Past Papers
    - ✅ Green badge shows "AQA Exam Board"
 
 3. **Test Multiple Subjects:**
-   - `/biology/boards` → `/biology/edexcel`
-   - `/physics/boards` → `/physics/ocr`
+   - `/biology` → `/biology/edexcel`
+   - `/physics` → `/physics/ocr`
 
 ### **3. Test Parameter Handling**
 ```typescript
@@ -187,7 +187,12 @@ If you had old URLs, set up redirects:
 redirects: [
   {
     source: '/subjects/:subject',
-    destination: '/:subject/boards',
+    destination: '/:subject',
+    permanent: true
+  },
+  {
+    source: '/:subject/boards',
+    destination: '/:subject',
     permanent: true
   }
 ]
@@ -196,11 +201,11 @@ redirects: [
 ### **2. Sitemap Generation**
 Generate dynamic sitemaps for all subject-board combinations:
 ```
-/chemistry/boards
+/chemistry
 /chemistry/aqa
 /chemistry/edexcel
 /chemistry/ocr
-/biology/boards
+/biology
 /biology/aqa
 // ... etc
 ```
@@ -221,7 +226,7 @@ canonical: "https://yoursite.com/chemistry/aqa"
 // Page views
 gtag('event', 'page_view', {
   page_title: 'Chemistry Exam Boards',
-  page_location: '/chemistry/boards'
+  page_location: '/chemistry'
 });
 
 // Conversion
@@ -234,7 +239,7 @@ gtag('event', 'exam_board_selected', {
 
 ### **Conversion Funnel:**
 1. Homepage → Subject selection
-2. `/chemistry/boards` → Exam board selection  
+2. `/chemistry` → Exam board selection  
 3. `/chemistry/aqa` → Past paper access
 4. Paper download → Conversion
 
@@ -252,7 +257,7 @@ const filteredPapers = papers.filter(paper =>
 ```jsx
 <Breadcrumbs>
   <Link href="/">Home</Link>
-  <Link href={`/${subject}/boards`}>{subject}</Link>
+  <Link href={`/${subject}`}>{subject}</Link>
   <span>{board.toUpperCase()}</span>
 </Breadcrumbs>
 ```
@@ -267,7 +272,7 @@ const filteredPapers = papers.filter(paper =>
 
 ## 🎯 Quick Start Checklist
 
-- ✅ Create `/[subject]/boards/page.tsx` (exam board selection)
+- ✅ Create `/[subject]/page.tsx` (exam board selection)
 - ✅ Create `/[subject]/[board]/page.tsx` (final papers page)
 - ✅ Update button URLs to use clean routing
 - ✅ Test user journey from homepage to final page
@@ -275,6 +280,6 @@ const filteredPapers = papers.filter(paper =>
 - ✅ Check that titles and badges are dynamic
 
 **Test URLs:**
-- `/chemistry/boards` → Exam board selection
+- `/chemistry` → Exam board selection
 - `/chemistry/aqa` → Chemistry AQA papers
 - `/biology/edexcel` → Biology Edexcel papers 

@@ -30,7 +30,8 @@ export default async function SubjectPage({ params, searchParams }: SubjectPageP
     description: subjectPageData?.description || `Comprehensive past papers covering multiple curricula. Access comprehensive past papers, mark schemes, and examiner reports from multiple curricula.`,
     badges: {
       supportBadge: subjectPageData?.badges?.supportBadge || 'Multi-Curriculum Support',
-      resourcesBadge: subjectPageData?.badges?.resourcesBadge?.replace('{count}', papers.length.toString()) || `${papers.length} Resources Available`
+      resourcesBadge: subjectPageData?.badges?.resourcesBadge?.replace('{count}', papers.length.toString()) || `${papers.length} Resources Available`,
+      examBoardBadge: subjectPageData?.badges?.examBoardBadge
     },
     database: {
       title: subjectPageData?.databaseSection?.title || 'Past Papers Database',

@@ -62,7 +62,7 @@ Each subject gets **multiple Subject Page documents** - one per exam board:
 ### **Phase 2: URL Structure**
 ```
 🌐 URL Patterns:
-├── /chemistry/boards          → Exam board selection page
+├── /chemistry                 → Exam board selection page
 ├── /chemistry/aqa             → Chemistry AQA-specific page
 ├── /chemistry/cie             → Chemistry CIE-specific page
 ├── /biology/aqa               → Biology AQA-specific page

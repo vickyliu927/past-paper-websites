@@ -305,7 +305,8 @@ export const getSubjectPageQuery = groq`
     description,
     badges {
       supportBadge,
-      resourcesBadge
+      resourcesBadge,
+      examBoardBadge
     },
     databaseSection {
       title,
@@ -379,7 +380,8 @@ export const getSubjectPageByExamBoardQuery = groq`
     description,
     badges {
       supportBadge,
-      resourcesBadge
+      resourcesBadge,
+      examBoardBadge
     },
     databaseSection {
       title,

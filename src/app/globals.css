@@ -142,6 +142,40 @@ select:focus-visible {
   animation: pulseSubtle 2s ease-in-out infinite;
 }
 
+/* Force sidebar to scroll */
+.force-static {
+  position: static !important;
+  transform: none !important;
+  top: auto !important;
+  bottom: auto !important;
+  left: auto !important;
+  right: auto !important;
+}
+
+/* More aggressive sidebar scroll override */
+.sidebar-scroll-fix {
+  position: static !important;
+  transform: none !important;
+  top: auto !important;
+  bottom: auto !important;
+  left: auto !important;
+  right: auto !important;
+  z-index: auto !important;
+}
+
+.sidebar-scroll-fix > * {
+  position: static !important;
+  transform: none !important;
+  top: auto !important;
+  bottom: auto !important;
+  left: auto !important;
+  right: auto !important;
+}
+
+.sidebar-scroll-fix .relative {
+  position: relative !important;
+}
+
 /* Utility classes */
 .text-primary {
   color: var(--primary);

@@ -79,6 +79,7 @@ export default function SubjectPageClient({
 
   return (
     <>
+
       {/* Hero Section */}
       <div className="bg-gradient-to-br from-white to-blue-50">
         <div className="mx-auto max-w-7xl px-6 pt-8 pb-8 md:pt-12 md:pb-12 lg:px-8">
@@ -89,27 +90,51 @@ export default function SubjectPageClient({
             <p className="mt-4 text-lg leading-7 text-gray-600">
               {defaults.description}
             </p>
-            <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
-              <span className="inline-flex items-center rounded-full bg-blue-100 px-2.5 py-1 text-sm font-medium text-blue-800">
-                {defaults.badges.supportBadge}
-              </span>
-              <span className="inline-flex items-center rounded-full bg-gray-100 px-2.5 py-1 text-sm font-medium text-gray-800">
-                {defaults.badges.resourcesBadge}
-              </span>
-              {selectedBoard && (
-                <span className="inline-flex items-center rounded-full bg-green-100 px-2.5 py-1 text-sm font-medium text-green-800">
-                  {selectedBoard.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase())} Exam Board
-                </span>
-              )}
+            {(subjectPageData?.badges?.supportBadge || subjectPageData?.badges?.resourcesBadge || subjectPageData?.badges?.examBoardBadge) && (
+              <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
+                {subjectPageData?.badges?.supportBadge && (
+                  <span className="inline-flex items-center rounded-full bg-blue-100 px-2.5 py-1 text-sm font-medium text-blue-800">
+                    {defaults.badges.supportBadge}
+                  </span>
+                )}
+                {subjectPageData?.badges?.resourcesBadge && (
+                  <span className="inline-flex items-center rounded-full bg-gray-100 px-2.5 py-1 text-sm font-medium text-gray-800">
+                    {defaults.badges.resourcesBadge}
+                  </span>
+                )}
+                {subjectPageData?.badges?.examBoardBadge && (
+                  <span className="inline-flex items-center rounded-full bg-green-100 px-2.5 py-1 text-sm font-medium text-green-800">
+                    {subjectPageData.badges.examBoardBadge}
+                  </span>
+                )}
+              </div>
+            )}
+            
+            {/* Action Buttons */}
+            <div className="mt-8 flex flex-wrap gap-3 justify-center">
+              <Link
+                href={defaults.sidebar.actionButtons.studyNotesButton.url}
+                className="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 h-11 rounded-md px-8 text-white hover:opacity-90"
+                style={{ backgroundColor: '#001a96' }}
+              >
+                {defaults.sidebar.actionButtons.studyNotesButton.text}
+              </Link>
+              <Link
+                href={defaults.sidebar.actionButtons.practiceQuestionsButton.url}
+                className="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 h-11 rounded-md px-8 text-white hover:opacity-90"
+                style={{ backgroundColor: '#fb510f' }}
+              >
+                {defaults.sidebar.actionButtons.practiceQuestionsButton.text}
+              </Link>
             </div>
           </div>
         </div>
       </div>
 
       <div className="mx-auto max-w-7xl px-6 py-12 lg:px-8">
-        <div className="lg:grid lg:grid-cols-4 lg:gap-6">
-          {/* Main Content */}
-          <div className="lg:col-span-3">
+        <div className="lg:flex lg:gap-10">
+          {/* Main Content - Database */}
+          <div className="lg:flex-1 lg:max-w-none">
             {/* Filters */}
             <div className="mb-6">
               <h2 className="text-2xl text-gray-900 mb-4">{defaults.database.title}</h2>
@@ -135,19 +160,19 @@ export default function SubjectPageClient({
 
             {/* Papers Display */}
             <div className="space-y-6">
-              {sortedYears.map((year) => (
+              {sortedYears.map((year, yearIndex) => (
                 <div key={year} className="space-y-4">
-                  <h2 className="text-2xl font-semibold text-[#001a96]">{year}</h2>
+                  <h2 className="text-2xl font-semibold text-[#001a96] border-b-2 border-gray-300 pb-2 mb-4">{year}</h2>
                   {Object.entries(groupedPapers[year])
                     .sort(([a], [b]) => b.localeCompare(a))
                     .map(([session, sessionPapers]) => (
                       <div key={session} className="space-y-3">
-                        <h3 className="text-xl font-medium text-gray-800 inline-block border-b-2 border-gray-200 pb-1">{session}</h3>
-                        <div className="space-y-2">
+                        <h3 className="text-xl font-medium text-gray-800 mb-2">{session}</h3>
+                        <div className="space-y-1">
                           {sessionPapers.map((paper, index) => (
-                            <div key={`${paper.title}-${index}`} className="flex flex-col sm:flex-row sm:items-center sm:justify-between py-1.5">
+                            <div key={`${paper.title}-${index}`} className="flex flex-col sm:flex-row sm:items-center sm:justify-between py-1">
                               <div className="flex-1">
-                                <span className="text-gray-900 flex text-xl">
+                                <span className="text-gray-900 flex text-base">
                                   <span className="mr-1.5">•</span>
                                   <span>{paper.title}</span>
                                 </span>
@@ -157,7 +182,7 @@ export default function SubjectPageClient({
                                   {(paper.questionPaperFileUrl || paper.questionPaperUrl) && (
                                     <Link
                                       href={paper.questionPaperFileUrl || paper.questionPaperUrl || '#'}
-                                      className="text-blue-600 hover:text-blue-800 font-medium text-xl whitespace-nowrap"
+                                      className="text-blue-600 hover:text-blue-800 font-medium text-base whitespace-nowrap"
                                       target="_blank"
                                       rel="noopener noreferrer"
                                     >
@@ -169,7 +194,7 @@ export default function SubjectPageClient({
                                   {(paper.markSchemeFileUrl || paper.markSchemeUrl) && (
                                     <Link
                                       href={paper.markSchemeFileUrl || paper.markSchemeUrl || '#'}
-                                      className="text-blue-600 hover:text-blue-800 font-medium text-xl whitespace-nowrap"
+                                      className="text-blue-600 hover:text-blue-800 font-medium text-base whitespace-nowrap"
                                       target="_blank"
                                       rel="noopener noreferrer"
                                     >
@@ -183,6 +208,7 @@ export default function SubjectPageClient({
                         </div>
                       </div>
                     ))}
+
                 </div>
               ))}
               {sortedYears.length === 0 ? (
@@ -199,8 +225,8 @@ export default function SubjectPageClient({
             </div>
           </div>
 
-          {/* Sidebar */}
-          <div className="mt-12 lg:mt-0 space-y-6">
+          {/* Sidebar Container - Right of Database */}
+          <div className="mt-12 lg:mt-0 lg:w-80 lg:flex-shrink-0 lg:sticky lg:top-6 lg:self-start space-y-6">
             {/* Study Notes Ad Block */}
             <div className="relative overflow-hidden rounded-xl shadow-lg">
               <div className="bg-[#001a96] p-6 text-white">

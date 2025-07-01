@@ -40,18 +40,18 @@ export default function ExamBoardsSection({ data }: ExamBoardsSectionProps) {
       <div className="max-w-6xl mx-auto px-6">
         {/* Header - Only show if title or description exists */}
         {(title || description) && (
-          <div className="text-center mb-16">
+        <div className="text-center mb-16">
             {title && (
-              <h2 className={`${lexend.className} text-[36px] font-normal tracking-tight text-gray-900 mb-4`}>
-                {title}
-              </h2>
+          <h2 className={`${lexend.className} text-[36px] font-normal tracking-tight text-gray-900 mb-4`}>
+            {title}
+          </h2>
             )}
             {description && (
-              <p className={`${lexend.className} text-[18px] text-gray-600 mt-4 max-w-3xl mx-auto`}>
-                {description}
-              </p>
+          <p className={`${lexend.className} text-[18px] text-gray-600 mt-4 max-w-3xl mx-auto`}>
+            {description}
+          </p>
             )}
-          </div>
+        </div>
         )}
 
         {/* Exam Boards Grid */}
@@ -106,12 +106,12 @@ export default function ExamBoardsSection({ data }: ExamBoardsSectionProps) {
                     } else {
                       // Non-clickable pill
                       return (
-                        <span
-                          key={pillIndex}
-                          className={`${lexend.className} px-3 py-1 bg-gray-100 text-gray-700 text-xs rounded border border-gray-200`}
-                        >
+                    <span
+                      key={pillIndex}
+                      className={`${lexend.className} px-3 py-1 bg-gray-100 text-gray-700 text-xs rounded border border-gray-200`}
+                    >
                           {pillText}
-                        </span>
+                    </span>
                       );
                     }
                   })}

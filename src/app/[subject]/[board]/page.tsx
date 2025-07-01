@@ -46,8 +46,9 @@ export default async function SubjectBoardPage({ params }: SubjectBoardPageProps
       title: `${subjectName} ${examBoardName} Past Papers`,
       description: subjectPageData?.description || `Access comprehensive ${examBoardName} past papers for ${subject}. Download question papers, mark schemes, and examiner reports.`,
       badges: {
-        supportBadge: `${examBoardName} Exam Board`,
-        resourcesBadge: `${filteredPapers.length} ${examBoardName} Papers Available`
+        supportBadge: subjectPageData?.badges?.supportBadge || `${examBoardName} Exam Board`,
+        resourcesBadge: subjectPageData?.badges?.resourcesBadge?.replace('{count}', filteredPapers.length.toString()) || `${filteredPapers.length} ${examBoardName} Papers Available`,
+        examBoardBadge: subjectPageData?.badges?.examBoardBadge
       },
       database: {
         title: `${examBoardName} Past Papers Database`,

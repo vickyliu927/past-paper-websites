@@ -75,9 +75,9 @@ Exam Boards Section: [Reference to your exam boards section]
 ## URL Structure
 
 The URL structure remains the same:
-- `/biology/boards` - Shows the biology-specific exam board page
-- `/chemistry/boards` - Shows the chemistry-specific exam board page
-- `/physics/boards` - Shows the physics-specific exam board page
+- `/biology` - Shows the biology-specific exam board page
+- `/chemistry` - Shows the chemistry-specific exam board page
+- `/physics` - Shows the physics-specific exam board page
 
 ## Technical Implementation
 
@@ -113,7 +113,7 @@ schemas/
 lib/
 └── queries.ts                # Updated query with subject filtering
 
-src/app/[subject]/boards/
+src/app/[subject]/
 └── page.tsx                  # Updated to use subject-specific data
 ```
 
@@ -125,7 +125,7 @@ src/app/[subject]/boards/
 3. Link it to the subject
 4. Customize the title and description
 5. Set as active
-6. The page will automatically be available at `/[subject-slug]/boards`
+6. The page will automatically be available at `/[subject-slug]`
 
 ### To Deactivate a Subject's Page:
 1. Find the exam board page for that subject
@@ -148,12 +148,12 @@ This documentation explains the implementation of a standalone exam board select
 ## User Flow
 
 ```
-Homepage Subject Selection → /[subject]/boards → /subjects/[id]?board=[exam-board]
+Homepage Subject Selection → /[subject] → /subjects/[id]?board=[exam-board]
 ```
 
 **Example:**
 1. User clicks "Chemistry" on homepage
-2. Redirected to `/chemistry/boards`
+2. Redirected to `/chemistry`
 3. User selects "AQA" exam board
 4. Redirected to `/subjects/chemistry?board=aqa`
 5. Subject page shows AQA-specific content with green badge
@@ -165,8 +165,7 @@ Homepage Subject Selection → /[subject]/boards → /subjects/[id]?board=[exam-
 ```
 src/app/
 ├── [subject]/
-│   └── boards/
-│       └── page.tsx          # Dynamic exam board page
+│   └── page.tsx              # Dynamic exam board page
 ├── subjects/
 │   └── [id]/
 │       ├── page.tsx          # Updated to handle board parameter
@@ -210,7 +209,7 @@ lib/
 The exam board page dynamically modifies button URLs based on the subject parameter:
 
 ```typescript
-// In /[subject]/boards/page.tsx
+// In /[subject]/page.tsx
 examBoards: examBoardPageData.examBoardsSection.examBoards.map((board: any) => ({
   ...board,
   buttonUrl: `/subjects/${subject}?board=${encodeURIComponent(board.title.toLowerCase().replace(/\s+/g, '-'))}`
@@ -242,7 +241,7 @@ interface SubjectPageProps {
 
 ## Page Layout
 
-### Exam Board Page (`/[subject]/boards`)
+### Exam Board Page (`/[subject]`)
 
 ```
 ┌─────────────────────────────────────────────┐
@@ -296,16 +295,16 @@ interface SubjectPageProps {
 
 ```bash
 # Test exam board page loads
-curl -s http://localhost:3001/chemistry/boards | grep -q "Choose Your Exam Board"
+curl -s http://localhost:3001/chemistry | grep -q "Choose Your Exam Board"
 
 # Test different subjects work
-curl -s http://localhost:3001/physics/boards | grep -q "PHYSICS Past Papers"
-curl -s http://localhost:3001/biology/boards | grep -q "BIOLOGY Past Papers"
+curl -s http://localhost:3001/physics | grep -q "PHYSICS Past Papers"
+curl -s http://localhost:3001/biology | grep -q "BIOLOGY Past Papers"
 ```
 
 ### 2. User Journey Test
 
-1. **Access exam board page:** `http://localhost:3001/chemistry/boards`
+1. **Access exam board page:** `http://localhost:3001/chemistry`
    - ✅ Page loads with header, hero, exam boards, sidebar, footer
    - ✅ Hero shows "CHEMISTRY Past Papers" badge
    - ✅ Exam boards display in grid layout
@@ -316,17 +315,17 @@ curl -s http://localhost:3001/biology/boards | grep -q "BIOLOGY Past Papers"
    - ✅ URL contains board parameter
 
 3. **Test multiple subjects:**
-   - ✅ `/physics/boards` → `/subjects/physics?board=ocr`
-   - ✅ `/biology/boards` → `/subjects/biology?board=edexcel`
+   - ✅ `/physics` → `/subjects/physics?board=ocr`
+   - ✅ `/biology` → `/subjects/biology?board=edexcel`
 
 ### 3. Edge Cases
 
 ```bash
 # Test invalid subjects (should still work with fallback)
-http://localhost:3001/invalid-subject/boards
+http://localhost:3001/invalid-subject
 
 # Test page disabled (should return 404)
-# Set isActive = false in Sanity, then test any /[subject]/boards URL
+# Set isActive = false in Sanity, then test any /[subject] URL
 ```
 
 ## Development Logs
@@ -376,12 +375,12 @@ GET /chemistry/boards 200 in 137ms            # ✅ Subsequent loads are fast
 ## Quick Reference
 
 **Key URLs:**
-- Exam Board Page: `/[subject]/boards`
+- Exam Board Page: `/[subject]`
 - Subject Page: `/subjects/[id]?board=[exam-board]`
 - Sanity Studio: `http://localhost:3333`
 
 **Key Files:**
-- Page: `src/app/[subject]/boards/page.tsx`
+- Page: `src/app/[subject]/page.tsx`
 - Schema: `schemas/examBoardPage.ts`
 - Query: `lib/queries.ts` → `getExamBoardPageQuery`
 

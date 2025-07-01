@@ -40,21 +40,29 @@ export default defineType({
     }),
     defineField({
       name: 'badges',
-      title: 'Hero Badges',
+      title: 'Hero Badges (Optional)',
       type: 'object',
+      description: 'Optional badges displayed in the hero section. Leave fields empty to hide badges.',
       fields: [
         defineField({
           name: 'supportBadge',
           title: 'Support Badge Text',
           type: 'string',
-          description: 'Text for the first badge (e.g., "Multi-Curriculum Support")',
+          description: 'Text for the support badge (e.g., "Multi-Curriculum Support"). Leave empty to hide this badge.',
           validation: (Rule) => Rule.max(50),
         }),
         defineField({
           name: 'resourcesBadge',
           title: 'Resources Badge Text',
           type: 'string',
-          description: 'Text template for resources count (use {count} for dynamic number)',
+          description: 'Text template for resources count (use {count} for dynamic number, e.g., "{count} Resources Available"). Leave empty to hide this badge.',
+          validation: (Rule) => Rule.max(50),
+        }),
+        defineField({
+          name: 'examBoardBadge',
+          title: 'Exam Board Badge Text',
+          type: 'string',
+          description: 'Text for the exam board badge (e.g., "AQA Exam Board"). Leave empty to hide this badge. If left empty, will auto-generate from URL when exam board is selected.',
           validation: (Rule) => Rule.max(50),
         }),
       ],
