@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { client } from '../../../lib/sanity';
 import { getExamBoardPageQuery, getFooterQuery } from '../../../lib/queries';
 import Footer from '@/components/Footer';
@@ -34,13 +35,22 @@ export default async function ExamBoardPage({ params }: ExamBoardPageProps) {
             <p className="mt-6 text-lg leading-8 text-gray-600">
               {examBoardPageData.description}
             </p>
-            <div className="mt-6 flex items-center justify-center gap-3">
-              <span className="inline-flex items-center rounded-full bg-blue-100 px-2.5 py-1 text-sm font-medium text-blue-800">
-                {subject.toUpperCase()} Past Papers
-              </span>
-              <span className="inline-flex items-center rounded-full bg-gray-100 px-2.5 py-1 text-sm font-medium text-gray-800">
-                Multiple Exam Boards
-              </span>
+            <div className="mt-6 flex items-center justify-center gap-3 flex-wrap">
+              {/* Study Notes and Practice Questions CTA Buttons */}
+              <Link
+                href={`/${subject}/study-notes`}
+                className="inline-flex items-center justify-center gap-2 whitespace-nowrap text-base font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 h-11 rounded-md px-8 text-white hover:opacity-90 w-44"
+                style={{ backgroundColor: '#1e40af' }}
+              >
+                Study Notes
+              </Link>
+              <Link
+                href={`/${subject}/practice-questions`}
+                className="inline-flex items-center justify-center gap-2 whitespace-nowrap text-base font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 h-11 rounded-md px-8 text-white hover:opacity-90 w-44"
+                style={{ backgroundColor: '#fb510f' }}
+              >
+                Practice Questions
+              </Link>
             </div>
           </div>
         </div>

@@ -73,7 +73,55 @@ export default defineType({
             name: 'examBoards',
             title: 'Exam Boards',
             type: 'array',
-            of: [{ type: 'string' }],
+            of: [{
+              type: 'object',
+              title: 'Exam Board',
+              fields: [
+                {
+                  name: 'text',
+                  title: 'Exam Board Name',
+                  type: 'string',
+                  validation: Rule => Rule.required(),
+                  description: 'Name of the exam board (e.g., AQA, OCR, Edexcel)'
+                },
+                {
+                  name: 'enableLink',
+                  title: 'Enable Link',
+                  type: 'boolean',
+                  description: 'Toggle to make this pill clickable',
+                  initialValue: false
+                },
+                {
+                  name: 'url',
+                  title: 'Link URL',
+                  type: 'string',
+                  description: 'URL to link to when clicked (e.g., /biology/aqa). Only used when "Enable Link" is toggled on.',
+                  hidden: ({ parent }) => !parent?.enableLink,
+                  validation: Rule => Rule.custom((value, context) => {
+                    const enableLink = (context.parent as any)?.enableLink;
+                    if (enableLink && !value) {
+                      return 'URL is required when link is enabled';
+                    }
+                    return true;
+                  })
+                }
+              ],
+              preview: {
+                select: {
+                  title: 'text',
+                  enableLink: 'enableLink',
+                  url: 'url'
+                },
+                prepare(selection) {
+                  const { title, enableLink, url } = selection;
+                  return {
+                    title: title || 'Untitled exam board',
+                    subtitle: enableLink ? `→ ${url || 'No URL set'}` : 'Not linked',
+                    media: enableLink ? 'LINKED' : 'PILL'
+                  };
+                }
+              }
+            }],
             validation: Rule => Rule.required()
           },
           {
@@ -96,8 +144,13 @@ export default defineType({
           code: '9700',
           level: 'A-Level & GCSE',
           category: 'Sciences',
-          examBoards: ['AQA', 'OCR', 'Edexcel', 'CAIE'],
-          url: '/subjects/biology',
+          examBoards: [
+            { text: 'AQA', enableLink: true, url: '/biology/aqa' },
+            { text: 'OCR', enableLink: true, url: '/biology/ocr' },
+            { text: 'Edexcel', enableLink: true, url: '/biology/edexcel' },
+            { text: 'CAIE', enableLink: true, url: '/biology/caie' }
+          ],
+          url: '/biology',
           iconColor: '#E8FAF0'
         },
         {
@@ -105,8 +158,12 @@ export default defineType({
           code: '9701',
           level: 'A-Level & GCSE',
           category: 'Sciences',
-          examBoards: ['AQA', 'OCR', 'Edexcel'],
-          url: '/subjects/chemistry',
+          examBoards: [
+            { text: 'AQA', enableLink: true, url: '/chemistry/aqa' },
+            { text: 'OCR', enableLink: true, url: '/chemistry/ocr' },
+            { text: 'Edexcel', enableLink: true, url: '/chemistry/edexcel' }
+          ],
+          url: '/chemistry',
           iconColor: '#EBF3FF'
         },
         {
@@ -114,8 +171,12 @@ export default defineType({
           code: '9702',
           level: 'A-Level & GCSE',
           category: 'Sciences',
-          examBoards: [],
-          url: '/subjects/physics',
+          examBoards: [
+            { text: 'AQA', enableLink: true, url: '/physics/aqa' },
+            { text: 'OCR', enableLink: true, url: '/physics/ocr' },
+            { text: 'Edexcel', enableLink: true, url: '/physics/edexcel' }
+          ],
+          url: '/physics',
           iconColor: '#F3E8FF'
         },
         {
@@ -123,8 +184,12 @@ export default defineType({
           code: '9708',
           level: 'A-Level & GCSE',
           category: 'Humanities',
-          examBoards: [],
-          url: '/subjects/economics',
+          examBoards: [
+            { text: 'AQA', enableLink: true, url: '/economics/aqa' },
+            { text: 'OCR', enableLink: true, url: '/economics/ocr' },
+            { text: 'Edexcel', enableLink: true, url: '/economics/edexcel' }
+          ],
+          url: '/economics',
           iconColor: '#FFF7E6'
         },
         {
@@ -132,8 +197,12 @@ export default defineType({
           code: '9709',
           level: 'A-Level & GCSE',
           category: 'Mathematics',
-          examBoards: [],
-          url: '/subjects/mathematics',
+          examBoards: [
+            { text: 'AQA', enableLink: true, url: '/mathematics/aqa' },
+            { text: 'OCR', enableLink: true, url: '/mathematics/ocr' },
+            { text: 'Edexcel', enableLink: true, url: '/mathematics/edexcel' }
+          ],
+          url: '/mathematics',
           iconColor: '#FFE8E8'
         }
       ]

@@ -5,6 +5,7 @@ import { Microscope, FlaskConical, Atom, Calculator, LineChart, LucideIcon } fro
 import Link from 'next/link';
 import React from 'react';
 import { Lexend } from 'next/font/google';
+import { SubjectExamBoard } from '@/types';
 
 const lexend = Lexend({ 
   subsets: ['latin'],
@@ -17,7 +18,7 @@ interface Subject {
   code: string;
   level: string;
   category: string;
-  examBoards: string[];
+  examBoards: (SubjectExamBoard | string)[];
   url: string;
   iconColor: string;
 }
@@ -173,14 +174,34 @@ export default function SubjectsSection({ data }: SubjectsSectionProps) {
                   </div>
                   
                   <div className="flex flex-wrap gap-1.5">
-                    {subject.examBoards.map((board: string) => (
-                      <span
-                        key={board}
-                        className="rounded-full border border-gray-200 bg-gray-50 px-2.5 py-0.5 text-xs font-medium text-gray-600"
-                      >
-                        {board}
-                      </span>
-                    ))}
+                    {subject.examBoards.map((board: SubjectExamBoard | string, index: number) => {
+                      // Handle both old string format and new object format for backward compatibility
+                      const boardText = typeof board === 'string' ? board : board.text;
+                      const boardUrl = typeof board === 'object' && board.enableLink ? board.url : undefined;
+                      
+                      if (boardUrl) {
+                        // Clickable pill with link
+                        return (
+                          <Link
+                            key={`${boardText}-${index}`}
+                            href={boardUrl}
+                            className="rounded-full border border-gray-200 bg-gray-50 px-2.5 py-0.5 text-xs font-medium text-gray-600 hover:bg-gray-100 hover:text-gray-700 transition-colors duration-200 cursor-pointer"
+                          >
+                            {boardText}
+                          </Link>
+                        );
+                      } else {
+                        // Non-clickable pill
+                        return (
+                          <span
+                            key={`${boardText}-${index}`}
+                            className="rounded-full border border-gray-200 bg-gray-50 px-2.5 py-0.5 text-xs font-medium text-gray-600"
+                          >
+                            {boardText}
+                          </span>
+                        );
+                      }
+                    })}
                   </div>
                 </div>
               </Link>

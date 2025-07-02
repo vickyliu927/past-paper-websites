@@ -321,12 +321,16 @@ export const getSubjectPageQuery = groq`
       session,
       curriculum,
       paperType,
-      "questionPaperFileUrl": questionPaperFile.asset->url,
-      questionPaperUrl,
-      "markSchemeFileUrl": markSchemeFile.asset->url,
-      markSchemeUrl,
-      questionPaperText,
-      markSchemeText
+      examPapers[] {
+        title,
+        "fileUrl": file.asset->url,
+        url
+      },
+      markSchemes[] {
+        title,
+        "fileUrl": file.asset->url,
+        url
+      }
     },
     sidebar {
       quickStats {
@@ -396,12 +400,16 @@ export const getSubjectPageByExamBoardQuery = groq`
       session,
       curriculum,
       paperType,
-      "questionPaperFileUrl": questionPaperFile.asset->url,
-      questionPaperUrl,
-      "markSchemeFileUrl": markSchemeFile.asset->url,
-      markSchemeUrl,
-      questionPaperText,
-      markSchemeText
+      examPapers[] {
+        title,
+        "fileUrl": file.asset->url,
+        url
+      },
+      markSchemes[] {
+        title,
+        "fileUrl": file.asset->url,
+        url
+      }
     },
     sidebar {
       quickStats {

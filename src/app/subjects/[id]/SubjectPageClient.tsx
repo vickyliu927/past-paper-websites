@@ -137,7 +137,7 @@ export default function SubjectPageClient({
           <div className="lg:flex-1 lg:max-w-none">
             {/* Filters */}
             <div className="mb-6">
-              <h2 className="text-[48px] text-gray-900 mb-4">{defaults.database.title}</h2>
+              <h2 className="text-[24px] text-gray-900 mb-4">{defaults.database.title}</h2>
               <div>
                 <label htmlFor="yearSession" className="block text-sm font-medium text-gray-700 mb-1.5">
                   {defaults.database.filterLabel}
@@ -162,49 +162,103 @@ export default function SubjectPageClient({
             <div className="space-y-6">
               {sortedYears.map((year, yearIndex) => (
                 <div key={year} className="space-y-4">
-                  <h2 className="text-[48px] font-semibold text-[#001a96] border-b-2 border-gray-300 pb-2 mb-4">{year}</h2>
+                  <h2 className="text-[20px] font-semibold text-[#001a96] border-b-2 border-gray-300 pb-2 mb-4">{year}</h2>
                   {Object.entries(groupedPapers[year])
                     .sort(([a], [b]) => b.localeCompare(a))
                     .map(([session, sessionPapers]) => (
                       <div key={session} className="space-y-3">
                         <h3 className="text-xl font-medium text-gray-800 mb-2">{session}</h3>
                         <div className="space-y-1">
-                          {sessionPapers.map((paper, index) => (
-                            <div key={`${paper.title}-${index}`} className="flex flex-col sm:flex-row sm:items-center sm:justify-between py-1">
-                              <div className="flex-1">
-                                <span className="text-gray-900 flex text-base">
-                                  <span className="mr-1.5">•</span>
-                                  <span>{paper.title}</span>
-                                </span>
-                              </div>
-                              <div className="flex flex-row sm:items-center sm:gap-4 justify-start sm:justify-end mt-2 sm:mt-0 ml-4 sm:ml-0 gap-4">
-                                <div className="w-[160px] shrink-0">
-                                  {(paper.questionPaperFileUrl || paper.questionPaperUrl) && (
-                                    <Link
-                                      href={paper.questionPaperFileUrl || paper.questionPaperUrl || '#'}
-                                      className="text-blue-600 hover:text-blue-800 font-medium text-base whitespace-nowrap"
-                                      target="_blank"
-                                      rel="noopener noreferrer"
-                                    >
-                                      {paper.questionPaperText || 'Question Paper'}
-                                    </Link>
-                                  )}
+                          {sessionPapers.map((paper, index) => {
+                            // Get the maximum number of rows needed (based on exam papers or mark schemes)
+                            const maxExamPapers = paper.examPapers?.length || 0;
+                            const maxMarkSchemes = paper.markSchemes?.length || 0;
+                            const maxRows = Math.max(maxExamPapers, maxMarkSchemes, 1);
+
+                            // If using new structure, create rows for each file
+                            if (paper.examPapers || paper.markSchemes) {
+                              return (
+                                <div key={`${paper.title}-${index}`} className="space-y-1">
+                                  {Array.from({ length: maxRows }, (_, rowIndex) => (
+                                    <div key={`${paper.title}-${index}-row-${rowIndex}`} className="flex flex-col sm:flex-row sm:items-center sm:justify-between py-1">
+                                      <div className="flex-1">
+                                        {rowIndex === 0 && (
+                                          <span className="text-gray-900 flex text-base">
+                                            <span className="mr-1.5">•</span>
+                                            <span>{paper.title}</span>
+                                          </span>
+                                        )}
+                                      </div>
+                                      <div className="flex flex-row sm:items-center sm:gap-4 justify-start sm:justify-end mt-2 sm:mt-0 ml-4 sm:ml-0 gap-4">
+                                        <div className="w-[160px] shrink-0">
+                                          {paper.examPapers?.[rowIndex] && (
+                                            <Link
+                                              href={paper.examPapers[rowIndex].fileUrl || paper.examPapers[rowIndex].url || '#'}
+                                              className="text-blue-600 hover:text-blue-800 font-medium text-base whitespace-nowrap"
+                                              target="_blank"
+                                              rel="noopener noreferrer"
+                                            >
+                                              Question Paper
+                                            </Link>
+                                          )}
+                                        </div>
+                                        <div className="w-[140px] shrink-0">
+                                          {paper.markSchemes?.[rowIndex] && (
+                                            <Link
+                                              href={paper.markSchemes[rowIndex].fileUrl || paper.markSchemes[rowIndex].url || '#'}
+                                              className="text-blue-600 hover:text-blue-800 font-medium text-base whitespace-nowrap"
+                                              target="_blank"
+                                              rel="noopener noreferrer"
+                                            >
+                                              Mark Scheme
+                                            </Link>
+                                          )}
+                                        </div>
+                                      </div>
+                                    </div>
+                                  ))}
                                 </div>
-                                <div className="w-[140px] shrink-0">
-                                  {(paper.markSchemeFileUrl || paper.markSchemeUrl) && (
-                                    <Link
-                                      href={paper.markSchemeFileUrl || paper.markSchemeUrl || '#'}
-                                      className="text-blue-600 hover:text-blue-800 font-medium text-base whitespace-nowrap"
-                                      target="_blank"
-                                      rel="noopener noreferrer"
-                                    >
-                                      {paper.markSchemeText || 'Mark Scheme'}
-                                    </Link>
-                                  )}
+                              );
+                            } else {
+                              // Fallback to old structure for backward compatibility
+                              return (
+                                <div key={`${paper.title}-${index}`} className="flex flex-col sm:flex-row sm:items-center sm:justify-between py-1">
+                                  <div className="flex-1">
+                                    <span className="text-gray-900 flex text-base">
+                                      <span className="mr-1.5">•</span>
+                                      <span>{paper.title}</span>
+                                    </span>
+                                  </div>
+                                  <div className="flex flex-row sm:items-center sm:gap-4 justify-start sm:justify-end mt-2 sm:mt-0 ml-4 sm:ml-0 gap-4">
+                                    <div className="w-[160px] shrink-0">
+                                      {(paper.questionPaperFileUrl || paper.questionPaperUrl) && (
+                                        <Link
+                                          href={paper.questionPaperFileUrl || paper.questionPaperUrl || '#'}
+                                          className="text-blue-600 hover:text-blue-800 font-medium text-base whitespace-nowrap"
+                                          target="_blank"
+                                          rel="noopener noreferrer"
+                                        >
+                                          {paper.questionPaperText || 'Question Paper'}
+                                        </Link>
+                                      )}
+                                    </div>
+                                    <div className="w-[140px] shrink-0">
+                                      {(paper.markSchemeFileUrl || paper.markSchemeUrl) && (
+                                        <Link
+                                          href={paper.markSchemeFileUrl || paper.markSchemeUrl || '#'}
+                                          className="text-blue-600 hover:text-blue-800 font-medium text-base whitespace-nowrap"
+                                          target="_blank"
+                                          rel="noopener noreferrer"
+                                        >
+                                          {paper.markSchemeText || 'Mark Scheme'}
+                                        </Link>
+                                      )}
+                                    </div>
+                                  </div>
                                 </div>
-                              </div>
-                            </div>
-                          ))}
+                              );
+                            }
+                          })}
                         </div>
                       </div>
                     ))}

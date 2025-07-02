@@ -155,13 +155,25 @@ export interface HeroAdvertisement {
   avatarImage3?: any;
 }
 
+export interface ExamBoardPill {
+  text: string;
+  enableLink?: boolean;
+  url?: string;
+}
+
+export interface SubjectExamBoard {
+  text: string;
+  enableLink: boolean;
+  url?: string;
+}
+
 export interface ExamBoard {
   title: string;
   image?: any;
   description: string;
   buttonText: string;
   buttonUrl: string;
-  pills: string[];
+  pills: ExamBoardPill[];
 }
 
 export interface ExamBoardsSection {
@@ -206,12 +218,26 @@ export interface FooterConfig {
   textColor?: string;
 }
 
+export interface ExamPaper {
+  title: string;
+  fileUrl?: string;
+  url?: string;
+}
+
+export interface MarkScheme {
+  title: string;
+  fileUrl?: string;
+  url?: string;
+}
+
 export interface SubjectPagePaper {
   title: string;
   year: string;
   session: string;
   curriculum?: string;
   paperType?: string;
+  examPapers?: ExamPaper[];
+  markSchemes?: MarkScheme[];
   questionPaperFileUrl?: string;
   questionPaperUrl?: string;
   markSchemeFileUrl?: string;
@@ -235,6 +261,7 @@ export interface SubjectPageData {
   badges?: {
     supportBadge?: string;
     resourcesBadge?: string;
+    examBoardBadge?: string;
   };
   databaseSection?: {
     title?: string;

@@ -155,48 +155,106 @@ export default defineType({
               validation: (Rule) => Rule.max(50),
             }),
             defineField({
-              name: 'questionPaperFile',
-              title: 'Question Paper File',
-              type: 'file',
-              description: 'Upload the question paper PDF directly',
-              options: {
-                accept: '.pdf'
-              }
+              name: 'examPapers',
+              title: 'Exam Papers',
+              type: 'array',
+              description: 'Question papers, past papers, and related exam documents',
+              of: [
+                {
+                  type: 'object',
+                  name: 'examPaper',
+                  title: 'Exam Paper',
+                  fields: [
+                    defineField({
+                      name: 'title',
+                      title: 'Paper Title',
+                      type: 'string',
+                      description: 'Title for this paper (e.g., "Free Response Questions", "Multiple Choice Questions")',
+                      validation: (Rule) => Rule.required().max(100),
+                    }),
+                    defineField({
+                      name: 'file',
+                      title: 'Paper File',
+                      type: 'file',
+                      description: 'Upload the paper PDF directly',
+                      options: {
+                        accept: '.pdf'
+                      }
+                    }),
+                    defineField({
+                      name: 'url',
+                      title: 'Paper URL (Alternative)',
+                      type: 'url',
+                      description: 'Or provide a link to the paper PDF if not uploading directly',
+                    }),
+                  ],
+                  preview: {
+                    select: {
+                      title: 'title',
+                      file: 'file.asset.originalFilename',
+                      url: 'url',
+                    },
+                    prepare(selection) {
+                      const { title, file, url } = selection;
+                      return {
+                        title: title || 'Untitled Paper',
+                        subtitle: file || url || 'No file/URL provided',
+                      };
+                    },
+                  },
+                }
+              ],
             }),
             defineField({
-              name: 'questionPaperUrl',
-              title: 'Question Paper URL (Alternative)',
-              type: 'url',
-              description: 'Or provide a link to the question paper PDF if not uploading directly',
-            }),
-            defineField({
-              name: 'markSchemeFile',
-              title: 'Mark Scheme File',
-              type: 'file',
-              description: 'Upload the mark scheme PDF directly (optional)',
-              options: {
-                accept: '.pdf'
-              }
-            }),
-            defineField({
-              name: 'markSchemeUrl',
-              title: 'Mark Scheme URL (Alternative)',
-              type: 'url',
-              description: 'Or provide a link to the mark scheme PDF if not uploading directly',
-            }),
-            defineField({
-              name: 'questionPaperText',
-              title: 'Question Paper Link Text',
-              type: 'string',
-              description: 'Text for the question paper link',
-              validation: (Rule) => Rule.max(50),
-            }),
-            defineField({
-              name: 'markSchemeText',
-              title: 'Mark Scheme Link Text',
-              type: 'string',
-              description: 'Text for the mark scheme link',
-              validation: (Rule) => Rule.max(50),
+              name: 'markSchemes',
+              title: 'Mark Schemes',
+              type: 'array',
+              description: 'Mark schemes, sample responses, scoring guidelines, and related marking documents',
+              of: [
+                {
+                  type: 'object',
+                  name: 'markScheme',
+                  title: 'Mark Scheme Document',
+                  fields: [
+                    defineField({
+                      name: 'title',
+                      title: 'Document Title',
+                      type: 'string',
+                      description: 'Title for this document (e.g., "Sample Responses Q1", "Scoring Guidelines", "Chief Reader Report")',
+                      validation: (Rule) => Rule.required().max(100),
+                    }),
+                    defineField({
+                      name: 'file',
+                      title: 'Document File',
+                      type: 'file',
+                      description: 'Upload the document PDF directly',
+                      options: {
+                        accept: '.pdf'
+                      }
+                    }),
+                    defineField({
+                      name: 'url',
+                      title: 'Document URL (Alternative)',
+                      type: 'url',
+                      description: 'Or provide a link to the document PDF if not uploading directly',
+                    }),
+                  ],
+                  preview: {
+                    select: {
+                      title: 'title',
+                      file: 'file.asset.originalFilename',
+                      url: 'url',
+                    },
+                    prepare(selection) {
+                      const { title, file, url } = selection;
+                      return {
+                        title: title || 'Untitled Document',
+                        subtitle: file || url || 'No file/URL provided',
+                      };
+                    },
+                  },
+                }
+              ],
             }),
           ],
           preview: {
