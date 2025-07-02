@@ -175,16 +175,16 @@ export default defineType({
                     defineField({
                       name: 'file',
                       title: 'Paper File',
-                      type: 'file',
+              type: 'file',
                       description: 'Upload the paper PDF directly',
-                      options: {
-                        accept: '.pdf'
-                      }
-                    }),
-                    defineField({
+              options: {
+                accept: '.pdf'
+              }
+            }),
+            defineField({
                       name: 'url',
                       title: 'Paper URL (Alternative)',
-                      type: 'url',
+              type: 'url',
                       description: 'Or provide a link to the paper PDF if not uploading directly',
                     }),
                   ],
@@ -226,18 +226,18 @@ export default defineType({
                     defineField({
                       name: 'file',
                       title: 'Document File',
-                      type: 'file',
+              type: 'file',
                       description: 'Upload the document PDF directly',
-                      options: {
-                        accept: '.pdf'
-                      }
-                    }),
-                    defineField({
+              options: {
+                accept: '.pdf'
+              }
+            }),
+            defineField({
                       name: 'url',
                       title: 'Document URL (Alternative)',
-                      type: 'url',
+              type: 'url',
                       description: 'Or provide a link to the document PDF if not uploading directly',
-                    }),
+            }),
                   ],
                   preview: {
                     select: {

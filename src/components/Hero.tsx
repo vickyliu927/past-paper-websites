@@ -68,7 +68,7 @@ export default function Hero({ data }: HeroProps) {
       <div className="container mx-auto px-4 lg:px-12">
         <div className="flex flex-col md:flex-row items-center">
                       <div className="md:w-1/2 animate-fade-in-left pl-8 md:pl-12 lg:pl-12">
-            <h1 className={`${lexend.className} text-[72px] font-semibold tracking-[0.002em] leading-[78px] text-black mb-4 max-w-lg`} style={{ fontSize: '72px', lineHeight: '78px' }}>
+            <h1 className={`${lexend.className} text-[60px] md:text-[72px] font-semibold tracking-[0.002em] leading-[78px] text-black mb-4 max-w-lg`} style={{ lineHeight: '78px' }}>
               {title}
             </h1>
             <p className="text-lg md:text-xl text-black mb-6 max-w-lg">
