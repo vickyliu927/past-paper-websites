@@ -8,6 +8,7 @@ import { Lexend } from 'next/font/google';
 
 const lexend = Lexend({ 
   subsets: ['latin'],
+  weight: ['400', '700', '900'],
   fallback: ['Lexend Fallback']
 });
 
@@ -104,8 +105,8 @@ export default function SubjectsSection({ data }: SubjectsSectionProps) {
     <section id="subjects" className="py-16 bg-gray-50">
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center mb-12">
-          <h2 className={`${lexend.className} text-[36px] font-normal tracking-tight text-gray-900 max-w-[672px] mx-auto`}
-              style={{ fontSize: '36px', lineHeight: '40px' }}>
+          <h2 className={`${lexend.className} text-[48px] font-normal tracking-tight text-gray-900 max-w-[672px] mx-auto`}
+              style={{ fontSize: '48px', lineHeight: '56px' }}>
             {title}
           </h2>
           <div className={`${lexend.className} mt-4 text-[18px] leading-8 text-gray-600 mx-auto text-justify`}

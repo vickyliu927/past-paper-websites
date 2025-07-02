@@ -91,16 +91,16 @@ export default function SubjectPageClient({
               {defaults.description}
             </p>
             {(subjectPageData?.badges?.supportBadge || subjectPageData?.badges?.resourcesBadge || subjectPageData?.badges?.examBoardBadge) && (
-              <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
+            <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
                 {subjectPageData?.badges?.supportBadge && (
-                  <span className="inline-flex items-center rounded-full bg-blue-100 px-2.5 py-1 text-sm font-medium text-blue-800">
-                    {defaults.badges.supportBadge}
-                  </span>
+              <span className="inline-flex items-center rounded-full bg-blue-100 px-2.5 py-1 text-sm font-medium text-blue-800">
+                {defaults.badges.supportBadge}
+              </span>
                 )}
                 {subjectPageData?.badges?.resourcesBadge && (
-                  <span className="inline-flex items-center rounded-full bg-gray-100 px-2.5 py-1 text-sm font-medium text-gray-800">
-                    {defaults.badges.resourcesBadge}
-                  </span>
+              <span className="inline-flex items-center rounded-full bg-gray-100 px-2.5 py-1 text-sm font-medium text-gray-800">
+                {defaults.badges.resourcesBadge}
+              </span>
                 )}
                 {subjectPageData?.badges?.examBoardBadge && (
                   <span className="inline-flex items-center rounded-full bg-green-100 px-2.5 py-1 text-sm font-medium text-green-800">
@@ -137,7 +137,7 @@ export default function SubjectPageClient({
           <div className="lg:flex-1 lg:max-w-none">
             {/* Filters */}
             <div className="mb-6">
-              <h2 className="text-2xl text-gray-900 mb-4">{defaults.database.title}</h2>
+              <h2 className="text-[48px] text-gray-900 mb-4">{defaults.database.title}</h2>
               <div>
                 <label htmlFor="yearSession" className="block text-sm font-medium text-gray-700 mb-1.5">
                   {defaults.database.filterLabel}
@@ -162,7 +162,7 @@ export default function SubjectPageClient({
             <div className="space-y-6">
               {sortedYears.map((year, yearIndex) => (
                 <div key={year} className="space-y-4">
-                  <h2 className="text-2xl font-semibold text-[#001a96] border-b-2 border-gray-300 pb-2 mb-4">{year}</h2>
+                  <h2 className="text-[48px] font-semibold text-[#001a96] border-b-2 border-gray-300 pb-2 mb-4">{year}</h2>
                   {Object.entries(groupedPapers[year])
                     .sort(([a], [b]) => b.localeCompare(a))
                     .map(([session, sessionPapers]) => (
@@ -291,15 +291,15 @@ export default function SubjectPageClient({
                     Master exam techniques with targeted practice questions. Get instant feedback and detailed explanations.
                   </p>
                   <div className="flex justify-center">
-                    <Link
-                      href={defaults.sidebar.actionButtons.practiceQuestionsButton.url}
+              <Link
+                href={defaults.sidebar.actionButtons.practiceQuestionsButton.url}
                       className="flex items-center gap-2 bg-white text-[#fb510f] px-4 py-2 rounded-lg font-semibold text-sm hover:bg-gray-50 transition-colors"
-                    >
+              >
                       Start Practice
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                       </svg>
-                    </Link>
+              </Link>
                   </div>
                 </div>
               </div>

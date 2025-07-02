@@ -259,7 +259,7 @@ export default function ContactForm({ data }: ContactFormProps) {
         <div className={`${getMaxWidthClass()} mx-auto`}>
           {/* Header */}
           <div className="text-center mb-12">
-            <h2 className={`${lexend.className} text-[36px] font-normal text-gray-900 mb-4`}>
+            <h2 className={`${lexend.className} text-[48px] font-normal text-gray-900 mb-4`}>
               {title}
             </h2>
             {description && (

@@ -126,7 +126,7 @@ export default function FAQ({ data }: FaqProps) {
         <div className={`${getMaxWidthClass()} mx-auto ${getTextAlignmentClass()}`}>
           
           {title && (
-            <h2 className={`${lexend.className} text-[36px] font-normal tracking-tight text-gray-900 mb-4`}>
+            <h2 className={`${lexend.className} text-[48px] font-normal tracking-tight text-gray-900 mb-4`}>
               {title}
             </h2>
           )}

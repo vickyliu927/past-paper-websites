@@ -62,7 +62,7 @@ export default function SanityExample() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
-      <h2 className="text-[36px] font-bold text-gray-900 mb-8">Subjects from Sanity</h2>
+      <h2 className="text-[48px] font-bold text-gray-900 mb-8">Subjects from Sanity</h2>
       <div className="text-[18px] text-gray-600 mb-4">Section description here</div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {subjects.map((subject) => (

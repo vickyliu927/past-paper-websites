@@ -5,6 +5,7 @@ import * as LucideIcons from 'lucide-react';
 
 const lexend = Lexend({ 
   subsets: ['latin'],
+  weight: ['400', '700', '900'],
   fallback: ['Lexend Fallback']
 });
 
@@ -124,7 +125,7 @@ export default function WhyChoosePlatform({ data }: WhyChoosePlatformProps) {
           )}
           
           {title && (
-            <h2 className={`${lexend.className} text-[36px] font-normal tracking-tight text-gray-900 mb-4`}>
+            <h2 className={`${lexend.className} text-[48px] font-normal tracking-tight text-gray-900 mb-4`}>
               {title}
             </h2>
           )}

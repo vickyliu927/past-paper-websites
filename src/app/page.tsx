@@ -1,7 +1,7 @@
 import Hero from '../components/Hero';
 import WhyChoosePlatform from '../components/WhyChoosePlatform';
 import SubjectsSection from '../components/SubjectsSection';
-
+import AdvertBanner from '../components/AdvertBanner';
 import StudentTestimonials from '../components/StudentTestimonials';
 import FAQ from '../components/FAQ';
 import ContactForm from '../components/ContactForm';
@@ -84,15 +84,31 @@ export default async function HomePage() {
   const contactForm = await getContactForm();
   const footer = await getFooter();
 
+  // Add "Browse Past Papers" button to hero data
+  const heroWithBrowseButton = {
+    ...hero,
+    buttons: [
+      {
+        text: "Browse Past Papers",
+        url: "/subjects",
+        variant: "primary"
+      },
+      ...hero.buttons
+    ]
+  };
+
   return (
     <div className="bg-white">
-      <Hero data={hero} />
+      <Hero data={heroWithBrowseButton} />
       
       {/* Subjects Section */}
       <SubjectsSection data={subjectsSection} />
       
       {/* Why Choose Our Platform Section */}
       {whyChoosePlatform && <WhyChoosePlatform data={whyChoosePlatform} />}
+      
+      {/* Advert Banner Section */}
+      <AdvertBanner />
       
       {/* Student Testimonials Section */}
       {studentTestimonials && <StudentTestimonials data={studentTestimonials} />}
