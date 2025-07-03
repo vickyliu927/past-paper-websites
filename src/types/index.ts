@@ -202,6 +202,10 @@ export interface FooterConfig {
     email?: string;
     phone?: string;
     address?: string;
+    customLink?: {
+      text?: string;
+      url?: string;
+    };
   };
   socialMedia?: {
     twitter?: string;

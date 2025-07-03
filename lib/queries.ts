@@ -249,7 +249,11 @@ export const getFooterQuery = groq`
       title,
       email,
       phone,
-      address
+      address,
+      customLink {
+        text,
+        url
+      }
     },
     socialMedia {
       twitter,

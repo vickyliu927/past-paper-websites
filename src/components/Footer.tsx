@@ -19,9 +19,9 @@ export default function Footer({ data }: FooterProps) {
   
   const quickLinksTitle = data?.quickLinks?.title || 'Quick Links';
   const quickLinks = data?.quickLinks?.links || [
-    { text: 'Home', url: '/' },
+    { text: 'Home', url: '/home' },
     { text: 'Subjects', url: '/subjects' },
-    { text: 'FAQs', url: '#faqs' },
+    { text: 'FAQs', url: '/faq' },
     { text: 'Blog', url: '/blog' },
     { text: 'About Us', url: '/about' }
   ];
@@ -112,6 +112,18 @@ export default function Footer({ data }: FooterProps) {
               {contactEmail && <p>Email: {contactEmail}</p>}
               {contactPhone && <p>Phone: {contactPhone}</p>}
               {contactAddress && <p>Address: {contactAddress}</p>}
+              {data?.contact?.customLink?.text && data?.contact?.customLink?.url && (
+                <p>
+                  <Link 
+                    href={data.contact.customLink.url} 
+                    className={`${textColors.hover} underline`}
+                    target={data.contact.customLink.url.startsWith('http') ? '_blank' : '_self'}
+                    rel={data.contact.customLink.url.startsWith('http') ? 'noopener noreferrer' : undefined}
+                  >
+                    {data.contact.customLink.text}
+                  </Link>
+                </p>
+              )}
             </div>
           </div>
         </div>

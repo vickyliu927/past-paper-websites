@@ -44,6 +44,7 @@ export default defineType({
           type: 'string',
           description: 'Title for the quick links section',
           validation: (Rule) => Rule.max(50),
+          initialValue: 'Quick Links'
         }),
         defineField({
           name: 'links',
@@ -63,10 +64,11 @@ export default defineType({
                   name: 'url',
                   title: 'Link URL',
                   type: 'string',
+                  description: 'Use internal links (e.g., /subjects, /home) or full URLs (e.g., https://example.com)',
                   validation: (Rule) => Rule.custom((value) => {
-                    if (!value) return true; // Allow empty values since it's optional
-                    if (value.startsWith('/') || value.startsWith('http') || value.startsWith('#')) return true;
-                    return 'Please enter a valid URL (starting with /, # or http)';
+                    if (!value || typeof value !== 'string') return true; // Allow empty values since it's optional
+                    if (value.startsWith('/') || value.startsWith('http://') || value.startsWith('https://')) return true;
+                    return 'URL must be an internal link (e.g., /subjects) or a full URL (e.g., https://example.com)';
                   }),
                 }),
               ],
@@ -78,6 +80,13 @@ export default defineType({
               },
             },
           ],
+          initialValue: [
+            { text: 'Home', url: '/home' },
+            { text: 'Subjects', url: '/subjects' },
+            { text: 'FAQs', url: '/faq' },
+            { text: 'Blog', url: '/blog' },
+            { text: 'About Us', url: '/about' }
+          ]
         }),
       ],
     }),
@@ -114,6 +123,38 @@ export default defineType({
           description: 'Physical address',
           rows: 2,
           validation: (Rule) => Rule.max(200),
+        }),
+        defineField({
+          name: 'customLink',
+          title: 'Additional Link',
+          type: 'object',
+          description: 'Optional additional link (e.g., "Visit our office", "Customer Support")',
+          fields: [
+            defineField({
+              name: 'text',
+              title: 'Link Text',
+              type: 'string',
+              description: 'Text to display for the link',
+              validation: (Rule) => Rule.max(50),
+            }),
+            defineField({
+              name: 'url',
+              title: 'Link URL',
+              type: 'string',
+              description: 'Use internal links (e.g., /contact) or full URLs (e.g., https://maps.google.com)',
+              validation: (Rule) => Rule.custom((value) => {
+                if (!value || typeof value !== 'string') return true; // Allow empty values since it's optional
+                if (value.startsWith('/') || value.startsWith('http://') || value.startsWith('https://')) return true;
+                return 'URL must be an internal link (e.g., /contact) or a full URL (e.g., https://example.com)';
+              }),
+            }),
+          ],
+          preview: {
+            select: {
+              title: 'text',
+              subtitle: 'url',
+            },
+          },
         }),
       ],
     }),
