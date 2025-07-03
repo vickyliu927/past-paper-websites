@@ -10,7 +10,6 @@ interface HeaderProps {
   data: {
     logo: {
       image: any;
-      link: string;
     };
     navigationLinks: {
       text: string;
@@ -33,7 +32,7 @@ export default function Header({ data }: HeaderProps) {
       <div className="container mx-auto px-4">
         <nav className="flex items-center justify-between py-6" aria-label="Global">
         <div className="flex lg:flex-1 pl-8 md:pl-12 lg:pl-16">
-            <Link href={logo.link || '/'} className="-m-1.5 p-1.5">
+            <Link href="/" className="-m-1.5 p-1.5">
             <span className="sr-only">TutorChase</span>
             <Image
                 src={logo.image ? urlFor(logo.image).url() : '/logo.png'}
@@ -89,7 +88,7 @@ export default function Header({ data }: HeaderProps) {
           <div className="fixed inset-0 z-10" />
           <div className="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
             <div className="flex items-center justify-between">
-              <Link href={logo.link || '/'} className="-m-1.5 p-1.5">
+              <Link href="/" className="-m-1.5 p-1.5">
                 <span className="sr-only">TutorChase</span>
                 <Image
                   src={logo.image ? urlFor(logo.image).url() : '/logo.png'}

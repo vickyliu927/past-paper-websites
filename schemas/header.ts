@@ -14,12 +14,6 @@ export default defineType({
           name: 'image',
           title: 'Logo Image',
           type: 'image',
-        },
-        {
-          name: 'link',
-          title: 'Logo Link',
-          type: 'url',
-          description: 'URL when logo is clicked'
         }
       ]
     }),
@@ -40,8 +34,16 @@ export default defineType({
             {
               name: 'url',
               title: 'URL',
-              type: 'url',
-              validation: Rule => Rule.required()
+              type: 'string',
+              description: 'Use internal links (e.g., /subjects, /home) or full URLs (e.g., https://example.com)',
+              validation: Rule => Rule.required().custom((value: string) => {
+                if (!value || typeof value !== 'string') return 'URL is required'
+                // Allow internal links starting with / or full URLs starting with http
+                if (value.startsWith('/') || value.startsWith('http://') || value.startsWith('https://')) {
+                  return true
+                }
+                return 'URL must be an internal link (e.g., /subjects) or a full URL (e.g., https://example.com)'
+              })
             }
           ],
           preview: {
@@ -53,10 +55,10 @@ export default defineType({
         }
       ],
       initialValue: [
-        { text: 'Home', url: '/' },
+        { text: 'Home', url: '/home' },
         { text: 'Subjects', url: '/subjects' },
-        { text: 'FAQs', url: '/faqs' },
-        { text: 'Contact Us', url: '/contact' }
+        { text: 'FAQs', url: '/faq' },
+        { text: 'Contact Us', url: '/hire' }
       ]
     }),
     defineField({
@@ -76,8 +78,16 @@ export default defineType({
             {
               name: 'url',
               title: 'URL',
-              type: 'url',
-              validation: Rule => Rule.required()
+              type: 'string',
+              description: 'Use internal links (e.g., /subjects, /home) or full URLs (e.g., https://example.com)',
+              validation: Rule => Rule.required().custom((value: string) => {
+                if (!value || typeof value !== 'string') return 'URL is required'
+                // Allow internal links starting with / or full URLs starting with http
+                if (value.startsWith('/') || value.startsWith('http://') || value.startsWith('https://')) {
+                  return true
+                }
+                return 'URL must be an internal link (e.g., /subjects) or a full URL (e.g., https://example.com)'
+              })
             },
             {
               name: 'variant',

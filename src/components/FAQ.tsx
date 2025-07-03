@@ -119,6 +119,7 @@ export default function FAQ({ data }: FaqProps) {
 
   return (
     <section 
+      id="faq"
       className={`py-20 ${backgroundClassName}`}
       style={backgroundStyle}
     >

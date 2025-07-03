@@ -68,8 +68,7 @@ export async function getExamBoards() {
 export const getHeaderQuery = groq`
   *[_type == "header"][0] {
     logo {
-      image,
-      link
+      image
     },
     navigationLinks[] {
       text,

@@ -252,6 +252,7 @@ export default function ContactForm({ data }: ContactFormProps) {
 
   return (
     <section 
+      id="hire-tutor"
       className={`py-20 ${getBackgroundClass()}`}
       style={{ backgroundColor: '#f9fafb' }}
     >
