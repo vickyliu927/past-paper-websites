@@ -295,45 +295,95 @@ export default function SubjectPageClient({
                         <h3 className="text-xl font-medium text-gray-800 mb-2">{session}</h3>
                         <div className="space-y-1">
                           {sessionPapers.map((paper, index) => {
-                            // If using new structure, create a single row with three containers
+                            // Get the maximum number of rows needed (based on exam papers or mark schemes)
+                            const maxExamPapers = paper.examPapers?.length || 0;
+                            const maxMarkSchemes = paper.markSchemes?.length || 0;
+                            const maxRows = Math.max(maxExamPapers, maxMarkSchemes, 1);
+
+                            // If using new structure, different layout for mobile vs desktop
                             if (paper.examPapers || paper.markSchemes) {
                               return (
-                                <div key={`${paper.title}-${index}`} className="flex flex-row items-start justify-between py-1 gap-4">
-                                  {/* Paper name container - left side */}
-                                  <div className="flex-shrink-0 pr-6">
-                                    <span className="text-gray-900 flex text-base">
-                                      <span className="mr-1.5">•</span>
-                                      <span>{paper.title}</span>
-                                    </span>
+                                <div key={`${paper.title}-${index}`}>
+                                  {/* Mobile Layout: Three containers side by side */}
+                                  <div className="flex flex-row items-start justify-between py-1 gap-4 sm:hidden">
+                                    {/* Paper name container - left side */}
+                                    <div className="flex-shrink-0 pr-6">
+                                      <span className="text-gray-900 flex text-base">
+                                        <span className="mr-1.5">•</span>
+                                        <span>{paper.title}</span>
+                                      </span>
+                                    </div>
+                                    
+                                    {/* Question Paper buttons container - middle */}
+                                    <div className="flex flex-col gap-1 flex-1">
+                                      {paper.examPapers?.map((examPaper, epIndex) => (
+                                        <Link
+                                          key={`exam-${epIndex}`}
+                                          href={examPaper.fileUrl || examPaper.url || '#'}
+                                          className="text-blue-600 hover:text-blue-800 font-medium text-base whitespace-nowrap"
+                                          target="_blank"
+                                          rel="noopener noreferrer"
+                                        >
+                                          Question Paper
+                                        </Link>
+                                      ))}
+                                    </div>
+                                    
+                                    {/* Mark Scheme buttons container - right side */}
+                                    <div className="flex flex-col gap-1 flex-1">
+                                      {paper.markSchemes?.map((markScheme, msIndex) => (
+                                        <Link
+                                          key={`mark-${msIndex}`}
+                                          href={markScheme.fileUrl || markScheme.url || '#'}
+                                          className="text-blue-600 hover:text-blue-800 font-medium text-base whitespace-nowrap"
+                                          target="_blank"
+                                          rel="noopener noreferrer"
+                                        >
+                                          Mark Scheme
+                                        </Link>
+                                      ))}
+                                    </div>
                                   </div>
-                                  
-                                  {/* Question Paper buttons container - middle */}
-                                  <div className="flex flex-col gap-1 flex-1 sm:w-[160px] sm:shrink-0">
-                                    {paper.examPapers?.map((examPaper, epIndex) => (
-                                      <Link
-                                        key={`exam-${epIndex}`}
-                                        href={examPaper.fileUrl || examPaper.url || '#'}
-                                        className="text-blue-600 hover:text-blue-800 font-medium text-base whitespace-nowrap"
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                      >
-                                        Question Paper
-                                      </Link>
-                                    ))}
-                                  </div>
-                                  
-                                  {/* Mark Scheme buttons container - right side */}
-                                  <div className="flex flex-col gap-1 flex-1 sm:w-[140px] sm:shrink-0">
-                                    {paper.markSchemes?.map((markScheme, msIndex) => (
-                                      <Link
-                                        key={`mark-${msIndex}`}
-                                        href={markScheme.fileUrl || markScheme.url || '#'}
-                                        className="text-blue-600 hover:text-blue-800 font-medium text-base whitespace-nowrap"
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                      >
-                                        Mark Scheme
-                                      </Link>
+
+                                  {/* Desktop Layout: Original row-based approach */}
+                                  <div className="hidden sm:block space-y-1">
+                                    {Array.from({ length: maxRows }, (_, rowIndex) => (
+                                      <div key={`${paper.title}-${index}-row-${rowIndex}`} className="flex flex-col sm:flex-row sm:items-center sm:justify-between py-1">
+                                        <div className="flex-1">
+                                          {rowIndex === 0 && (
+                                            <span className="text-gray-900 flex text-base">
+                                              <span className="mr-1.5">•</span>
+                                              <span>{paper.title}</span>
+                                            </span>
+                                          )}
+                                        </div>
+                                        <div className="flex flex-row sm:items-center sm:gap-4 justify-start sm:justify-end mt-2 sm:mt-0 ml-4 sm:ml-0 gap-4">
+                                          <div className="w-[160px] shrink-0">
+                                            {paper.examPapers?.[rowIndex] && (
+                                              <Link
+                                                href={paper.examPapers[rowIndex].fileUrl || paper.examPapers[rowIndex].url || '#'}
+                                                className="text-blue-600 hover:text-blue-800 font-medium text-base whitespace-nowrap"
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                              >
+                                                Question Paper
+                                              </Link>
+                                            )}
+                                          </div>
+                                          <div className="w-[140px] shrink-0">
+                                            {paper.markSchemes?.[rowIndex] && (
+                                              <Link
+                                                href={paper.markSchemes[rowIndex].fileUrl || paper.markSchemes[rowIndex].url || '#'}
+                                                className="text-blue-600 hover:text-blue-800 font-medium text-base whitespace-nowrap"
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                              >
+                                                Mark Scheme
+                                              </Link>
+                                            )}
+                                          </div>
+                                        </div>
+                                      </div>
                                     ))}
                                   </div>
                                 </div>
