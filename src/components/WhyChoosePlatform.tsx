@@ -15,18 +15,11 @@ interface Feature {
   icon: string;
 }
 
-interface CallToAction {
-  text: string;
-  url: string;
-  variant: 'primary' | 'secondary' | 'outline';
-}
-
 interface WhyChoosePlatformData {
   title?: string;
   subtitle?: string;
   description?: string;
   features?: Feature[];
-  callToAction?: CallToAction;
   backgroundColor?: string;
   customBackgroundColor?: string;
   textAlignment?: 'left' | 'center' | 'right';
@@ -42,7 +35,6 @@ export default function WhyChoosePlatform({ data }: WhyChoosePlatformProps) {
     subtitle,
     description,
     features = [],
-    callToAction,
     backgroundColor = 'white',
     customBackgroundColor,
     textAlignment = 'center'
@@ -77,18 +69,7 @@ export default function WhyChoosePlatform({ data }: WhyChoosePlatformProps) {
     return alignmentClasses[textAlignment] || 'text-center';
   };
 
-  // Get button variant classes
-  const getButtonClasses = (variant: string) => {
-    const baseClasses = 'inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-11 rounded-md px-8';
-    
-    const variantClasses: Record<string, string> = {
-      'primary': 'bg-black text-white hover:bg-gray-800',
-      'secondary': 'bg-gray-100 text-gray-900 hover:bg-gray-200',
-      'outline': 'border border-black bg-white hover:bg-gray-100 text-black'
-    };
-    
-    return `${baseClasses} ${variantClasses[variant] || variantClasses.primary}`;
-  };
+
 
   // Render Lucide icon by name
   const renderIcon = (iconName: string) => {
@@ -157,17 +138,6 @@ export default function WhyChoosePlatform({ data }: WhyChoosePlatformProps) {
                   </div>
                 </div>
               ))}
-            </div>
-          )}
-          
-          {callToAction && callToAction.text && callToAction.url && (
-            <div className={`${textAlignment === 'center' ? 'text-center' : textAlignment === 'right' ? 'text-right' : 'text-left'}`}>
-              <Link
-                href={callToAction.url}
-                className={getButtonClasses(callToAction.variant)}
-              >
-                {callToAction.text}
-              </Link>
             </div>
           )}
         </div>

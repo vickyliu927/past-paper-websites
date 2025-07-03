@@ -38,35 +38,7 @@ export default defineType({
       rows: 3,
       validation: (Rule) => Rule.max(500),
     }),
-    defineField({
-      name: 'badges',
-      title: 'Hero Badges (Optional)',
-      type: 'object',
-      description: 'Optional badges displayed in the hero section. Leave fields empty to hide badges.',
-      fields: [
-        defineField({
-          name: 'supportBadge',
-          title: 'Support Badge Text',
-          type: 'string',
-          description: 'Text for the support badge (e.g., "Multi-Curriculum Support"). Leave empty to hide this badge.',
-          validation: (Rule) => Rule.max(50),
-        }),
-        defineField({
-          name: 'resourcesBadge',
-          title: 'Resources Badge Text',
-          type: 'string',
-          description: 'Text template for resources count (use {count} for dynamic number, e.g., "{count} Resources Available"). Leave empty to hide this badge.',
-          validation: (Rule) => Rule.max(50),
-        }),
-        defineField({
-          name: 'examBoardBadge',
-          title: 'Exam Board Badge Text',
-          type: 'string',
-          description: 'Text for the exam board badge (e.g., "AQA Exam Board"). Leave empty to hide this badge. If left empty, will auto-generate from URL when exam board is selected.',
-          validation: (Rule) => Rule.max(50),
-        }),
-      ],
-    }),
+
     defineField({
       name: 'databaseSection',
       title: 'Past Papers Database Section',
@@ -100,13 +72,7 @@ export default defineType({
           description: 'Text shown when no papers match the filter',
           validation: (Rule) => Rule.max(100),
         }),
-        defineField({
-          name: 'showingText',
-          title: 'Results Count Text',
-          type: 'string',
-          description: 'Template for showing results count (use {filtered} and {total})',
-          validation: (Rule) => Rule.max(100),
-        }),
+
       ],
     }),
     defineField({
@@ -279,34 +245,7 @@ export default defineType({
       title: 'Sidebar Content',
       type: 'object',
       fields: [
-        defineField({
-          name: 'quickStats',
-          title: 'Quick Stats Section',
-          type: 'object',
-          fields: [
-            defineField({
-              name: 'title',
-              title: 'Section Title',
-              type: 'string',
-              description: 'Title for the quick stats section',
-              validation: (Rule) => Rule.max(50),
-            }),
-            defineField({
-              name: 'totalPapersLabel',
-              title: 'Total Papers Label',
-              type: 'string',
-              description: 'Label for total papers count',
-              validation: (Rule) => Rule.max(50),
-            }),
-            defineField({
-              name: 'yearsAvailableLabel',
-              title: 'Years Available Label',
-              type: 'string',
-              description: 'Label for years available count',
-              validation: (Rule) => Rule.max(50),
-            }),
-          ],
-        }),
+
         defineField({
           name: 'actionButtons',
           title: 'Action Buttons',

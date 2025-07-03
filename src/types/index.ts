@@ -50,18 +50,11 @@ export interface WhyChoosePlatformFeature {
   icon: string;
 }
 
-export interface WhyChoosePlatformCallToAction {
-  text: string;
-  url: string;
-  variant: 'primary' | 'secondary' | 'outline';
-}
-
 export interface WhyChoosePlatformData {
   title?: string;
   subtitle?: string;
   description?: string;
   features?: WhyChoosePlatformFeature[];
-  callToAction?: WhyChoosePlatformCallToAction;
   backgroundColor?: string;
   customBackgroundColor?: string;
   textAlignment?: 'left' | 'center' | 'right';
@@ -170,6 +163,7 @@ export interface ExamBoardsSection {
   description: string;
   examBoards: ExamBoard[];
   isActive: boolean;
+  buttonText: string;
 }
 
 export interface FooterConfig {
@@ -251,25 +245,14 @@ export interface SubjectPageData {
   };
   title?: string;
   description?: string;
-  badges?: {
-    supportBadge?: string;
-    resourcesBadge?: string;
-    examBoardBadge?: string;
-  };
   databaseSection?: {
     title?: string;
     filterLabel?: string;
     allFilterOption?: string;
     noResultsText?: string;
-    showingText?: string;
   };
   pastPapers?: SubjectPagePaper[];
   sidebar?: {
-    quickStats?: {
-      title?: string;
-      totalPapersLabel?: string;
-      yearsAvailableLabel?: string;
-    };
     actionButtons?: {
       studyNotesButton?: {
         text?: string;

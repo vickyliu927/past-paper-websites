@@ -61,43 +61,6 @@ export default defineType({
       description: 'List of platform features with titles, descriptions, and icons',
     }),
     defineField({
-      name: 'callToAction',
-      title: 'Call to Action',
-      type: 'object',
-      fields: [
-        defineField({
-          name: 'text',
-          title: 'Button Text',
-          type: 'string',
-          validation: (Rule) => Rule.max(50),
-        }),
-        defineField({
-          name: 'url',
-          title: 'Button URL',
-          type: 'string',
-          validation: (Rule) => Rule.custom((value) => {
-            if (!value) return true; // Allow empty values since it's optional
-            if (value.startsWith('/') || value.startsWith('http')) return true;
-            return 'Please enter a valid URL (starting with / or http)';
-          }),
-        }),
-        defineField({
-          name: 'variant',
-          title: 'Button Style',
-          type: 'string',
-          options: {
-            list: [
-              { title: 'Primary', value: 'primary' },
-              { title: 'Secondary', value: 'secondary' },
-              { title: 'Outline', value: 'outline' },
-            ],
-          },
-          initialValue: 'primary',
-        }),
-      ],
-      description: 'Optional call-to-action button',
-    }),
-    defineField({
       name: 'backgroundColor',
       title: 'Background Color',
       type: 'string',

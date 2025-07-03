@@ -27,62 +27,12 @@ export default defineType({
       initialValue: true
     }),
     defineField({
-      name: 'examBoards',
-      title: 'Exam Boards',
-      type: 'array',
-      of: [
-        {
-          type: 'object',
-          fields: [
-            {
-              name: 'title',
-              title: 'Exam Board Name',
-              type: 'string',
-              validation: Rule => Rule.required()
-            },
-            {
-              name: 'image',
-              title: 'Exam Board Image',
-              type: 'image',
-              description: 'Image for the exam board (optional)',
-              options: {
-                hotspot: true
-              }
-            },
-            {
-              name: 'description',
-              title: 'Description',
-              type: 'text',
-              validation: Rule => Rule.required()
-            },
-            {
-              name: 'buttonText',
-              title: 'Button Text',
-              type: 'string',
-              initialValue: 'View Papers'
-            },
-            {
-              name: 'buttonUrl',
-              title: 'Button URL',
-              type: 'url',
-              validation: Rule => Rule.required()
-            },
-            {
-              name: 'pills',
-              title: 'Tags/Pills',
-              type: 'array',
-              of: [{ type: 'string' }],
-              description: 'Add tags like curriculum types, years, etc.'
-            }
-          ],
-          preview: {
-            select: {
-              title: 'title',
-              subtitle: 'description'
-            }
-          }
-        }
-      ]
+      name: 'buttonText',
+      title: 'Button Text',
+      type: 'string',
+      description: 'Text displayed on exam board buttons',
+      initialValue: 'View Papers',
+      validation: Rule => Rule.required()
     })
   ],
   preview: {

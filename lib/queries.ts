@@ -142,11 +142,6 @@ export const getWhyChoosePlatformQuery = groq`
       description,
       icon
     },
-    callToAction {
-      text,
-      url,
-      variant
-    },
     backgroundColor,
     customBackgroundColor,
     textAlignment
@@ -275,7 +270,8 @@ export const getExamBoardPageQuery = groq`
     examBoardsSection-> {
       title,
       description,
-      isActive
+      isActive,
+      buttonText
     },
     // Get actual exam board documents for dynamic URL generation
     "examBoards": *[_type == "examBoard" && isActive == true] | order(name asc) {
@@ -298,17 +294,11 @@ export const getSubjectPageQuery = groq`
     },
     title,
     description,
-    badges {
-      supportBadge,
-      resourcesBadge,
-      examBoardBadge
-    },
     databaseSection {
       title,
       filterLabel,
       allFilterOption,
-      noResultsText,
-      showingText
+      noResultsText
     },
     pastPapers[] {
       title,
@@ -328,11 +318,6 @@ export const getSubjectPageQuery = groq`
       }
     },
     sidebar {
-      quickStats {
-        title,
-        totalPapersLabel,
-        yearsAvailableLabel
-      },
       actionButtons {
         studyNotesButton {
           text,
@@ -377,17 +362,11 @@ export const getSubjectPageByExamBoardQuery = groq`
     },
     title,
     description,
-    badges {
-      supportBadge,
-      resourcesBadge,
-      examBoardBadge
-    },
     databaseSection {
       title,
       filterLabel,
       allFilterOption,
-      noResultsText,
-      showingText
+      noResultsText
     },
     pastPapers[] {
       title,
@@ -407,11 +386,6 @@ export const getSubjectPageByExamBoardQuery = groq`
       }
     },
     sidebar {
-      quickStats {
-        title,
-        totalPapersLabel,
-        yearsAvailableLabel
-      },
       actionButtons {
         studyNotesButton {
           text,

@@ -69,12 +69,9 @@ export default async function ExamBoardPage({ params }: ExamBoardPageProps) {
                   examBoards: examBoardPageData.examBoards.map((board: any) => ({
                     title: board.name,
                     description: board.description || `Access comprehensive ${board.name} past papers and resources for ${subject}.`,
-                    buttonText: 'View Papers',
+                    buttonText: examBoardPageData.examBoardsSection.buttonText || 'View Papers',
                     buttonUrl: `/${subject}/${board.slug.current}`,
-                    pills: board.pills || [
-                      { text: `${board.name} Exam Board`, url: undefined },
-                      { text: 'Past Papers Available', url: undefined }
-                    ],
+                    pills: board.pills || [],
                     image: board.logoUrl ? { asset: { url: board.logoUrl } } : null
                   }))
                 }} 
