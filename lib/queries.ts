@@ -91,17 +91,9 @@ export const getHeroQuery = groq`
       url,
       variant
     },
-    features,
-    advertisement {
-      tagline,
-      mainText,
-      statistic,
-      backgroundColor,
-      textColor,
-      icon,
-      avatarImage1,
-      avatarImage2,
-      avatarImage3
+    browseButton {
+      text,
+      url
     }
   }
 `;

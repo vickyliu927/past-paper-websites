@@ -143,17 +143,6 @@ export interface ContactFormSubmission {
   notes?: string;
 }
 
-export interface HeroAdvertisement {
-  tagline?: string;
-  mainText?: string;
-  statistic?: string;
-  backgroundColor?: string;
-  textColor?: string;
-  icon?: string;
-  avatarImage1?: any;
-  avatarImage2?: any;
-  avatarImage3?: any;
-}
 
 export interface ExamBoardPill {
   text: string;

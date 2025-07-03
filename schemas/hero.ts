@@ -36,8 +36,13 @@ export default defineType({
             {
               name: 'url',
               title: 'Button URL',
-              type: 'url',
-              validation: Rule => Rule.required()
+              type: 'string',
+              description: 'Use internal links (e.g., /subjects) or full URLs (e.g., https://example.com)',
+              validation: Rule => Rule.required().custom((value: string) => {
+                if (!value || typeof value !== 'string') return 'URL is required';
+                if (value.startsWith('/') || value.startsWith('http://') || value.startsWith('https://')) return true;
+                return 'URL must be an internal link (e.g., /subjects) or a full URL (e.g., https://example.com)';
+              })
             },
             {
               name: 'variant',
@@ -59,104 +64,37 @@ export default defineType({
       ]
     }),
     defineField({
-      name: 'features',
-      title: 'Platform Features',
-      type: 'array',
-      of: [
-        {
-          type: 'string',
-          validation: Rule => Rule.required()
-        }
-      ],
-      initialValue: [
-        "Multiple curricula: A-Levels, IGCSE, IB, AP & more",
-        "Organized by curriculum, subject, and year",
-        "Marking schemes and grade boundaries",
-        "Regular updates across all exam boards"
-      ]
-    }),
-    defineField({
-      name: 'advertisement',
-      title: 'Advertisement Block',
+      name: 'browseButton',
+      title: 'Browse Past Papers CTA Button',
       type: 'object',
-      description: 'Optional advertisement block to replace the "Why Our Platform?" section',
+      description: 'Primary call-to-action button for browsing past papers',
       fields: [
         {
-          name: 'tagline',
-          title: 'Tagline',
+          name: 'text',
+          title: 'Button Text',
           type: 'string',
-          description: 'Small text at the top (e.g., "INTERNATIONALLY TRUSTED")'
+          validation: Rule => Rule.required().max(50),
+          initialValue: 'Browse Past Papers'
         },
         {
-          name: 'mainText',
-          title: 'Main Text',
-          type: 'text',
-          description: 'Main heading text'
-        },
-        {
-          name: 'statistic',
-          title: 'Statistic',
+          name: 'url',
+          title: 'Button URL',
           type: 'string',
-          description: 'Bottom statistic text (e.g., "100,000+ Satisfied Students")'
-        },
-        {
-          name: 'backgroundColor',
-          title: 'Background Color',
-          type: 'string',
-          description: 'Hex color code for background (e.g., #1e40af)',
-          initialValue: '#1e40af'
-        },
-        {
-          name: 'textColor',
-          title: 'Text Color',
-          type: 'string',
-          description: 'Hex color code for text (e.g., #ffffff)',
-          initialValue: '#ffffff'
-        },
-        {
-          name: 'icon',
-          title: 'Icon',
-          type: 'string',
-          description: 'Icon to display (globe, star, checkmark, etc.)',
-          options: {
-            list: [
-              { title: 'Globe', value: 'globe' },
-              { title: 'Star', value: 'star' },
-              { title: 'Checkmark', value: 'checkmark' },
-              { title: 'Trophy', value: 'trophy' },
-              { title: 'Users', value: 'users' }
-            ]
-          },
-          initialValue: 'globe'
-        },
-        {
-          name: 'avatarImage1',
-          title: 'Avatar Image 1',
-          type: 'image',
-          description: 'First avatar image for the statistic section',
-          options: {
-            hotspot: true
-          }
-        },
-        {
-          name: 'avatarImage2',
-          title: 'Avatar Image 2',
-          type: 'image',
-          description: 'Second avatar image for the statistic section',
-          options: {
-            hotspot: true
-          }
-        },
-        {
-          name: 'avatarImage3',
-          title: 'Avatar Image 3',
-          type: 'image',
-          description: 'Third avatar image for the statistic section',
-          options: {
-            hotspot: true
-          }
+          description: 'Use internal links (e.g., /subjects) or full URLs (e.g., https://example.com)',
+          validation: Rule => Rule.required().custom((value: string) => {
+            if (!value || typeof value !== 'string') return 'URL is required';
+            if (value.startsWith('/') || value.startsWith('http://') || value.startsWith('https://')) return true;
+            return 'URL must be an internal link (e.g., /subjects) or a full URL (e.g., https://example.com)';
+          }),
+          initialValue: '/subjects'
         }
-      ]
+      ],
+      preview: {
+        select: {
+          title: 'text',
+          subtitle: 'url'
+        }
+      }
     })
   ]
 }) 
