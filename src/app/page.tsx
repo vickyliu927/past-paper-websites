@@ -9,6 +9,9 @@ import Footer from '../components/Footer';
 import { client } from '../../lib/sanity';
 import { getHeroQuery, getSubjectsSectionQuery, getWhyChoosePlatformQuery, getStudentTestimonialsQuery, getFaqQuery, getContactFormQuery, getFooterQuery, getAdvertBannerQuery } from '../../lib/queries';
 
+// Add ISR revalidation
+export const revalidate = 60; // Revalidate every 60 seconds
+
 interface ExamBoard {
   name: string;
   slug: {
