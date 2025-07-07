@@ -56,6 +56,7 @@ const subjectIcons: Record<string, LucideIcon> = {
   'Chemistry': FlaskConical,
   'Physics': Atom,
   'Mathematics': Calculator,
+  'Maths': Calculator,
   'Economics': LineChart
 };
 
@@ -82,6 +83,7 @@ const subjectColorMap: Record<string, number> = {
   'Physics': 2,      // Blue
   'Economics': 3,    // Pink
   'Mathematics': 4,  // Purple
+  'Maths': 4,        // Purple (same as Mathematics)
 };
 
 // Function to get consistent color for a subject
