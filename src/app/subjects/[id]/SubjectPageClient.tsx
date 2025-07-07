@@ -451,38 +451,38 @@ export default function SubjectPageClient({
           </div>
 
           {/* Sidebar Container - Right of Database - Hidden on mobile, visible on desktop */}
-          <div className="hidden lg:block lg:w-80 lg:flex-shrink-0 lg:sticky lg:top-6 lg:self-start space-y-6">
+          <div className="hidden lg:block lg:w-64 lg:flex-shrink-0 lg:sticky lg:top-6 lg:self-start space-y-5">
             {/* Study Notes Ad Block */}
             <div className="relative overflow-hidden rounded-xl shadow-lg">
-              <div className="bg-[#001a96] p-6 text-white">
-                <div className="absolute top-0 right-0 w-20 h-20 transform translate-x-6 -translate-y-6">
+              <div className="bg-[#001a96] p-5 text-white">
+                <div className="absolute top-0 right-0 w-16 h-16 transform translate-x-5 -translate-y-5">
                   <div className="w-full h-full bg-white/10 rounded-full"></div>
                 </div>
-                <div className="absolute bottom-0 left-0 w-16 h-16 transform -translate-x-4 translate-y-4">
+                <div className="absolute bottom-0 left-0 w-13 h-13 transform -translate-x-3 translate-y-3">
                   <div className="w-full h-full bg-white/10 rounded-full"></div>
                 </div>
                 <div className="relative z-10">
-                  <div className="flex items-center gap-3 mb-3">
-                    <div className="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center">
-                      <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <div className="flex items-center gap-2.5 mb-2.5">
+                    <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center">
+                      <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
                       </svg>
                     </div>
                     <div>
-                      <h3 className="text-lg font-bold">Premium Study Notes</h3>
-                      <p className="text-blue-100 text-sm">Expert-crafted summaries</p>
+                      <h3 className="text-base font-bold">Premium Study Notes</h3>
+                      <p className="text-blue-100 text-xs">Expert-crafted summaries</p>
                     </div>
                   </div>
-                  <p className="text-white/90 text-sm mb-4 leading-relaxed text-justify">
+                  <p className="text-white/90 text-xs mb-3 leading-relaxed text-justify">
                     Study notes written by top graduates. Save hours of prep time with structured summaries.
                   </p>
                   <div className="flex justify-center">
                     <Link
                       href={defaults.sidebar.actionButtons.studyNotesButton.url}
-                      className="flex items-center gap-2 bg-white text-[#001a96] px-4 py-2 rounded-lg font-semibold text-sm hover:bg-gray-50 transition-colors"
+                      className="flex items-center gap-2 bg-white text-[#001a96] px-3 py-1.5 rounded-lg font-semibold text-xs hover:bg-gray-50 transition-colors"
                     >
                       Access Notes
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                       </svg>
                     </Link>
@@ -493,83 +493,73 @@ export default function SubjectPageClient({
 
             {/* Practice Questions Ad Block */}
             <div className="relative overflow-hidden rounded-xl shadow-lg">
-              <div className="bg-[#fb510f] p-6 text-white">
-                <div className="absolute top-0 right-0 w-20 h-20 transform translate-x-6 -translate-y-6">
+              <div className="bg-[#fb510f] p-5 text-white">
+                <div className="absolute top-0 right-0 w-16 h-16 transform translate-x-5 -translate-y-5">
                   <div className="w-full h-full bg-white/10 rounded-full"></div>
                 </div>
-                <div className="absolute bottom-0 left-0 w-16 h-16 transform -translate-x-4 translate-y-4">
+                <div className="absolute bottom-0 left-0 w-13 h-13 transform -translate-x-3 translate-y-3">
                   <div className="w-full h-full bg-white/10 rounded-full"></div>
                 </div>
                 <div className="relative z-10">
-                  <div className="flex items-center gap-3 mb-3">
-                    <div className="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center">
-                      <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <div className="flex items-center gap-2.5 mb-2.5">
+                    <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center">
+                      <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                       </svg>
                     </div>
                     <div>
-                      <h3 className="text-lg font-bold">Practice Questions</h3>
-                      <p className="text-orange-100 text-sm">Test your knowledge</p>
+                      <h3 className="text-base font-bold">Practice Questions</h3>
+                      <p className="text-orange-100 text-xs">Test your knowledge</p>
                     </div>
                   </div>
-                  <p className="text-white/90 text-sm mb-4 leading-relaxed text-justify">
+                  <p className="text-white/90 text-xs mb-3 leading-relaxed text-justify">
                     Master exam techniques with targeted practice questions. Get instant feedback and detailed explanations.
                   </p>
                   <div className="flex justify-center">
-              <Link
-                href={defaults.sidebar.actionButtons.practiceQuestionsButton.url}
-                      className="flex items-center gap-2 bg-white text-[#fb510f] px-4 py-2 rounded-lg font-semibold text-sm hover:bg-gray-50 transition-colors"
-              >
+                    <Link
+                      href={defaults.sidebar.actionButtons.practiceQuestionsButton.url}
+                      className="flex items-center gap-2 bg-white text-[#fb510f] px-3 py-1.5 rounded-lg font-semibold text-xs hover:bg-gray-50 transition-colors"
+                    >
                       Start Practice
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                       </svg>
-              </Link>
+                    </Link>
                   </div>
                 </div>
               </div>
             </div>
 
             {/* Need a Tutor Block */}
-            <div className="bg-white rounded-xl p-6 shadow border border-gray-100">
-              <h3 className="text-xl font-bold text-gray-900 mb-2">{defaults.sidebar.tutorSection.title}</h3>
+            <div className="bg-white rounded-xl p-5 shadow border border-gray-100">
+              <h3 className="text-lg font-bold text-gray-900 mb-2">{defaults.sidebar.tutorSection.title}</h3>
               <div className="flex items-center mb-2">
-                <span className="text-orange-500 text-xl mr-1">★</span>
-                <span className="text-gray-900 font-medium">{defaults.sidebar.tutorSection.rating}/5</span>
-                <span className="text-gray-600 ml-1 text-sm">{defaults.sidebar.tutorSection.reviewsText}</span>
+                <span className="text-orange-500 text-lg mr-1">★</span>
+                <span className="text-gray-900 font-medium text-sm">{defaults.sidebar.tutorSection.rating}/5</span>
+                <span className="text-gray-600 ml-1 text-xs">{defaults.sidebar.tutorSection.reviewsText}</span>
               </div>
-              <p className="text-gray-600 text-sm mb-4">{defaults.sidebar.tutorSection.description}</p>
-              <div className="space-y-4 mb-4">
+              <p className="text-gray-600 text-xs mb-3">{defaults.sidebar.tutorSection.description}</p>
+              <div className="space-y-2.5">
                 {defaults.sidebar.tutorSection.tutors.map((tutor: any, index: number) => (
-                  <div key={index} className="flex items-center gap-3">
-                    <div className="flex-shrink-0 w-12 h-12">
-                      {tutor.avatar ? (
-                        <Image
-                          src={urlFor(tutor.avatar).url()}
-                          alt={tutor.name}
-                          width={48}
-                          height={48}
-                          className="w-12 h-12 rounded-full object-cover border border-gray-200"
-                        />
-                      ) : (
-                        <div className="w-12 h-12 rounded-full bg-gray-200 border border-gray-200 flex items-center justify-center">
-                          <span className="text-gray-500 font-medium">{tutor.name.charAt(0)}</span>
-                        </div>
-                      )}
+                  <div key={index} className="flex items-center space-x-2.5">
+                    <div className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center">
+                      <span className="text-xs font-semibold text-gray-600">{tutor.name.charAt(0)}</span>
                     </div>
-                    <div>
-                      <div className="font-bold text-gray-900">{tutor.name}</div>
-                      <div className="text-gray-700 text-sm">{tutor.credentials}</div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-medium text-gray-900 truncate">{tutor.name}</p>
+                      <p className="text-xs text-gray-500 truncate">{tutor.credentials}</p>
                     </div>
                   </div>
                 ))}
               </div>
-              <Link
-                href={defaults.sidebar.tutorSection.hireTutorButton.url}
-                className="w-full rounded-full bg-blue-900 text-white font-semibold py-3 mt-2 shadow-sm hover:bg-blue-800 transition-colors text-center block"
-              >
-                {defaults.sidebar.tutorSection.hireTutorButton.text}
-              </Link>
+              <div className="mt-4">
+                <Link
+                  href={defaults.sidebar.tutorSection.hireTutorButton.url}
+                  className="w-full bg-[#001a96] text-white font-semibold py-2.5 px-4 rounded-lg hover:bg-blue-800 transition-colors text-center block text-sm"
+                >
+                  {defaults.sidebar.tutorSection.hireTutorButton.text}
+                </Link>
+              </div>
             </div>
           </div>
         </div>

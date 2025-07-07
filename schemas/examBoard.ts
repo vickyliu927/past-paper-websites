@@ -78,6 +78,47 @@ export default {
       validation: (Rule: any) => Rule.max(5).warning('Consider keeping pills concise - max 5 recommended'),
     },
     {
+      name: 'subjectUrls',
+      title: 'Subject Page URLs',
+      type: 'array',
+      of: [
+        {
+          type: 'object',
+          title: 'Subject URL',
+          fields: [
+            {
+              name: 'subject',
+              title: 'Subject',
+              type: 'reference',
+              to: [{ type: 'subject' }],
+              validation: (Rule: any) => Rule.required(),
+            },
+            {
+              name: 'url',
+              title: 'Custom URL',
+              type: 'string',
+              description: 'Custom URL for this subject-examboard combination (e.g., /biology/aqa-past-papers)',
+              validation: (Rule: any) => Rule.required(),
+            },
+          ],
+          preview: {
+            select: {
+              subjectTitle: 'subject.title',
+              url: 'url',
+            },
+            prepare(selection: any) {
+              const { subjectTitle, url } = selection;
+              return {
+                title: subjectTitle || 'Unknown Subject',
+                subtitle: url || 'No URL set',
+              };
+            },
+          },
+        },
+      ],
+      description: 'Configure custom URLs for each subject that uses this exam board. URLs will be used in subject grid pills.',
+    },
+    {
       name: 'isActive',
       title: 'Active',
       type: 'boolean',

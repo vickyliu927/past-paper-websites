@@ -80,38 +80,38 @@ export default async function ExamBoardPage({ params }: ExamBoardPageProps) {
           </div>
 
           {/* Sidebar */}
-          <div className="mt-12 lg:mt-0 space-y-6">
+          <div className="mt-12 lg:mt-0 space-y-5">
             {/* Study Notes Ad Block */}
             <div className="relative overflow-hidden rounded-xl shadow-lg">
-              <div className="bg-[#001a96] p-6 text-white">
-                <div className="absolute top-0 right-0 w-20 h-20 transform translate-x-6 -translate-y-6">
+              <div className="bg-[#001a96] p-5 text-white">
+                <div className="absolute top-0 right-0 w-16 h-16 transform translate-x-5 -translate-y-5">
                   <div className="w-full h-full bg-white/10 rounded-full"></div>
                 </div>
-                <div className="absolute bottom-0 left-0 w-16 h-16 transform -translate-x-4 translate-y-4">
+                <div className="absolute bottom-0 left-0 w-13 h-13 transform -translate-x-3 translate-y-3">
                   <div className="w-full h-full bg-white/10 rounded-full"></div>
                 </div>
                 <div className="relative z-10">
-                  <div className="flex items-center gap-3 mb-3">
-                    <div className="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center">
-                      <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <div className="flex items-center gap-2.5 mb-2.5">
+                    <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center">
+                      <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
                       </svg>
                     </div>
                     <div>
-                      <h3 className="text-lg font-bold">Premium Study Notes</h3>
-                      <p className="text-blue-100 text-sm">Expert-crafted summaries</p>
+                      <h3 className="text-base font-bold">Premium Study Notes</h3>
+                      <p className="text-blue-100 text-xs">Expert-crafted summaries</p>
                     </div>
                   </div>
-                  <p className="text-white/90 text-sm mb-4 leading-relaxed text-justify">
+                  <p className="text-white/90 text-xs mb-3 leading-relaxed text-justify">
                     Study notes written by top graduates. Save hours of prep time with structured summaries.
                   </p>
                   <div className="flex justify-center">
                     <a
                       href="#"
-                      className="flex items-center gap-2 bg-white text-[#001a96] px-4 py-2 rounded-lg font-semibold text-sm hover:bg-gray-50 transition-colors"
+                      className="flex items-center gap-2 bg-white text-[#001a96] px-3 py-1.5 rounded-lg font-semibold text-xs hover:bg-gray-50 transition-colors"
                     >
                       Access Notes
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                       </svg>
                     </a>
@@ -122,35 +122,35 @@ export default async function ExamBoardPage({ params }: ExamBoardPageProps) {
 
             {/* Practice Questions Ad Block */}
             <div className="relative overflow-hidden rounded-xl shadow-lg">
-              <div className="bg-[#fb510f] p-6 text-white">
-                <div className="absolute top-0 right-0 w-20 h-20 transform translate-x-6 -translate-y-6">
+              <div className="bg-[#fb510f] p-5 text-white">
+                <div className="absolute top-0 right-0 w-16 h-16 transform translate-x-5 -translate-y-5">
                   <div className="w-full h-full bg-white/10 rounded-full"></div>
                 </div>
-                <div className="absolute bottom-0 left-0 w-16 h-16 transform -translate-x-4 translate-y-4">
+                <div className="absolute bottom-0 left-0 w-13 h-13 transform -translate-x-3 translate-y-3">
                   <div className="w-full h-full bg-white/10 rounded-full"></div>
                 </div>
                 <div className="relative z-10">
-                  <div className="flex items-center gap-3 mb-3">
-                    <div className="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center">
-                      <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <div className="flex items-center gap-2.5 mb-2.5">
+                    <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center">
+                      <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                       </svg>
                     </div>
                     <div>
-                      <h3 className="text-lg font-bold">Practice Questions</h3>
-                      <p className="text-orange-100 text-sm">Test your knowledge</p>
+                      <h3 className="text-base font-bold">Practice Questions</h3>
+                      <p className="text-orange-100 text-xs">Test your knowledge</p>
                     </div>
                   </div>
-                  <p className="text-white/90 text-sm mb-4 leading-relaxed text-justify">
+                  <p className="text-white/90 text-xs mb-3 leading-relaxed text-justify">
                     Master exam techniques with targeted practice questions. Get instant feedback and detailed explanations.
                   </p>
                   <div className="flex justify-center">
                     <a
                       href="#"
-                      className="flex items-center gap-2 bg-white text-[#fb510f] px-4 py-2 rounded-lg font-semibold text-sm hover:bg-gray-50 transition-colors"
+                      className="flex items-center gap-2 bg-white text-[#fb510f] px-3 py-1.5 rounded-lg font-semibold text-xs hover:bg-gray-50 transition-colors"
                     >
                       Start Practice
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                       </svg>
                     </a>

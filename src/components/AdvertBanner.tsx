@@ -1,5 +1,19 @@
 import React from 'react';
+import Link from 'next/link';
 import { Lexend } from 'next/font/google';
+
+interface AdvertBannerProps {
+  data?: {
+    practiceQuestionsButton?: {
+      text: string;
+      url: string;
+    };
+    studyNotesButton?: {
+      text: string;
+      url: string;
+    };
+  };
+}
 
 const lexend = Lexend({ 
   subsets: ['latin'],
@@ -23,7 +37,17 @@ const pastelColors = [
   { bg: 'rgba(252, 231, 243, 0.4)', border: '#F9A8D4', text: '#EC4899' }, // Pink
 ];
 
-export default function AdvertBanner() {
+export default function AdvertBanner({ data }: AdvertBannerProps) {
+  // Default values if no data is provided
+  const practiceQuestionsButton = data?.practiceQuestionsButton || {
+    text: 'Practice Questions',
+    url: '#'
+  };
+  const studyNotesButton = data?.studyNotesButton || {
+    text: 'Study Notes', 
+    url: '#'
+  };
+
   return (
     <section className="py-20 bg-gray-50">
       <div className="max-w-7xl mx-auto px-6">
@@ -42,15 +66,22 @@ export default function AdvertBanner() {
             
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-3 mb-6">
-              <button className="inline-flex items-center justify-center gap-2 whitespace-nowrap text-base font-medium rounded-md px-6 py-2.5 bg-black text-white hover:bg-gray-800 transition-colors">
-                Browse Past Papers
-              </button>
-              <button className="inline-flex items-center justify-center gap-2 whitespace-nowrap text-base font-medium rounded-md px-6 py-2.5 border border-gray-300 bg-white text-gray-700 hover:bg-gray-50 transition-colors">
-                Practice Questions
-              </button>
-              <button className="inline-flex items-center justify-center gap-2 whitespace-nowrap text-base font-medium rounded-md px-6 py-2.5 border border-gray-300 bg-white text-gray-700 hover:bg-gray-50 transition-colors">
-                Study Notes
-              </button>
+              <Link
+                href={practiceQuestionsButton.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center gap-2 whitespace-nowrap text-base font-medium rounded-md px-6 py-2.5 border border-gray-300 bg-white text-gray-700 hover:bg-gray-50 transition-colors"
+              >
+                {practiceQuestionsButton.text}
+              </Link>
+              <Link
+                href={studyNotesButton.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center gap-2 whitespace-nowrap text-base font-medium rounded-md px-6 py-2.5 border border-gray-300 bg-white text-gray-700 hover:bg-gray-50 transition-colors"
+              >
+                {studyNotesButton.text}
+              </Link>
             </div>
             
             <div className="flex flex-wrap gap-2">

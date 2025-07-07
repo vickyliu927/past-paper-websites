@@ -7,16 +7,33 @@ import FAQ from '../components/FAQ';
 import ContactForm from '../components/ContactForm';
 import Footer from '../components/Footer';
 import { client } from '../../lib/sanity';
-import { getHeroQuery, getSubjectsSectionQuery, getWhyChoosePlatformQuery, getStudentTestimonialsQuery, getFaqQuery, getContactFormQuery, getFooterQuery } from '../../lib/queries';
+import { getHeroQuery, getSubjectsSectionQuery, getWhyChoosePlatformQuery, getStudentTestimonialsQuery, getFaqQuery, getContactFormQuery, getFooterQuery, getAdvertBannerQuery } from '../../lib/queries';
+
+interface ExamBoard {
+  name: string;
+  slug: {
+    current: string;
+  };
+  subjectUrls?: {
+    subject: {
+      _id: string;
+    };
+    url: string;
+  }[];
+}
 
 interface Subject {
-  name: string;
-  code: string;
+  _id: string;
+  title: string;
+  code?: string;
   level: string;
   category: string;
-  examBoards: string[];
+  examBoards: ExamBoard[];
   url: string;
   iconColor: string;
+  slug: {
+    current: string;
+  };
 }
 
 interface SubjectsSection {
@@ -36,8 +53,6 @@ async function getSubjectsSection() {
   const subjectsSection = await client.fetch(getSubjectsSectionQuery);
   return subjectsSection as SubjectsSection;
 }
-
-
 
 async function getWhyChoosePlatform() {
   const whyChoosePlatform = await client.fetch(getWhyChoosePlatformQuery);
@@ -75,10 +90,16 @@ async function getFooter() {
   return footer;
 }
 
+async function getAdvertBanner() {
+  const advertBanner = await client.fetch(getAdvertBannerQuery);
+  return advertBanner;
+}
+
 export default async function HomePage() {
   const hero = await getHero();
   const subjectsSection = await getSubjectsSection();
   const whyChoosePlatform = await getWhyChoosePlatform();
+  const advertBanner = await getAdvertBanner();
   const studentTestimonials = await getStudentTestimonials();
   const faq = await getFaq();
   const contactForm = await getContactForm();
@@ -95,7 +116,7 @@ export default async function HomePage() {
       {whyChoosePlatform && <WhyChoosePlatform data={whyChoosePlatform} />}
       
       {/* Advert Banner Section */}
-      <AdvertBanner />
+      <AdvertBanner data={advertBanner} />
       
       {/* Student Testimonials Section */}
       {studentTestimonials && <StudentTestimonials data={studentTestimonials} />}

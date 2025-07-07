@@ -1,11 +1,9 @@
 'use client';
 
-import { useState } from 'react';
-import { Microscope, FlaskConical, Atom, Calculator, LineChart, LucideIcon } from 'lucide-react';
+import React, { useState } from 'react';
 import Link from 'next/link';
-import React from 'react';
 import { Lexend } from 'next/font/google';
-import { SubjectExamBoard } from '@/types';
+import { Microscope, FlaskConical, Atom, Calculator, LineChart, type LucideIcon } from 'lucide-react';
 
 const lexend = Lexend({ 
   subsets: ['latin'],
@@ -13,14 +11,31 @@ const lexend = Lexend({
   fallback: ['Lexend Fallback']
 });
 
-interface Subject {
+interface ExamBoard {
   name: string;
-  code: string;
+  slug: {
+    current: string;
+  };
+  subjectUrls?: {
+    subject: {
+      _id: string;
+    };
+    url: string;
+  }[];
+}
+
+interface Subject {
+  _id?: string;
+  title: string;
+  code?: string;
   level: string;
   category: string;
-  examBoards: (SubjectExamBoard | string)[];
+  examBoards: ExamBoard[];
   url: string;
   iconColor: string;
+  slug: {
+    current: string;
+  };
 }
 
 interface SubjectsSectionData {
@@ -96,8 +111,8 @@ export default function SubjectsSection({ data }: SubjectsSectionProps) {
 
   const filteredSubjects = subjects.filter((subject: Subject) => {
     const matchesSearch = searchQuery === '' || 
-      subject.code.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      subject.name.toLowerCase().includes(searchQuery.toLowerCase());
+      (subject.code && subject.code.toLowerCase().includes(searchQuery.toLowerCase())) ||
+      subject.title.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesCategory = selectedCategory === 'All Subjects' || subject.category === selectedCategory;
     return matchesSearch && matchesCategory;
   });
@@ -119,11 +134,11 @@ export default function SubjectsSection({ data }: SubjectsSectionProps) {
                  lineHeight: '32px',
                  textAlignLast: 'center'
                }}>
-            Explore our comprehensive collection of past papers organized by subject across all supported curricula. Each subject contains papers from multiple exam boards.
+            {description}
           </div>
         </div>
 
-        <div className="mt-7 flex justify-center gap-x-3">
+        <div className="mt-7 flex flex-wrap justify-center gap-x-3 gap-y-2 md:flex-nowrap">
           {categories.map((category: string) => (
             <button
               key={category}
@@ -151,15 +166,21 @@ export default function SubjectsSection({ data }: SubjectsSectionProps) {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-10">
           {filteredSubjects.map((subject: Subject) => {
-            const colors = getSubjectColor(subject.name);
+            // Safety check for subject object and use iconColor if available
+            if (!subject) return null;
+            
+            const colors = subject.iconColor && subject.iconColor !== '' ? 
+              { bg: subject.iconColor, border: subject.iconColor, icon: '#000' } : 
+              getSubjectColor(subject.title || 'Default');
+            
             return (
-              <Link href={subject.url} key={subject.code} className="block group">
+              <Link href={subject.url || '#'} key={subject.code || subject.title || Math.random()} className="block group">
                 <div className="bg-white p-6 rounded-2xl shadow-sm hover:shadow-md transition-shadow h-full flex flex-col min-h-[220px]">
                   <div className={`w-12 h-12 rounded-lg flex items-center justify-center`}
                        style={{ 
                          backgroundColor: colors.bg
                        }}>
-                    {subjectIcons[subject.name] && React.createElement(subjectIcons[subject.name], {
+                    {subject.title && subjectIcons[subject.title] && React.createElement(subjectIcons[subject.title], {
                       size: 28,
                       style: { color: colors.icon }
                     })}
@@ -167,42 +188,35 @@ export default function SubjectsSection({ data }: SubjectsSectionProps) {
                   
                   <div className="flex-grow mt-4">
                     <div className="flex justify-between items-start mb-1">
-                      <h3 className={`${lexend.className} text-lg font-semibold text-gray-900`}>{subject.name}</h3>
-                      <span className="bg-gray-50 text-gray-600 text-xs font-medium px-2 py-1 rounded-full border border-gray-200">{subject.code}</span>
+                      <h3 className={`${lexend.className} text-lg font-semibold text-gray-900`}>{subject.title || 'Untitled'}</h3>
+                      {subject.code && <span className="bg-gray-50 text-gray-600 text-xs font-medium px-2 py-1 rounded-full border border-gray-200">{subject.code}</span>}
                     </div>
-                    <p className="text-gray-500 text-md mb-3">{subject.level}</p>
+                    <p className="text-gray-500 text-md mb-3">{subject.level || 'Level not specified'}</p>
                   </div>
                   
-                  <div className="flex flex-wrap gap-1.5">
-                    {subject.examBoards.map((board: SubjectExamBoard | string, index: number) => {
-                      // Handle both old string format and new object format for backward compatibility
-                      const boardText = typeof board === 'string' ? board : board.text;
-                      const boardUrl = typeof board === 'object' && board.enableLink ? board.url : undefined;
-                      
-                      if (boardUrl) {
-                        // Clickable pill with link
+                  {/* Only show exam boards section if there are exam boards */}
+                  {subject.examBoards && subject.examBoards.length > 0 && (
+                    <div className="flex flex-wrap gap-1.5">
+                      {subject.examBoards.map((board: ExamBoard, index: number) => {
+                        // Find custom URL for this subject-examboard combination
+                        const customUrlEntry = board.subjectUrls?.find(
+                          (entry) => entry.subject._id === subject._id
+                        );
+                        const examBoardUrl = customUrlEntry?.url || `/${subject.slug.current}/${board.slug.current}`;
+                        
                         return (
                           <Link
-                            key={`${boardText}-${index}`}
-                            href={boardUrl}
-                            className="rounded-full border border-gray-200 bg-gray-50 px-2.5 py-0.5 text-xs font-medium text-gray-600 hover:bg-gray-100 hover:text-gray-700 transition-colors duration-200 cursor-pointer"
+                            key={`${board.name}-${index}`}
+                            href={examBoardUrl}
+                            className="rounded-full border border-gray-200 bg-gray-50 px-2.5 py-0.5 text-xs font-medium text-gray-600 hover:bg-gray-100 hover:text-gray-700 transition-colors duration-200"
+                            onClick={(e) => e.stopPropagation()} // Prevent the parent subject link from triggering
                           >
-                            {boardText}
+                            {board.name || 'Unknown Board'}
                           </Link>
                         );
-                      } else {
-                        // Non-clickable pill
-                        return (
-                          <span
-                            key={`${boardText}-${index}`}
-                            className="rounded-full border border-gray-200 bg-gray-50 px-2.5 py-0.5 text-xs font-medium text-gray-600"
-                          >
-                            {boardText}
-                          </span>
-                        );
-                      }
-                    })}
-                  </div>
+                      })}
+                    </div>
+                  )}
                 </div>
               </Link>
             );

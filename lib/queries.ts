@@ -104,14 +104,25 @@ export const getSubjectsSectionQuery = groq`
     description,
     searchPlaceholder,
     categories,
-    subjects[] {
-      name,
+    subjects[]-> {
+      _id,
+      title,
       code,
       level,
       category,
-      examBoards,
-      url,
-      iconColor
+      iconColor,
+      slug,
+      examBoards[]-> {
+        name,
+        slug,
+        subjectUrls[] {
+          subject-> {
+            _id
+          },
+          url
+        }
+      },
+      "url": "/" + slug.current
     }
   }
 `;
@@ -415,6 +426,19 @@ export const getSubjectPageByExamBoardQuery = groq`
     seo {
       metaTitle,
       metaDescription
+    }
+  }
+`;
+
+export const getAdvertBannerQuery = groq`
+  *[_type == "advertBanner"][0] {
+    practiceQuestionsButton {
+      text,
+      url
+    },
+    studyNotesButton {
+      text,
+      url
     }
   }
 `; 

@@ -38,174 +38,23 @@ export default defineType({
       name: 'subjects',
       title: 'Subjects',
       type: 'array',
-      of: [{
-        type: 'object',
-        fields: [
-          {
-            name: 'name',
-            title: 'Subject Name',
-            type: 'string',
-            validation: Rule => Rule.required()
-          },
-          {
-            name: 'code',
-            title: 'Subject Code',
-            type: 'string',
-            validation: Rule => Rule.required()
-          },
-          {
-            name: 'level',
-            title: 'Level',
-            type: 'string',
-            validation: Rule => Rule.required(),
-            initialValue: 'A-Level & GCSE'
-          },
-          {
-            name: 'category',
-            title: 'Category',
-            type: 'string',
-            options: {
-              list: ['Sciences', 'Mathematics', 'Languages', 'Humanities']
-            },
-            validation: Rule => Rule.required()
-          },
-          {
-            name: 'examBoards',
-            title: 'Exam Boards',
-            type: 'array',
-            of: [{
-              type: 'object',
-              title: 'Exam Board',
-              fields: [
-                {
-                  name: 'text',
-                  title: 'Exam Board Name',
-                  type: 'string',
-                  validation: Rule => Rule.required(),
-                  description: 'Name of the exam board (e.g., AQA, OCR, Edexcel)'
-                },
-                {
-                  name: 'enableLink',
-                  title: 'Enable Link',
-                  type: 'boolean',
-                  description: 'Toggle to make this pill clickable',
-                  initialValue: false
-                },
-                {
-                  name: 'url',
-                  title: 'Link URL',
-                  type: 'string',
-                  description: 'URL to link to when clicked (e.g., /biology/aqa). Only used when "Enable Link" is toggled on.',
-                  hidden: ({ parent }) => !parent?.enableLink,
-                  validation: Rule => Rule.custom((value, context) => {
-                    const enableLink = (context.parent as any)?.enableLink;
-                    if (enableLink && !value) {
-                      return 'URL is required when link is enabled';
-                    }
-                    return true;
-                  })
-                }
-              ],
-              preview: {
-                select: {
-                  title: 'text',
-                  enableLink: 'enableLink',
-                  url: 'url'
-                },
-                prepare(selection) {
-                  const { title, enableLink, url } = selection;
-                  return {
-                    title: title || 'Untitled exam board',
-                    subtitle: enableLink ? `→ ${url || 'No URL set'}` : 'Not linked',
-                    media: enableLink ? 'LINKED' : 'PILL'
-                  };
-                }
-              }
-            }],
-            validation: Rule => Rule.required()
-          },
-          {
-            name: 'url',
-            title: 'Subject URL',
-            type: 'string',
-            validation: Rule => Rule.required()
-          },
-          {
-            name: 'iconColor',
-            title: 'Icon Background Color',
-            type: 'string',
-            initialValue: '#E8FAF0'  // Light green for Biology
-          }
-        ]
-      }],
-      initialValue: [
-        {
-          name: 'Biology',
-          code: '9700',
-          level: 'A-Level & GCSE',
-          category: 'Sciences',
-          examBoards: [
-            { text: 'AQA', enableLink: true, url: '/biology/aqa' },
-            { text: 'OCR', enableLink: true, url: '/biology/ocr' },
-            { text: 'Edexcel', enableLink: true, url: '/biology/edexcel' },
-            { text: 'CAIE', enableLink: true, url: '/biology/caie' }
-          ],
-          url: '/biology',
-          iconColor: '#E8FAF0'
-        },
-        {
-          name: 'Chemistry',
-          code: '9701',
-          level: 'A-Level & GCSE',
-          category: 'Sciences',
-          examBoards: [
-            { text: 'AQA', enableLink: true, url: '/chemistry/aqa' },
-            { text: 'OCR', enableLink: true, url: '/chemistry/ocr' },
-            { text: 'Edexcel', enableLink: true, url: '/chemistry/edexcel' }
-          ],
-          url: '/chemistry',
-          iconColor: '#EBF3FF'
-        },
-        {
-          name: 'Physics',
-          code: '9702',
-          level: 'A-Level & GCSE',
-          category: 'Sciences',
-          examBoards: [
-            { text: 'AQA', enableLink: true, url: '/physics/aqa' },
-            { text: 'OCR', enableLink: true, url: '/physics/ocr' },
-            { text: 'Edexcel', enableLink: true, url: '/physics/edexcel' }
-          ],
-          url: '/physics',
-          iconColor: '#F3E8FF'
-        },
-        {
-          name: 'Economics',
-          code: '9708',
-          level: 'A-Level & GCSE',
-          category: 'Humanities',
-          examBoards: [
-            { text: 'AQA', enableLink: true, url: '/economics/aqa' },
-            { text: 'OCR', enableLink: true, url: '/economics/ocr' },
-            { text: 'Edexcel', enableLink: true, url: '/economics/edexcel' }
-          ],
-          url: '/economics',
-          iconColor: '#FFF7E6'
-        },
-        {
-          name: 'Mathematics',
-          code: '9709',
-          level: 'A-Level & GCSE',
-          category: 'Mathematics',
-          examBoards: [
-            { text: 'AQA', enableLink: true, url: '/mathematics/aqa' },
-            { text: 'OCR', enableLink: true, url: '/mathematics/ocr' },
-            { text: 'Edexcel', enableLink: true, url: '/mathematics/edexcel' }
-          ],
-          url: '/mathematics',
-          iconColor: '#FFE8E8'
-        }
-      ]
+      of: [{ type: 'reference', to: [{ type: 'subject' }] }],
+      description: 'Select which subjects to display in the grid. Subjects will be displayed in the order you arrange them here.',
+      validation: Rule => Rule.required()
     })
-  ]
+  ],
+  preview: {
+    select: {
+      title: 'title',
+      subjectCount: 'subjects'
+    },
+    prepare(selection) {
+      const { title, subjectCount } = selection;
+      const count = Array.isArray(subjectCount) ? subjectCount.length : 0;
+      return {
+        title: title || 'Subjects Section',
+        subtitle: `${count} subject${count !== 1 ? 's' : ''} configured`
+      };
+    }
+  }
 }) 

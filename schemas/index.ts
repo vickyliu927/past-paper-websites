@@ -21,10 +21,14 @@ import examBoardPage from './examBoardPage';
 import contactForm from './contactForm';
 import contactFormSubmission from './contactFormSubmission';
 
+// Advert Banner
+import advertBanner from './advertBanner';
+
 export const schemaTypes = [
   // Active Platform Schemas (15)
   header, footer, hero, subjectsSection, examBoardsSection, 
   whyChoosePlatform, studentTestimonials, faq, subject, 
   examBoard, subjectPage, examBoardPage, contactForm, 
   contactFormSubmission,
+  advertBanner,
 ]; 
